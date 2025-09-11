@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Karima.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cdfef6a346d8872eeda29557d6fd1ccc176218f0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a4e1f7e0984f407745697cb039a90bca2fe51456")]
 [assembly: System.Reflection.AssemblyProductAttribute("Karima.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Karima.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
