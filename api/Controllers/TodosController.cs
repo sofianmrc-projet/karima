@@ -46,6 +46,27 @@ public class TodosController : ControllerBase
 
         return NoContent();
     }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateTodo(int id, Todo updatedTodo)
+    {
+        if (id != updatedTodo.Id)
+        {
+            return BadRequest();
+        }
+
+        var todo = await _context.Todos.FindAsync(id);
+        if (todo == null)
+        {
+            return NotFound();
+        }
+
+        todo.Title = updatedTodo.Title;
+        todo.Done = updatedTodo.Done;
+        await _context.SaveChangesAsync();
+
+        return Ok(todo);
+    }
+
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTodo(int id)
