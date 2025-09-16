@@ -6,6 +6,7 @@ import Services from './pages/Services'
 import About from './pages/About'
 import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
+import Account from './pages/Account'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
+            <Route path="/account" element={<Account />} />
           </Routes>
         </main>
         <Footer />
