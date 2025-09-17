@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Web (Vite)",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/web",
+      "preLaunchTask": "npm: dev",
+      "sourceMaps": true,
+      "userDataDir": false,
+      "runtimeArgs": [
+        "--disable-web-security",
+        "--disable-features=VizDisplayCompositor"
+      ]
+    }
+  ]
+}
