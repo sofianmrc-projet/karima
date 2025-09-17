@@ -1,0 +1,1121 @@
+<h1 data-number="1"
+id="documentation-technique-complete---projet-karima"><span
+class="header-section-number">1</span> Documentation Technique Complete
+- Projet Karima</h1>
+<h2 data-number="1.1" id="table-des-matieres"><span
+class="header-section-number">1.1</span> Table des Matieres</h2>
+<ol type="1">
+<li><a href="#vue-densemble-du-projet">Vue d’ensemble du projet</a></li>
+<li><a href="#architecture-générale">Architecture generale</a></li>
+<li><a href="#stack-technologique">Stack technologique</a></li>
+<li><a href="#configuration-de-lenvironnement">Configuration de
+l’environnement</a></li>
+<li><a href="#backend---api-net-8">Backend - API .NET 8</a></li>
+<li><a href="#frontend---react--typescript">Frontend - React +
+TypeScript</a></li>
+<li><a href="#base-de-données---sql-server">Base de donnees - SQL
+Server</a></li>
+<li><a href="#authentification-et-sécurité">Authentification et
+securite</a></li>
+<li><a href="#gestion-des-fichiers">Gestion des fichiers</a></li>
+<li><a href="#déploiement">Deploiement</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+<li><a href="#bonnes-pratiques">Bonnes pratiques</a></li>
+</ol>
+<hr />
+<h2 data-number="1.2" id="vue-densemble-du-projet"><span
+class="header-section-number">1.2</span> Vue d’ensemble du projet</h2>
+<h3 data-number="1.2.1" id="objectif"><span
+class="header-section-number">1.2.1</span> Objectif</h3>
+<p>Le projet Karima est une application web complete permettant la
+gestion d’un site vitrine avec un espace d’administration pour : -
+Modifier le contenu des pages (notamment la page Services) - Uploader et
+gerer des images - Authentifier les administrateurs</p>
+<h3 data-number="1.2.2" id="structure-du-projet"><span
+class="header-section-number">1.2.2</span> Structure du projet</h3>
+<pre><code>karima/
+├── api/                    # Backend .NET 8 Web API
+│   ├── Controllers/        # Controleurs API
+│   ├── Models/            # Modeles de donnees
+│   ├── Data/              # Contexte Entity Framework
+│   ├── Migrations/        # Migrations de base de donnees
+│   └── Swagger/           # Configuration Swagger
+└── web/                   # Frontend React + TypeScript
+    ├── src/
+    │   ├── components/    # Composants React
+    │   ├── pages/         # Pages de l&#39;application
+    │   ├── lib/           # Services et utilitaires
+    │   └── styles/        # Styles CSS
+    └── public/            # Fichiers statiques</code></pre>
+<hr />
+<h2 data-number="1.3" id="architecture-generale"><span
+class="header-section-number">1.3</span> Architecture generale</h2>
+<h3 data-number="1.3.1" id="flux-de-donnees"><span
+class="header-section-number">1.3.1</span> Flux de donnees</h3>
+<pre><code>[Frontend React] &lt;-&gt; [API .NET 8] &lt;-&gt; [SQL Server]
+       |
+       v
+[Fichiers statiques] &lt;-&gt; [Dossier uploads/]</code></pre>
+<h3 data-number="1.3.2" id="communication"><span
+class="header-section-number">1.3.2</span> Communication</h3>
+<ul>
+<li><strong>Frontend vers API</strong> : Requetes HTTP (GET, POST, PUT,
+DELETE)</li>
+<li><strong>API vers Base de donnees</strong> : Entity Framework
+Core</li>
+<li><strong>API vers Fichiers</strong> : Stockage local sur le
+serveur</li>
+</ul>
+<hr />
+<h2 data-number="1.4" id="stack-technologique"><span
+class="header-section-number">1.4</span> Stack technologique</h2>
+<h3 data-number="1.4.1" id="backend"><span
+class="header-section-number">1.4.1</span> Backend</h3>
+<ul>
+<li><strong>.NET 8</strong> : Framework principal</li>
+<li><strong>ASP.NET Core Web API</strong> : Creation d’API REST</li>
+<li><strong>Entity Framework Core</strong> : ORM pour la base de
+donnees</li>
+<li><strong>SQL Server</strong> : Base de donnees relationnelle</li>
+<li><strong>JWT Bearer</strong> : Authentification par tokens</li>
+<li><strong>BCrypt</strong> : Hachage des mots de passe</li>
+<li><strong>Swagger/OpenAPI</strong> : Documentation automatique</li>
+</ul>
+<h3 data-number="1.4.2" id="frontend"><span
+class="header-section-number">1.4.2</span> Frontend</h3>
+<ul>
+<li><strong>React 18</strong> : Bibliotheque UI</li>
+<li><strong>TypeScript</strong> : Langage type</li>
+<li><strong>Vite</strong> : Build tool et serveur de developpement</li>
+<li><strong>React Router</strong> : Navigation cote client</li>
+<li><strong>Fetch API</strong> : Communication avec l’API</li>
+</ul>
+<h3 data-number="1.4.3" id="base-de-donnees"><span
+class="header-section-number">1.4.3</span> Base de donnees</h3>
+<ul>
+<li><strong>SQL Server</strong> : SGBD principal</li>
+<li><strong>Migrations EF Core</strong> : Versioning du schema</li>
+<li><strong>Relations</strong> : Cles etrangeres et contraintes</li>
+</ul>
+<hr />
+<h2 data-number="1.5" id="configuration-de-lenvironnement"><span
+class="header-section-number">1.5</span> Configuration de
+l’environnement</h2>
+<h3 data-number="1.5.1" id="prerequis"><span
+class="header-section-number">1.5.1</span> Prerequis</h3>
+<ol type="1">
+<li><strong>Visual Studio 2022</strong> ou <strong>VS Code</strong> avec
+extension C#</li>
+<li><strong>.NET 8 SDK</strong></li>
+<li><strong>SQL Server</strong> (LocalDB ou Express)</li>
+<li><strong>Node.js 18+</strong> et <strong>npm</strong></li>
+<li><strong>Git</strong> pour le controle de version</li>
+</ol>
+<h3 data-number="1.5.2" id="installation"><span
+class="header-section-number">1.5.2</span> Installation</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cloner le projet</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone <span class="pp">[</span><span class="ss">url</span><span class="pp">-</span><span class="ss">du</span><span class="pp">-</span><span class="ss">repo</span><span class="pp">]</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> karima</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Backend</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> api</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> restore</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ef database update</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Frontend</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../web</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install</span></code></pre></div>
+<hr />
+<h2 data-number="1.6" id="backend---api-.net-8"><span
+class="header-section-number">1.6</span> Backend - API .NET 8</h2>
+<h3 data-number="1.6.1" id="structure-des-controleurs"><span
+class="header-section-number">1.6.1</span> Structure des
+controleurs</h3>
+<h4 data-number="1.6.1.1" id="authcontroller---authentification"><span
+class="header-section-number">1.6.1.1</span> 1. AuthController -
+Authentification</h4>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>ApiController<span class="op">]</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="op">[</span><span class="fu">Route</span><span class="op">(</span><span class="st">&quot;api/[controller]&quot;</span><span class="op">)]</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> AuthController <span class="op">:</span> ControllerBase</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// POST /api/auth/login</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// POST /api/auth/logout</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// GET /api/auth/me</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Fonctionnalites :</strong> - Connexion avec email/mot de
+passe - Generation de tokens JWT - Verification de l’authentification -
+Deconnexion securisee</p>
+<h4 data-number="1.6.1.2"
+id="servicecontentcontroller---gestion-du-contenu"><span
+class="header-section-number">1.6.1.2</span> 2. ServiceContentController
+- Gestion du contenu</h4>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>ApiController<span class="op">]</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="op">[</span><span class="fu">Route</span><span class="op">(</span><span class="st">&quot;api/[controller]&quot;</span><span class="op">)]</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span><span class="fu">Authorize</span><span class="op">(</span>Roles <span class="op">=</span> <span class="st">&quot;Admin&quot;</span><span class="op">)]</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> ServiceContentController <span class="op">:</span> ControllerBase</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// GET /api/servicecontent</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// GET /api/servicecontent/{key}</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// POST /api/servicecontent</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// PUT /api/servicecontent/{key}</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// DELETE /api/servicecontent/{key}</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Fonctionnalites :</strong> - CRUD complet pour le contenu -
+Authentification requise (Admin uniquement) - Validation des donnees</p>
+<h4 data-number="1.6.1.3"
+id="mediacontroller---gestion-des-medias"><span
+class="header-section-number">1.6.1.3</span> 3. MediaController -
+Gestion des medias</h4>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>ApiController<span class="op">]</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">[</span><span class="fu">Route</span><span class="op">(</span><span class="st">&quot;api/[controller]&quot;</span><span class="op">)]</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span><span class="fu">Authorize</span><span class="op">(</span>Roles <span class="op">=</span> <span class="st">&quot;Admin&quot;</span><span class="op">)]</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MediaController <span class="op">:</span> ControllerBase</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// GET /api/media</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// POST /api/media/upload</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// PUT /api/media/{id}</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// DELETE /api/media/{id}</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Fonctionnalites :</strong> - Upload de fichiers (images) -
+Validation des types de fichiers - Gestion des metadonnees - Stockage
+securise</p>
+<h4 data-number="1.6.1.4" id="publiccontroller---api-publique"><span
+class="header-section-number">1.6.1.4</span> 4. PublicController - API
+publique</h4>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>ApiController<span class="op">]</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="op">[</span><span class="fu">Route</span><span class="op">(</span><span class="st">&quot;api/[controller]&quot;</span><span class="op">)]</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> PublicController <span class="op">:</span> ControllerBase</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// GET /api/public/service-content</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// GET /api/public/media</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Fonctionnalites :</strong> - Acces public au contenu - Pas
+d’authentification requise - Optimise pour le frontend</p>
+<h3 data-number="1.6.2" id="modeles-de-donnees"><span
+class="header-section-number">1.6.2</span> Modeles de donnees</h3>
+<h4 data-number="1.6.2.1" id="user---utilisateur"><span
+class="header-section-number">1.6.2.1</span> User - Utilisateur</h4>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> User</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Id <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> Email <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> PasswordHash <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> FirstName <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> LastName <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">bool</span> IsAdmin <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> DateTime CreatedAt <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> DateTime<span class="op">?</span> LastLoginAt <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h4 data-number="1.6.2.2"
+id="servicecontent---contenu-des-services"><span
+class="header-section-number">1.6.2.2</span> ServiceContent - Contenu
+des services</h4>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> ServiceContent</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Id <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> Key <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span>        <span class="co">// Ex: &quot;hero_title&quot;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> Content <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span>    <span class="co">// Contenu editable</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span><span class="op">?</span> Description <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> DateTime CreatedAt <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> DateTime UpdatedAt <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span><span class="op">?</span> UpdatedByUserId <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> User<span class="op">?</span> UpdatedByUser <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h4 data-number="1.6.2.3" id="mediafile---fichiers-medias"><span
+class="header-section-number">1.6.2.3</span> MediaFile - Fichiers
+medias</h4>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MediaFile</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Id <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> FileName <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> FilePath <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span>   <span class="co">// Chemin relatif</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span><span class="op">?</span> MimeType <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">long</span> FileSizeBytes <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span><span class="op">?</span> AltText <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span><span class="op">?</span> Description <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span><span class="op">?</span> Category <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> DateTime CreatedAt <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> CreatedByUserId <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> User<span class="op">?</span> CreatedByUser <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.6.3" id="configuration-entity-framework"><span
+class="header-section-number">1.6.3</span> Configuration Entity
+Framework</h3>
+<h4 data-number="1.6.3.1" id="appdbcontext"><span
+class="header-section-number">1.6.3.1</span> AppDbContext</h4>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> AppDbContext <span class="op">:</span> DbContext</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> DbSet<span class="op">&lt;</span>User<span class="op">&gt;</span> Users <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> DbSet<span class="op">&lt;</span>ServiceContent<span class="op">&gt;</span> ServiceContents <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> DbSet<span class="op">&lt;</span>MediaFile<span class="op">&gt;</span> MediaFiles <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">protected</span> <span class="kw">override</span> <span class="dt">void</span> <span class="fu">OnModelCreating</span><span class="op">(</span>ModelBuilder modelBuilder<span class="op">)</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Configuration des relations</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Index et contraintes</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Donnees de seed</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h4 data-number="1.6.3.2" id="migrations"><span
+class="header-section-number">1.6.3.2</span> Migrations</h4>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creer une migration</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ef migrations add NomDeLaMigration</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Appliquer les migrations</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ef database update</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Supprimer la derniere migration</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ef migrations remove</span></code></pre></div>
+<h3 data-number="1.6.4" id="configuration-jwt"><span
+class="header-section-number">1.6.4</span> Configuration JWT</h3>
+<h4 data-number="1.6.4.1" id="program.cs"><span
+class="header-section-number">1.6.4.1</span> Program.cs</h4>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Configuration JWT</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> jwtKey <span class="op">=</span> builder<span class="op">.</span><span class="fu">Configuration</span><span class="op">[</span><span class="st">&quot;Jwt:Key&quot;</span><span class="op">]</span> <span class="op">??</span> <span class="st">&quot;YourSuperSecretKey...&quot;</span><span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> jwtIssuer <span class="op">=</span> builder<span class="op">.</span><span class="fu">Configuration</span><span class="op">[</span><span class="st">&quot;Jwt:Issuer&quot;</span><span class="op">]</span> <span class="op">??</span> <span class="st">&quot;Karima.Api&quot;</span><span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> jwtAudience <span class="op">=</span> builder<span class="op">.</span><span class="fu">Configuration</span><span class="op">[</span><span class="st">&quot;Jwt:Audience&quot;</span><span class="op">]</span> <span class="op">??</span> <span class="st">&quot;Karima.Client&quot;</span><span class="op">;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>builder<span class="op">.</span><span class="fu">Services</span><span class="op">.</span><span class="fu">AddAuthentication</span><span class="op">(</span>JwtBearerDefaults<span class="op">.</span><span class="fu">AuthenticationScheme</span><span class="op">)</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">AddJwtBearer</span><span class="op">(</span>options <span class="op">=&gt;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        options<span class="op">.</span><span class="fu">TokenValidationParameters</span> <span class="op">=</span> <span class="kw">new</span> TokenValidationParameters</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>            ValidateIssuer <span class="op">=</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>            ValidateAudience <span class="op">=</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>            ValidateLifetime <span class="op">=</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>            ValidateIssuerSigningKey <span class="op">=</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>            ValidIssuer <span class="op">=</span> jwtIssuer<span class="op">,</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>            ValidAudience <span class="op">=</span> jwtAudience<span class="op">,</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>            IssuerSigningKey <span class="op">=</span> <span class="kw">new</span> <span class="fu">SymmetricSecurityKey</span><span class="op">(</span>Encoding<span class="op">.</span><span class="fu">ASCII</span><span class="op">.</span><span class="fu">GetBytes</span><span class="op">(</span>jwtKey<span class="op">))</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">};</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">});</span></span></code></pre></div>
+<h3 data-number="1.6.5" id="gestion-des-fichiers"><span
+class="header-section-number">1.6.5</span> Gestion des fichiers</h3>
+<h4 data-number="1.6.5.1" id="configuration"><span
+class="header-section-number">1.6.5.1</span> Configuration</h4>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Servir les fichiers statiques</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>app<span class="op">.</span><span class="fu">UseStaticFiles</span><span class="op">();</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Dossier d&#39;upload</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> uploadsPath <span class="op">=</span> Path<span class="op">.</span><span class="fu">Combine</span><span class="op">(</span>_environment<span class="op">.</span><span class="fu">WebRootPath</span><span class="op">,</span> <span class="st">&quot;uploads&quot;</span><span class="op">,</span> <span class="st">&quot;media&quot;</span><span class="op">);</span></span></code></pre></div>
+<h4 data-number="1.6.5.2" id="upload-securise"><span
+class="header-section-number">1.6.5.2</span> Upload securise</h4>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Validation des types de fichiers</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> allowedExtensions <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="st">&quot;.jpg&quot;</span><span class="op">,</span> <span class="st">&quot;.jpeg&quot;</span><span class="op">,</span> <span class="st">&quot;.png&quot;</span><span class="op">,</span> <span class="st">&quot;.gif&quot;</span><span class="op">,</span> <span class="st">&quot;.webp&quot;</span><span class="op">,</span> <span class="st">&quot;.svg&quot;</span> <span class="op">};</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Validation de la taille (max 10MB)</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>file<span class="op">.</span><span class="fu">Length</span> <span class="op">&gt;</span> <span class="dv">10</span> <span class="op">*</span> <span class="dv">1024</span> <span class="op">*</span> <span class="dv">1024</span><span class="op">)</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="fu">BadRequest</span><span class="op">(</span><span class="st">&quot;Fichier trop volumineux&quot;</span><span class="op">);</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">// Generation d&#39;un nom unique</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> fileName <span class="op">=</span> $<span class="st">&quot;{Guid.NewGuid()}{fileExtension}&quot;</span><span class="op">;</span></span></code></pre></div>
+<hr />
+<h2 data-number="1.7" id="frontend---react-typescript"><span
+class="header-section-number">1.7</span> Frontend - React +
+TypeScript</h2>
+<h3 data-number="1.7.1" id="architecture-des-composants"><span
+class="header-section-number">1.7.1</span> Architecture des
+composants</h3>
+<h4 data-number="1.7.1.1" id="structure-des-dossiers"><span
+class="header-section-number">1.7.1.1</span> Structure des dossiers</h4>
+<pre><code>src/
+├── components/           # Composants reutilisables
+│   ├── Header.tsx       # Navigation principale
+│   ├── Footer.tsx       # Pied de page
+│   ├── LoginForm.tsx    # Formulaire de connexion
+│   ├── AdminDashboard.tsx # Tableau de bord admin
+│   ├── ContentManagement.tsx # Gestion du contenu
+│   └── MediaManagement.tsx  # Gestion des medias
+├── pages/               # Pages de l&#39;application
+│   ├── Home.tsx         # Page d&#39;accueil
+│   ├── Services.tsx     # Page services
+│   ├── About.tsx        # Page a propos
+│   ├── Blog.tsx         # Page blog
+│   └── Account.tsx      # Page mon compte
+├── lib/                 # Services et utilitaires
+│   ├── auth.ts          # Service d&#39;authentification
+│   ├── admin.ts         # Service d&#39;administration
+│   └── api.ts           # Configuration API
+└── styles/              # Styles CSS
+    └── index.css        # Styles globaux</code></pre>
+<h3 data-number="1.7.2" id="service-dauthentification"><span
+class="header-section-number">1.7.2</span> Service
+d’authentification</h3>
+<h4 data-number="1.7.2.1" id="auth.ts"><span
+class="header-section-number">1.7.2.1</span> auth.ts</h4>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> AuthService {</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="kw">readonly</span> API_BASE <span class="op">=</span> <span class="st">&#39;/api&#39;</span><span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="kw">readonly</span> TOKEN_KEY <span class="op">=</span> <span class="st">&#39;karima_token&#39;</span><span class="op">;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="kw">readonly</span> USER_KEY <span class="op">=</span> <span class="st">&#39;karima_user&#39;</span><span class="op">;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> <span class="fu">login</span>(credentials<span class="op">:</span> LoginRequest)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>AuthResponse<span class="op">&gt;</span> {</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(<span class="vs">`</span><span class="sc">${</span><span class="kw">this</span><span class="op">.</span><span class="at">API_BASE</span><span class="sc">}</span><span class="vs">/auth/login`</span><span class="op">,</span> {</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>      method<span class="op">:</span> <span class="st">&#39;POST&#39;</span><span class="op">,</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>      headers<span class="op">:</span> { <span class="st">&#39;Content-Type&#39;</span><span class="op">:</span> <span class="st">&#39;application/json&#39;</span> }<span class="op">,</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>      body<span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(credentials)<span class="op">,</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> error <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">json</span>()<span class="op">;</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>      <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(error<span class="op">.</span><span class="at">message</span> <span class="op">||</span> <span class="st">&#39;Erreur de connexion&#39;</span>)<span class="op">;</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> authResponse<span class="op">:</span> AuthResponse <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">json</span>()<span class="op">;</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Stockage local</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    localStorage<span class="op">.</span><span class="fu">setItem</span>(<span class="kw">this</span><span class="op">.</span><span class="at">TOKEN_KEY</span><span class="op">,</span> authResponse<span class="op">.</span><span class="at">token</span>)<span class="op">;</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    localStorage<span class="op">.</span><span class="fu">setItem</span>(<span class="kw">this</span><span class="op">.</span><span class="at">USER_KEY</span><span class="op">,</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(authResponse<span class="op">.</span><span class="at">user</span>))<span class="op">;</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> authResponse<span class="op">;</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">getAuthHeaders</span>()<span class="op">:</span> <span class="bu">Record</span><span class="op">&lt;</span><span class="dt">string</span><span class="op">,</span> <span class="dt">string</span><span class="op">&gt;</span> {</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> token <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getToken</span>()<span class="op">;</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">&#39;Content-Type&#39;</span><span class="op">:</span> <span class="st">&#39;application/json&#39;</span><span class="op">,</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>      <span class="op">...</span>(token <span class="op">&amp;&amp;</span> { <span class="st">&#39;Authorization&#39;</span><span class="op">:</span> <span class="vs">`Bearer </span><span class="sc">${</span>token<span class="sc">}</span><span class="vs">`</span> })<span class="op">,</span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 data-number="1.7.3" id="composants-principaux"><span
+class="header-section-number">1.7.3</span> Composants principaux</h3>
+<h4 data-number="1.7.3.1" id="account.tsx---page-mon-compte"><span
+class="header-section-number">1.7.3.1</span> Account.tsx - Page Mon
+Compte</h4>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> Account <span class="op">=</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> [user<span class="op">,</span> setUser] <span class="op">=</span> <span class="fu">useState</span><span class="op">&lt;</span>User <span class="op">|</span> <span class="dt">null</span><span class="op">&gt;</span>(<span class="kw">null</span>)<span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> [loading<span class="op">,</span> setLoading] <span class="op">=</span> <span class="fu">useState</span>(<span class="kw">true</span>)<span class="op">;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">useEffect</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> checkAuth <span class="op">=</span> <span class="kw">async</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (authService<span class="op">.</span><span class="fu">isAuthenticated</span>()) {</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> {</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>          <span class="kw">const</span> currentUser <span class="op">=</span> <span class="cf">await</span> authService<span class="op">.</span><span class="fu">getCurrentUser</span>()<span class="op">;</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>          <span class="fu">setUser</span>(currentUser)<span class="op">;</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">catch</span> (error) {</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>          <span class="cf">await</span> authService<span class="op">.</span><span class="fu">logout</span>()<span class="op">;</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">setLoading</span>(<span class="kw">false</span>)<span class="op">;</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">checkAuth</span>()<span class="op">;</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span> [])<span class="op">;</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>user) {</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">&lt;</span>LoginForm onLogin<span class="op">=</span>{setUser} <span class="op">/&gt;;</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="op">&lt;</span>AdminDashboard <span class="op">/&gt;;</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<h4 data-number="1.7.3.2"
+id="contentmanagement.tsx---gestion-du-contenu"><span
+class="header-section-number">1.7.3.2</span> ContentManagement.tsx -
+Gestion du contenu</h4>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ContentManagement <span class="op">=</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> [contents<span class="op">,</span> setContents] <span class="op">=</span> <span class="fu">useState</span><span class="op">&lt;</span>ServiceContent[]<span class="op">&gt;</span>([])<span class="op">;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> [editingKey<span class="op">,</span> setEditingKey] <span class="op">=</span> <span class="fu">useState</span><span class="op">&lt;</span><span class="dt">string</span> <span class="op">|</span> <span class="dt">null</span><span class="op">&gt;</span>(<span class="kw">null</span>)<span class="op">;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> handleSave <span class="op">=</span> <span class="kw">async</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>editingKey) <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> {</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>      <span class="cf">await</span> adminService<span class="op">.</span><span class="fu">updateServiceContent</span>(editingKey<span class="op">,</span> editForm)<span class="op">;</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>      <span class="cf">await</span> <span class="fu">loadContents</span>()<span class="op">;</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">setEditingKey</span>(<span class="kw">null</span>)<span class="op">;</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">catch</span> (error) {</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;Erreur lors de la sauvegarde:&#39;</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>div<span class="op">&gt;</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>      {contents<span class="op">.</span><span class="fu">map</span>(content <span class="kw">=&gt;</span> (</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>div key<span class="op">=</span>{content<span class="op">.</span><span class="at">key</span>} className<span class="op">=</span><span class="st">&quot;card&quot;</span><span class="op">&gt;</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>          {<span class="co">/* Interface d&#39;edition */</span>}</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;/</span>div<span class="op">&gt;</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>      ))}</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;/</span>div<span class="op">&gt;</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<h4 data-number="1.7.3.3"
+id="mediamanagement.tsx---gestion-des-medias"><span
+class="header-section-number">1.7.3.3</span> MediaManagement.tsx -
+Gestion des medias</h4>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MediaManagement <span class="op">=</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> [mediaFiles<span class="op">,</span> setMediaFiles] <span class="op">=</span> <span class="fu">useState</span><span class="op">&lt;</span>MediaFile[]<span class="op">&gt;</span>([])<span class="op">;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> [uploading<span class="op">,</span> setUploading] <span class="op">=</span> <span class="fu">useState</span>(<span class="kw">false</span>)<span class="op">;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> handleFileUpload <span class="op">=</span> <span class="kw">async</span> (e<span class="op">:</span> React<span class="op">.</span><span class="at">ChangeEvent</span><span class="op">&lt;</span><span class="bu">HTMLInputElement</span><span class="op">&gt;</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> file <span class="op">=</span> e<span class="op">.</span><span class="at">target</span><span class="op">.</span><span class="at">files</span><span class="op">?.</span>[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>file) <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> {</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">setUploading</span>(<span class="kw">true</span>)<span class="op">;</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>      <span class="cf">await</span> adminService<span class="op">.</span><span class="fu">uploadMediaFile</span>(file<span class="op">,</span> <span class="st">&#39;&#39;</span><span class="op">,</span> <span class="st">&#39;&#39;</span><span class="op">,</span> <span class="st">&#39;general&#39;</span>)<span class="op">;</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>      <span class="cf">await</span> <span class="fu">loadData</span>()<span class="op">;</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">catch</span> (error) {</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;Erreur lors de l</span><span class="sc">\&#39;</span><span class="st">upload:&#39;</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">finally</span> {</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">setUploading</span>(<span class="kw">false</span>)<span class="op">;</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>div<span class="op">&gt;</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;</span>input <span class="kw">type</span><span class="op">=</span><span class="st">&quot;file&quot;</span> onChange<span class="op">=</span>{handleFileUpload} accept<span class="op">=</span><span class="st">&quot;image/*&quot;</span> <span class="op">/&gt;</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>      {<span class="co">/* Liste des medias */</span>}</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;/</span>div<span class="op">&gt;</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<h3 data-number="1.7.4" id="routing-et-navigation"><span
+class="header-section-number">1.7.4</span> Routing et navigation</h3>
+<h4 data-number="1.7.4.1" id="app.tsx"><span
+class="header-section-number">1.7.4.1</span> App.tsx</h4>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">App</span>() {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>Router<span class="op">&gt;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;</span>div className<span class="op">=</span><span class="st">&quot;App&quot;</span><span class="op">&gt;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>Header <span class="op">/&gt;</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>main<span class="op">&gt;</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;</span>Routes<span class="op">&gt;</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>            <span class="op">&lt;</span>Route path<span class="op">=</span><span class="st">&quot;/&quot;</span> element<span class="op">=</span>{<span class="op">&lt;</span>Home <span class="op">/&gt;</span>} <span class="op">/&gt;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>            <span class="op">&lt;</span>Route path<span class="op">=</span><span class="st">&quot;/services&quot;</span> element<span class="op">=</span>{<span class="op">&lt;</span>Services <span class="op">/&gt;</span>} <span class="op">/&gt;</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>            <span class="op">&lt;</span>Route path<span class="op">=</span><span class="st">&quot;/about&quot;</span> element<span class="op">=</span>{<span class="op">&lt;</span>About <span class="op">/&gt;</span>} <span class="op">/&gt;</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>            <span class="op">&lt;</span>Route path<span class="op">=</span><span class="st">&quot;/blog&quot;</span> element<span class="op">=</span>{<span class="op">&lt;</span>Blog <span class="op">/&gt;</span>} <span class="op">/&gt;</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>            <span class="op">&lt;</span>Route path<span class="op">=</span><span class="st">&quot;/account&quot;</span> element<span class="op">=</span>{<span class="op">&lt;</span>Account <span class="op">/&gt;</span>} <span class="op">/&gt;</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;/</span>Routes<span class="op">&gt;</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;/</span>main<span class="op">&gt;</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>Footer <span class="op">/&gt;</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;/</span>div<span class="op">&gt;</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;/</span>Router<span class="op">&gt;</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 data-number="1.7.5" id="styles-css"><span
+class="header-section-number">1.7.5</span> Styles CSS</h3>
+<h4 data-number="1.7.5.1" id="variables-css-personnalisees"><span
+class="header-section-number">1.7.5.1</span> Variables CSS
+personnalisees</h4>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="in">:root</span> {</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Couleurs primaires */</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">--primary</span><span class="ch">:</span> <span class="cn">#1F4E79</span><span class="op">;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">--primary-light</span><span class="ch">:</span> <span class="cn">#2E5F8A</span><span class="op">;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="va">--primary-dark</span><span class="ch">:</span> <span class="cn">#1A4266</span><span class="op">;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Espacement */</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="va">--space-xs</span><span class="ch">:</span> <span class="dv">0.25</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="va">--space-sm</span><span class="ch">:</span> <span class="dv">0.5</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="va">--space-md</span><span class="ch">:</span> <span class="dv">1</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="va">--space-lg</span><span class="ch">:</span> <span class="dv">1.5</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="va">--space-xl</span><span class="ch">:</span> <span class="dv">2</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Rayons de bordure */</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="va">--radius-sm</span><span class="ch">:</span> <span class="dv">0.25</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="va">--radius-md</span><span class="ch">:</span> <span class="dv">0.5</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="va">--radius-lg</span><span class="ch">:</span> <span class="dv">0.75</span><span class="dt">rem</span><span class="op">;</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<hr />
+<h2 data-number="1.8" id="base-de-donnees---sql-server"><span
+class="header-section-number">1.8</span> Base de donnees - SQL
+Server</h2>
+<h3 data-number="1.8.1" id="configuration-de-la-connexion"><span
+class="header-section-number">1.8.1</span> Configuration de la
+connexion</h3>
+<h4 data-number="1.8.1.1" id="appsettings.json"><span
+class="header-section-number">1.8.1.1</span> appsettings.json</h4>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;ConnectionStrings&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;DefaultConnection&quot;</span><span class="fu">:</span> <span class="st">&quot;Server=(localdb)</span><span class="ch">\\</span><span class="st">mssqllocaldb;Database=KarimaDb;Trusted_Connection=true;MultipleActiveResultSets=true&quot;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;Jwt&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;Key&quot;</span><span class="fu">:</span> <span class="st">&quot;YourSuperSecretKeyThatIsAtLeast32CharactersLong!&quot;</span><span class="fu">,</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;Issuer&quot;</span><span class="fu">:</span> <span class="st">&quot;Karima.Api&quot;</span><span class="fu">,</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;Audience&quot;</span><span class="fu">:</span> <span class="st">&quot;Karima.Client&quot;</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h3 data-number="1.8.2" id="schema-de-la-base-de-donnees"><span
+class="header-section-number">1.8.2</span> Schema de la base de
+donnees</h3>
+<h4 data-number="1.8.2.1" id="table-users"><span
+class="header-section-number">1.8.2.1</span> Table Users</h4>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> Users (</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">Id</span> <span class="dt">int</span> IDENTITY(<span class="dv">1</span>,<span class="dv">1</span>) <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    Email <span class="dt">nvarchar</span>(<span class="dv">200</span>) <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">UNIQUE</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    PasswordHash <span class="dt">nvarchar</span>(<span class="dv">200</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    FirstName <span class="dt">nvarchar</span>(<span class="dv">100</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    LastName <span class="dt">nvarchar</span>(<span class="dv">100</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    IsAdmin bit <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> <span class="dv">0</span>,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    CreatedAt datetime2 <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> GETUTCDATE(),</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    LastLoginAt datetime2 <span class="kw">NULL</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<h4 data-number="1.8.2.2" id="table-servicecontents"><span
+class="header-section-number">1.8.2.2</span> Table ServiceContents</h4>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> ServiceContents (</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">Id</span> <span class="dt">int</span> IDENTITY(<span class="dv">1</span>,<span class="dv">1</span>) <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    [<span class="kw">Key</span>] <span class="dt">nvarchar</span>(<span class="dv">100</span>) <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">UNIQUE</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    Content <span class="dt">nvarchar</span>(<span class="fu">max</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    Description <span class="dt">nvarchar</span>(<span class="dv">500</span>) <span class="kw">NULL</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    CreatedAt datetime2 <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> GETUTCDATE(),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    UpdatedAt datetime2 <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> GETUTCDATE(),</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    UpdatedByUserId <span class="dt">int</span> <span class="kw">NULL</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (UpdatedByUserId) <span class="kw">REFERENCES</span> Users(<span class="kw">Id</span>)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<h4 data-number="1.8.2.3" id="table-mediafiles"><span
+class="header-section-number">1.8.2.3</span> Table MediaFiles</h4>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> MediaFiles (</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">Id</span> <span class="dt">int</span> IDENTITY(<span class="dv">1</span>,<span class="dv">1</span>) <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    FileName <span class="dt">nvarchar</span>(<span class="dv">500</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    FilePath <span class="dt">nvarchar</span>(<span class="dv">1000</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    MimeType <span class="dt">nvarchar</span>(<span class="dv">100</span>) <span class="kw">NULL</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    FileSizeBytes bigint <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    AltText <span class="dt">nvarchar</span>(<span class="dv">200</span>) <span class="kw">NULL</span>,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    Description <span class="dt">nvarchar</span>(<span class="dv">500</span>) <span class="kw">NULL</span>,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">Category</span> <span class="dt">nvarchar</span>(<span class="dv">100</span>) <span class="kw">NULL</span>,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    CreatedAt datetime2 <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> GETUTCDATE(),</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    CreatedByUserId <span class="dt">int</span> <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (CreatedByUserId) <span class="kw">REFERENCES</span> Users(<span class="kw">Id</span>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<h3 data-number="1.8.3" id="donnees-de-seed"><span
+class="header-section-number">1.8.3</span> Donnees de seed</h3>
+<h4 data-number="1.8.3.1" id="utilisateur-admin-par-defaut"><span
+class="header-section-number">1.8.3.1</span> Utilisateur admin par
+defaut</h4>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>modelBuilder<span class="op">.</span><span class="fu">Entity</span><span class="op">&lt;</span>User<span class="op">&gt;().</span><span class="fu">HasData</span><span class="op">(</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> User </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        Id <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>        Email <span class="op">=</span> <span class="st">&quot;admin@karima.com&quot;</span><span class="op">,</span> </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>        PasswordHash <span class="op">=</span> <span class="st">&quot;$2a$11$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy&quot;</span><span class="op">,</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>        FirstName <span class="op">=</span> <span class="st">&quot;Admin&quot;</span><span class="op">,</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        LastName <span class="op">=</span> <span class="st">&quot;Karima&quot;</span><span class="op">,</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>        IsAdmin <span class="op">=</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>        CreatedAt <span class="op">=</span> seedDate</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="op">);</span></span></code></pre></div>
+<h4 data-number="1.8.3.2" id="contenu-par-defaut-des-services"><span
+class="header-section-number">1.8.3.2</span> Contenu par defaut des
+services</h4>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>modelBuilder<span class="op">.</span><span class="fu">Entity</span><span class="op">&lt;</span>ServiceContent<span class="op">&gt;().</span><span class="fu">HasData</span><span class="op">(</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> ServiceContent <span class="op">{</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        Id <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        Key <span class="op">=</span> <span class="st">&quot;hero_title&quot;</span><span class="op">,</span> </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>        Content <span class="op">=</span> <span class="st">&quot;Nos Services&quot;</span><span class="op">,</span> </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        Description <span class="op">=</span> <span class="st">&quot;Titre principal de la section hero&quot;</span><span class="op">,</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>        CreatedAt <span class="op">=</span> seedDate<span class="op">,</span> </span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        UpdatedAt <span class="op">=</span> seedDate </span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ... autres contenus</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="op">);</span></span></code></pre></div>
+<hr />
+<h2 data-number="1.9" id="authentification-et-securite"><span
+class="header-section-number">1.9</span> Authentification et
+securite</h2>
+<h3 data-number="1.9.1" id="jwt-json-web-tokens"><span
+class="header-section-number">1.9.1</span> JWT (JSON Web Tokens)</h3>
+<h4 data-number="1.9.1.1" id="structure-du-token"><span
+class="header-section-number">1.9.1.1</span> Structure du token</h4>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;sub&quot;</span><span class="fu">:</span> <span class="st">&quot;1&quot;</span><span class="fu">,</span>                    <span class="er">//</span> <span class="er">User</span> <span class="er">ID</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;email&quot;</span><span class="fu">:</span> <span class="st">&quot;admin@karima.com&quot;</span><span class="fu">,</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Admin Karima&quot;</span><span class="fu">,</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;role&quot;</span><span class="fu">:</span> <span class="st">&quot;Admin&quot;</span><span class="fu">,</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;exp&quot;</span><span class="fu">:</span> <span class="dv">1640995200</span><span class="fu">,</span>            <span class="er">//</span> <span class="er">Expiration</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;iss&quot;</span><span class="fu">:</span> <span class="st">&quot;Karima.Api&quot;</span><span class="fu">,</span>          <span class="er">//</span> <span class="er">Issuer</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;aud&quot;</span><span class="fu">:</span> <span class="st">&quot;Karima.Client&quot;</span>        <span class="er">//</span> <span class="er">Audience</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h4 data-number="1.9.1.2" id="generation-du-token"><span
+class="header-section-number">1.9.1.2</span> Generation du token</h4>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">string</span> <span class="fu">GenerateJwtToken</span><span class="op">(</span>User user<span class="op">)</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">var</span> key <span class="op">=</span> Encoding<span class="op">.</span><span class="fu">ASCII</span><span class="op">.</span><span class="fu">GetBytes</span><span class="op">(</span>jwtKey<span class="op">);</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">var</span> tokenDescriptor <span class="op">=</span> <span class="kw">new</span> SecurityTokenDescriptor</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>        Subject <span class="op">=</span> <span class="kw">new</span> <span class="fu">ClaimsIdentity</span><span class="op">(</span><span class="kw">new</span><span class="op">[]</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">Claim</span><span class="op">(</span>ClaimTypes<span class="op">.</span><span class="fu">NameIdentifier</span><span class="op">,</span> user<span class="op">.</span><span class="fu">Id</span><span class="op">.</span><span class="fu">ToString</span><span class="op">()),</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">Claim</span><span class="op">(</span>ClaimTypes<span class="op">.</span><span class="fu">Email</span><span class="op">,</span> user<span class="op">.</span><span class="fu">Email</span><span class="op">),</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">Claim</span><span class="op">(</span>ClaimTypes<span class="op">.</span><span class="fu">Name</span><span class="op">,</span> $<span class="st">&quot;{user.FirstName} {user.LastName}&quot;</span><span class="op">),</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">Claim</span><span class="op">(</span>ClaimTypes<span class="op">.</span><span class="fu">Role</span><span class="op">,</span> user<span class="op">.</span><span class="fu">IsAdmin</span> <span class="op">?</span> <span class="st">&quot;Admin&quot;</span> <span class="op">:</span> <span class="st">&quot;User&quot;</span><span class="op">)</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">}),</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>        Expires <span class="op">=</span> DateTime<span class="op">.</span><span class="fu">UtcNow</span><span class="op">.</span><span class="fu">AddHours</span><span class="op">(</span><span class="dv">24</span><span class="op">),</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>        Issuer <span class="op">=</span> jwtIssuer<span class="op">,</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>        Audience <span class="op">=</span> jwtAudience<span class="op">,</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>        SigningCredentials <span class="op">=</span> <span class="kw">new</span> <span class="fu">SigningCredentials</span><span class="op">(</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">SymmetricSecurityKey</span><span class="op">(</span>key<span class="op">),</span> </span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>            SecurityAlgorithms<span class="op">.</span><span class="fu">HmacSha256Signature</span><span class="op">)</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">var</span> tokenHandler <span class="op">=</span> <span class="kw">new</span> <span class="fu">JwtSecurityTokenHandler</span><span class="op">();</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>    <span class="dt">var</span> token <span class="op">=</span> tokenHandler<span class="op">.</span><span class="fu">CreateToken</span><span class="op">(</span>tokenDescriptor<span class="op">);</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> tokenHandler<span class="op">.</span><span class="fu">WriteToken</span><span class="op">(</span>token<span class="op">);</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.9.2" id="hachage-des-mots-de-passe"><span
+class="header-section-number">1.9.2</span> Hachage des mots de
+passe</h3>
+<h4 data-number="1.9.2.1" id="utilisation-de-bcrypt"><span
+class="header-section-number">1.9.2.1</span> Utilisation de BCrypt</h4>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Hachage lors de la creation</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> passwordHash <span class="op">=</span> BCrypt<span class="op">.</span><span class="fu">Net</span><span class="op">.</span><span class="fu">BCrypt</span><span class="op">.</span><span class="fu">HashPassword</span><span class="op">(</span><span class="st">&quot;motdepasse&quot;</span><span class="op">);</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Verification lors de la connexion</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> isValid <span class="op">=</span> BCrypt<span class="op">.</span><span class="fu">Net</span><span class="op">.</span><span class="fu">BCrypt</span><span class="op">.</span><span class="fu">Verify</span><span class="op">(</span>password<span class="op">,</span> passwordHash<span class="op">);</span></span></code></pre></div>
+<h3 data-number="1.9.3" id="autorisation-par-roles"><span
+class="header-section-number">1.9.3</span> Autorisation par roles</h3>
+<h4 data-number="1.9.3.1" id="attributs-dautorisation"><span
+class="header-section-number">1.9.3.1</span> Attributs
+d’autorisation</h4>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span><span class="fu">Authorize</span><span class="op">(</span>Roles <span class="op">=</span> <span class="st">&quot;Admin&quot;</span><span class="op">)]</span>  <span class="co">// Admin uniquement</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>Authorize<span class="op">]</span>                   <span class="co">// Utilisateur connecte</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>AllowAnonymous<span class="op">]</span>              <span class="co">// Acces public</span></span></code></pre></div>
+<h4 data-number="1.9.3.2" id="verification-cote-client"><span
+class="header-section-number">1.9.3.2</span> Verification cote
+client</h4>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> isAuthenticated <span class="op">=</span> authService<span class="op">.</span><span class="fu">isAuthenticated</span>()<span class="op">;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> user <span class="op">=</span> authService<span class="op">.</span><span class="fu">getUser</span>()<span class="op">;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> isAdmin <span class="op">=</span> user<span class="op">?.</span><span class="at">isAdmin</span><span class="op">;</span></span></code></pre></div>
+<hr />
+<h2 data-number="1.10" id="gestion-des-fichiers-1"><span
+class="header-section-number">1.10</span> Gestion des fichiers</h2>
+<h3 data-number="1.10.1" id="structure-des-dossiers-1"><span
+class="header-section-number">1.10.1</span> Structure des dossiers</h3>
+<pre><code>api/
+├── wwwroot/              # Fichiers statiques
+│   └── uploads/          # Dossier d&#39;upload
+│       └── media/        # Images uploadees
+│           ├── image1.jpg
+│           ├── image2.png
+│           └── ...
+└── ...</code></pre>
+<h3 data-number="1.10.2" id="configuration-du-stockage"><span
+class="header-section-number">1.10.2</span> Configuration du
+stockage</h3>
+<h4 data-number="1.10.2.1" id="program.cs-1"><span
+class="header-section-number">1.10.2.1</span> Program.cs</h4>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Servir les fichiers statiques</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>app<span class="op">.</span><span class="fu">UseStaticFiles</span><span class="op">();</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Configuration du dossier wwwroot</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>app<span class="op">.</span><span class="fu">UseStaticFiles</span><span class="op">(</span><span class="kw">new</span> StaticFileOptions</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    FileProvider <span class="op">=</span> <span class="kw">new</span> <span class="fu">PhysicalFileProvider</span><span class="op">(</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>        Path<span class="op">.</span><span class="fu">Combine</span><span class="op">(</span>builder<span class="op">.</span><span class="fu">Environment</span><span class="op">.</span><span class="fu">WebRootPath</span><span class="op">,</span> <span class="st">&quot;uploads&quot;</span><span class="op">)),</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    RequestPath <span class="op">=</span> <span class="st">&quot;/uploads&quot;</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="op">});</span></span></code></pre></div>
+<h3 data-number="1.10.3" id="processus-dupload"><span
+class="header-section-number">1.10.3</span> Processus d’upload</h3>
+<h4 data-number="1.10.3.1" id="validation-cote-client"><span
+class="header-section-number">1.10.3.1</span> 1. Validation cote
+client</h4>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> handleFileUpload <span class="op">=</span> <span class="kw">async</span> (file<span class="op">:</span> <span class="bu">File</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Verification du type</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> allowedTypes <span class="op">=</span> [<span class="st">&#39;image/jpeg&#39;</span><span class="op">,</span> <span class="st">&#39;image/png&#39;</span><span class="op">,</span> <span class="st">&#39;image/gif&#39;</span>]<span class="op">;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>allowedTypes<span class="op">.</span><span class="fu">includes</span>(file<span class="op">.</span><span class="at">type</span>)) {</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">&#39;Type de fichier non autorise&#39;</span>)<span class="op">;</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Verification de la taille (10MB max)</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (file<span class="op">.</span><span class="at">size</span> <span class="op">&gt;</span> <span class="dv">10</span> <span class="op">*</span> <span class="dv">1024</span> <span class="op">*</span> <span class="dv">1024</span>) {</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">&#39;Fichier trop volumineux&#39;</span>)<span class="op">;</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<h4 data-number="1.10.3.2" id="upload-vers-lapi"><span
+class="header-section-number">1.10.3.2</span> 2. Upload vers l’API</h4>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> formData <span class="op">=</span> <span class="kw">new</span> <span class="bu">FormData</span>()<span class="op">;</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>formData<span class="op">.</span><span class="fu">append</span>(<span class="st">&#39;file&#39;</span><span class="op">,</span> file)<span class="op">;</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>formData<span class="op">.</span><span class="fu">append</span>(<span class="st">&#39;altText&#39;</span><span class="op">,</span> altText)<span class="op">;</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>formData<span class="op">.</span><span class="fu">append</span>(<span class="st">&#39;description&#39;</span><span class="op">,</span> description)<span class="op">;</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>formData<span class="op">.</span><span class="fu">append</span>(<span class="st">&#39;category&#39;</span><span class="op">,</span> category)<span class="op">;</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(<span class="st">&#39;/api/media/upload&#39;</span><span class="op">,</span> {</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  method<span class="op">:</span> <span class="st">&#39;POST&#39;</span><span class="op">,</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  headers<span class="op">:</span> authService<span class="op">.</span><span class="fu">getFormDataHeaders</span>()<span class="op">,</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  body<span class="op">:</span> formData</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h4 data-number="1.10.3.3" id="traitement-cote-serveur"><span
+class="header-section-number">1.10.3.3</span> 3. Traitement cote
+serveur</h4>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Validation des extensions</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> allowedExtensions <span class="op">=</span> <span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> <span class="st">&quot;.jpg&quot;</span><span class="op">,</span> <span class="st">&quot;.jpeg&quot;</span><span class="op">,</span> <span class="st">&quot;.png&quot;</span><span class="op">,</span> <span class="st">&quot;.gif&quot;</span><span class="op">,</span> <span class="st">&quot;.webp&quot;</span><span class="op">,</span> <span class="st">&quot;.svg&quot;</span> <span class="op">};</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> fileExtension <span class="op">=</span> Path<span class="op">.</span><span class="fu">GetExtension</span><span class="op">(</span>file<span class="op">.</span><span class="fu">FileName</span><span class="op">).</span><span class="fu">ToLowerInvariant</span><span class="op">();</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(!</span>allowedExtensions<span class="op">.</span><span class="fu">Contains</span><span class="op">(</span>fileExtension<span class="op">))</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="fu">BadRequest</span><span class="op">(</span><span class="st">&quot;Type de fichier non autorise&quot;</span><span class="op">);</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="co">// Generation d&#39;un nom unique</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> fileName <span class="op">=</span> $<span class="st">&quot;{Guid.NewGuid()}{fileExtension}&quot;</span><span class="op">;</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> filePath <span class="op">=</span> Path<span class="op">.</span><span class="fu">Combine</span><span class="op">(</span>uploadsPath<span class="op">,</span> fileName<span class="op">);</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="co">// Sauvegarde du fichier</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="op">(</span><span class="dt">var</span> stream <span class="op">=</span> <span class="kw">new</span> <span class="fu">FileStream</span><span class="op">(</span>filePath<span class="op">,</span> FileMode<span class="op">.</span><span class="fu">Create</span><span class="op">))</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>    await file<span class="op">.</span><span class="fu">CopyToAsync</span><span class="op">(</span>stream<span class="op">);</span></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.10.4" id="suppression-des-fichiers"><span
+class="header-section-number">1.10.4</span> Suppression des
+fichiers</h3>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Supprimer le fichier physique</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> fullPath <span class="op">=</span> Path<span class="op">.</span><span class="fu">Combine</span><span class="op">(</span>_environment<span class="op">.</span><span class="fu">WebRootPath</span><span class="op">,</span> mediaFile<span class="op">.</span><span class="fu">FilePath</span><span class="op">.</span><span class="fu">TrimStart</span><span class="op">(</span><span class="ch">&#39;/&#39;</span><span class="op">));</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>System<span class="op">.</span><span class="fu">IO</span><span class="op">.</span><span class="fu">File</span><span class="op">.</span><span class="fu">Exists</span><span class="op">(</span>fullPath<span class="op">))</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    System<span class="op">.</span><span class="fu">IO</span><span class="op">.</span><span class="fu">File</span><span class="op">.</span><span class="fu">Delete</span><span class="op">(</span>fullPath<span class="op">);</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="co">// Supprimer l&#39;entree en base de donnees</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>_context<span class="op">.</span><span class="fu">MediaFiles</span><span class="op">.</span><span class="fu">Remove</span><span class="op">(</span>mediaFile<span class="op">);</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>await _context<span class="op">.</span><span class="fu">SaveChangesAsync</span><span class="op">();</span></span></code></pre></div>
+<hr />
+<h2 data-number="1.11" id="deploiement"><span
+class="header-section-number">1.11</span> Deploiement</h2>
+<h3 data-number="1.11.1" id="environnement-de-developpement"><span
+class="header-section-number">1.11.1</span> Environnement de
+developpement</h3>
+<h4 data-number="1.11.1.1" id="backend-1"><span
+class="header-section-number">1.11.1.1</span> Backend</h4>
+<div class="sourceCode" id="cb40"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> api</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> run</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># API disponible sur http://localhost:5000</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Swagger sur http://localhost:5000/swagger</span></span></code></pre></div>
+<h4 data-number="1.11.1.2" id="frontend-1"><span
+class="header-section-number">1.11.1.2</span> Frontend</h4>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> web</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run dev</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Application disponible sur http://localhost:5173</span></span></code></pre></div>
+<h3 data-number="1.11.2" id="environnement-de-production"><span
+class="header-section-number">1.11.2</span> Environnement de
+production</h3>
+<h4 data-number="1.11.2.1" id="configuration-iis"><span
+class="header-section-number">1.11.2.1</span> Configuration IIS</h4>
+<div class="sourceCode" id="cb42"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">system.webServer</span>&gt;</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">handlers</span>&gt;</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">add</span> <span class="ot">name=</span><span class="st">&quot;aspNetCore&quot;</span> <span class="ot">path=</span><span class="st">&quot;*&quot;</span> <span class="ot">verb=</span><span class="st">&quot;*&quot;</span> <span class="ot">modules=</span><span class="st">&quot;AspNetCoreModuleV2&quot;</span> <span class="ot">resourceType=</span><span class="st">&quot;Unspecified&quot;</span> /&gt;</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">handlers</span>&gt;</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">aspNetCore</span> <span class="ot">processPath=</span><span class="st">&quot;dotnet&quot;</span> <span class="ot">arguments=</span><span class="st">&quot;.\Karima.Api.dll&quot;</span> <span class="ot">stdoutLogEnabled=</span><span class="st">&quot;false&quot;</span> <span class="ot">stdoutLogFile=</span><span class="st">&quot;.\logs\stdout&quot;</span> /&gt;</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">system.webServer</span>&gt;</span></code></pre></div>
+<h4 data-number="1.11.2.2" id="variables-denvironnement"><span
+class="header-section-number">1.11.2.2</span> Variables
+d’environnement</h4>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Production</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="va">ASPNETCORE_ENVIRONMENT</span><span class="op">=</span>Production</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="va">ConnectionStrings__DefaultConnection</span><span class="op">=</span><span class="st">&quot;Server=prod-server;Database=KarimaDb;...&quot;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="va">Jwt__Key</span><span class="op">=</span><span class="st">&quot;ProductionSecretKey...&quot;</span></span></code></pre></div>
+<h4 data-number="1.11.2.3" id="build-de-production"><span
+class="header-section-number">1.11.2.3</span> Build de production</h4>
+<div class="sourceCode" id="cb44"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Backend</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> publish <span class="at">-c</span> Release <span class="at">-o</span> ./publish</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Frontend</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run build</span></code></pre></div>
+<hr />
+<h2 data-number="1.12" id="troubleshooting"><span
+class="header-section-number">1.12</span> Troubleshooting</h2>
+<h3 data-number="1.12.1" id="problemes-courants"><span
+class="header-section-number">1.12.1</span> Problemes courants</h3>
+<h4 data-number="1.12.1.1"
+id="erreur-de-connexion-a-la-base-de-donnees"><span
+class="header-section-number">1.12.1.1</span> 1. Erreur de connexion a
+la base de donnees</h4>
+<pre><code>System.InvalidOperationException: No connection string named &#39;DefaultConnection&#39; was found.</code></pre>
+<p><strong>Solution :</strong> Verifier le fichier
+<code>appsettings.json</code> et la chaine de connexion.</p>
+<h4 data-number="1.12.1.2" id="erreur-cors"><span
+class="header-section-number">1.12.1.2</span> 2. Erreur CORS</h4>
+<pre><code>Access to fetch at &#39;http://localhost:5000/api/auth/login&#39; from origin &#39;http://localhost:5173&#39; has been blocked by CORS policy</code></pre>
+<p><strong>Solution :</strong> Verifier la configuration CORS dans
+<code>Program.cs</code>.</p>
+<h4 data-number="1.12.1.3" id="erreur-jwt"><span
+class="header-section-number">1.12.1.3</span> 3. Erreur JWT</h4>
+<pre><code>Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: The token is expired</code></pre>
+<p><strong>Solution :</strong> Le token a expire, l’utilisateur doit se
+reconnecter.</p>
+<h4 data-number="1.12.1.4" id="erreur-dupload-de-fichier"><span
+class="header-section-number">1.12.1.4</span> 4. Erreur d’upload de
+fichier</h4>
+<pre><code>System.IO.DirectoryNotFoundException: Could not find a part of the path</code></pre>
+<p><strong>Solution :</strong> Creer le dossier
+<code>wwwroot/uploads/media</code> manuellement.</p>
+<h4 data-number="1.12.1.5" id="erreur-de-migration"><span
+class="header-section-number">1.12.1.5</span> 5. Erreur de
+migration</h4>
+<pre><code>The migration &#39;AddUserAndContentManagement&#39; has already been applied to the database</code></pre>
+<p><strong>Solution :</strong> Utiliser un nom de migration different ou
+supprimer la migration existante.</p>
+<h3 data-number="1.12.2" id="logs-et-debogage"><span
+class="header-section-number">1.12.2</span> Logs et debogage</h3>
+<h4 data-number="1.12.2.1" id="activation-des-logs-detailles"><span
+class="header-section-number">1.12.2.1</span> Activation des logs
+detailles</h4>
+<div class="sourceCode" id="cb50"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;Logging&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;LogLevel&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;Default&quot;</span><span class="fu">:</span> <span class="st">&quot;Information&quot;</span><span class="fu">,</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;Microsoft.AspNetCore&quot;</span><span class="fu">:</span> <span class="st">&quot;Warning&quot;</span><span class="fu">,</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;Microsoft.EntityFrameworkCore&quot;</span><span class="fu">:</span> <span class="st">&quot;Information&quot;</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h4 data-number="1.12.2.2" id="logs-cote-client"><span
+class="header-section-number">1.12.2.2</span> Logs cote client</h4>
+<div class="sourceCode" id="cb51"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Dans le navigateur (F12 &gt; Console)</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Token:&#39;</span><span class="op">,</span> authService<span class="op">.</span><span class="fu">getToken</span>())<span class="op">;</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;User:&#39;</span><span class="op">,</span> authService<span class="op">.</span><span class="fu">getUser</span>())<span class="op">;</span></span></code></pre></div>
+<h3 data-number="1.12.3" id="outils-de-debogage"><span
+class="header-section-number">1.12.3</span> Outils de debogage</h3>
+<h4 data-number="1.12.3.1" id="swagger-ui"><span
+class="header-section-number">1.12.3.1</span> Swagger UI</h4>
+<ul>
+<li>URL : <code>http://localhost:5000/swagger</code></li>
+<li>Permet de tester les endpoints API</li>
+<li>Documentation interactive</li>
+</ul>
+<h4 data-number="1.12.3.2" id="entity-framework-tools"><span
+class="header-section-number">1.12.3.2</span> Entity Framework
+Tools</h4>
+<div class="sourceCode" id="cb52"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Voir les migrations</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ef migrations list</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Voir le SQL genere</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ef migrations script</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Reinitialiser la base de donnees</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ef database drop</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a><span class="ex">dotnet</span> ef database update</span></code></pre></div>
+<h4 data-number="1.12.3.3" id="outils-de-developpement"><span
+class="header-section-number">1.12.3.3</span> Outils de
+developpement</h4>
+<ul>
+<li><strong>Chrome DevTools</strong> : Debug du frontend</li>
+<li><strong>Postman</strong> : Test des API</li>
+<li><strong>SQL Server Management Studio</strong> : Gestion de la base
+de donnees</li>
+</ul>
+<hr />
+<h2 data-number="1.13" id="bonnes-pratiques"><span
+class="header-section-number">1.13</span> Bonnes pratiques</h2>
+<h3 data-number="1.13.1" id="architecture"><span
+class="header-section-number">1.13.1</span> Architecture</h3>
+<h4 data-number="1.13.1.1" id="separation-des-responsabilites"><span
+class="header-section-number">1.13.1.1</span> 1. Separation des
+responsabilites</h4>
+<ul>
+<li><strong>Controleurs</strong> : Gestion des requetes HTTP</li>
+<li><strong>Services</strong> : Logique metier</li>
+<li><strong>Repositories</strong> : Acces aux donnees</li>
+<li><strong>DTOs</strong> : Transfert de donnees</li>
+</ul>
+<h4 data-number="1.13.1.2" id="validation-des-donnees"><span
+class="header-section-number">1.13.1.2</span> 2. Validation des
+donnees</h4>
+<div class="sourceCode" id="cb53"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>Required<span class="op">]</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="op">[</span><span class="fu">MaxLength</span><span class="op">(</span><span class="dv">200</span><span class="op">)]</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">string</span> Email <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>Required<span class="op">]</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="op">[</span><span class="fu">MinLength</span><span class="op">(</span><span class="dv">6</span><span class="op">)]</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">string</span> Password <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div>
+<h4 data-number="1.13.1.3" id="gestion-des-erreurs"><span
+class="header-section-number">1.13.1.3</span> 3. Gestion des
+erreurs</h4>
+<div class="sourceCode" id="cb54"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">try</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Operation</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="kw">catch</span> <span class="op">(</span>Exception ex<span class="op">)</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    _logger<span class="op">.</span><span class="fu">LogError</span><span class="op">(</span>ex<span class="op">,</span> <span class="st">&quot;Erreur lors de l&#39;operation&quot;</span><span class="op">);</span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="fu">StatusCode</span><span class="op">(</span><span class="dv">500</span><span class="op">,</span> <span class="st">&quot;Erreur interne du serveur&quot;</span><span class="op">);</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.13.2" id="securite"><span
+class="header-section-number">1.13.2</span> Securite</h3>
+<h4 data-number="1.13.2.1" id="authentification"><span
+class="header-section-number">1.13.2.1</span> 1. Authentification</h4>
+<ul>
+<li>Utiliser des tokens JWT avec expiration</li>
+<li>Hacher les mots de passe avec BCrypt</li>
+<li>Valider les tokens cote serveur</li>
+</ul>
+<h4 data-number="1.13.2.2" id="autorisation"><span
+class="header-section-number">1.13.2.2</span> 2. Autorisation</h4>
+<ul>
+<li>Verifier les roles pour les actions sensibles</li>
+<li>Utiliser des attributs <code>[Authorize]</code></li>
+<li>Valider les permissions cote client ET serveur</li>
+</ul>
+<h4 data-number="1.13.2.3" id="validation-des-entrees"><span
+class="header-section-number">1.13.2.3</span> 3. Validation des
+entrees</h4>
+<ul>
+<li>Valider tous les inputs utilisateur</li>
+<li>Sanitizer les donnees avant stockage</li>
+<li>Utiliser des DTOs pour les transferts</li>
+</ul>
+<h3 data-number="1.13.3" id="performance"><span
+class="header-section-number">1.13.3</span> Performance</h3>
+<h4 data-number="1.13.3.1" id="base-de-donnees-1"><span
+class="header-section-number">1.13.3.1</span> 1. Base de donnees</h4>
+<ul>
+<li>Utiliser des index sur les colonnes frequemment recherchees</li>
+<li>Eviter les requetes N+1 avec <code>Include()</code></li>
+<li>Utiliser la pagination pour les grandes listes</li>
+</ul>
+<h4 data-number="1.13.3.2" id="api"><span
+class="header-section-number">1.13.3.2</span> 2. API</h4>
+<ul>
+<li>Mettre en cache les donnees statiques</li>
+<li>Utiliser la compression gzip</li>
+<li>Optimiser les requetes SQL</li>
+</ul>
+<h4 data-number="1.13.3.3" id="frontend-2"><span
+class="header-section-number">1.13.3.3</span> 3. Frontend</h4>
+<ul>
+<li>Lazy loading des composants</li>
+<li>Optimisation des images</li>
+<li>Mise en cache des donnees</li>
+</ul>
+<h3 data-number="1.13.4" id="tests"><span
+class="header-section-number">1.13.4</span> Tests</h3>
+<h4 data-number="1.13.4.1" id="tests-unitaires"><span
+class="header-section-number">1.13.4.1</span> 1. Tests unitaires</h4>
+<div class="sourceCode" id="cb55"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>Test<span class="op">]</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">Login_WithValidCredentials_ReturnsToken</span><span class="op">()</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Arrange</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">var</span> authController <span class="op">=</span> <span class="kw">new</span> <span class="fu">AuthController</span><span class="op">(</span>mockContext<span class="op">,</span> mockConfig<span class="op">);</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">var</span> loginRequest <span class="op">=</span> <span class="kw">new</span> AuthRequest <span class="op">{</span> Email <span class="op">=</span> <span class="st">&quot;admin@karima.com&quot;</span><span class="op">,</span> Password <span class="op">=</span> <span class="st">&quot;admin123&quot;</span> <span class="op">};</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Act</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">var</span> result <span class="op">=</span> await authController<span class="op">.</span><span class="fu">Login</span><span class="op">(</span>loginRequest<span class="op">);</span></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Assert</span></span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>    Assert<span class="op">.</span><span class="fu">IsNotNull</span><span class="op">(</span>result<span class="op">);</span></span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>    Assert<span class="op">.</span><span class="fu">IsNotNull</span><span class="op">(</span>result<span class="op">.</span><span class="fu">Value</span><span class="op">.</span><span class="fu">Token</span><span class="op">);</span></span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h4 data-number="1.13.4.2" id="tests-dintegration"><span
+class="header-section-number">1.13.4.2</span> 2. Tests
+d’integration</h4>
+<div class="sourceCode" id="cb56"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>Test<span class="op">]</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> async Task <span class="fu">UploadFile_WithValidFile_ReturnsMediaFile</span><span class="op">()</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Test d&#39;upload de fichier</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">var</span> file <span class="op">=</span> <span class="fu">CreateTestFile</span><span class="op">();</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">var</span> result <span class="op">=</span> await _client<span class="op">.</span><span class="fu">PostAsync</span><span class="op">(</span><span class="st">&quot;/api/media/upload&quot;</span><span class="op">,</span> content<span class="op">);</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>    Assert<span class="op">.</span><span class="fu">AreEqual</span><span class="op">(</span>HttpStatusCode<span class="op">.</span><span class="fu">OK</span><span class="op">,</span> result<span class="op">.</span><span class="fu">StatusCode</span><span class="op">);</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.13.5" id="documentation"><span
+class="header-section-number">1.13.5</span> Documentation</h3>
+<h4 data-number="1.13.5.1" id="code"><span
+class="header-section-number">1.13.5.1</span> 1. Code</h4>
+<ul>
+<li>Commenter les methodes complexes</li>
+<li>Utiliser des noms de variables explicites</li>
+<li>Documenter les parametres et retours</li>
+</ul>
+<h4 data-number="1.13.5.2" id="api-1"><span
+class="header-section-number">1.13.5.2</span> 2. API</h4>
+<ul>
+<li>Utiliser Swagger/OpenAPI</li>
+<li>Ajouter des exemples de requetes</li>
+<li>Documenter les codes d’erreur</li>
+</ul>
+<h4 data-number="1.13.5.3" id="base-de-donnees-2"><span
+class="header-section-number">1.13.5.3</span> 3. Base de donnees</h4>
+<ul>
+<li>Documenter le schema</li>
+<li>Expliquer les relations</li>
+<li>Maintenir un historique des migrations</li>
+</ul>
+<hr />
+<h2 data-number="1.14" id="conclusion"><span
+class="header-section-number">1.14</span> Conclusion</h2>
+<p>Cette documentation technique complete couvre tous les aspects du
+projet Karima :</p>
+<h3 data-number="1.14.1" id="ce-qui-a-ete-implemente"><span
+class="header-section-number">1.14.1</span> Ce qui a ete implemente</h3>
+<ul>
+<li><strong>Backend .NET 8</strong> avec API REST complete</li>
+<li><strong>Frontend React + TypeScript</strong> avec interface
+moderne</li>
+<li><strong>Base de donnees SQL Server</strong> avec Entity Framework
+Core</li>
+<li><strong>Authentification JWT</strong> securisee</li>
+<li><strong>Gestion des fichiers</strong> avec upload et stockage</li>
+<li><strong>Documentation Swagger</strong> automatique</li>
+</ul>
+<h3 data-number="1.14.2" id="prochaines-etapes-possibles"><span
+class="header-section-number">1.14.2</span> Prochaines etapes
+possibles</h3>
+<ul>
+<li>Ajout de tests unitaires et d’integration</li>
+<li>Mise en place de la CI/CD</li>
+<li>Optimisation des performances</li>
+<li>Ajout de nouvelles fonctionnalites (blog, newsletter, etc.)</li>
+<li>Deploiement en production</li>
+</ul>
+<h3 data-number="1.14.3" id="ressources-utiles"><span
+class="header-section-number">1.14.3</span> Ressources utiles</h3>
+<ul>
+<li><a href="https://docs.microsoft.com/dotnet/">Documentation .NET
+8</a></li>
+<li><a href="https://react.dev/">Documentation React</a></li>
+<li><a href="https://docs.microsoft.com/ef/">Documentation Entity
+Framework Core</a></li>
+<li><a href="https://jwt.io/">Documentation JWT</a></li>
+</ul>
+<p>Cette stack technologique moderne et robuste permet de creer des
+applications web performantes et maintenables. La separation claire
+entre frontend et backend, l’utilisation de TypeScript pour la securite
+des types, et l’architecture RESTful facilitent le developpement et la
+maintenance du projet.</p>
+<hr />
+<p><em>Documentation generee le $(Get-Date) - Projet Karima
+v1.0</em></p>
