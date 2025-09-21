@@ -1,13 +1,11 @@
 import { useState } from 'react'
-import ContentManagement from './ContentManagement'
-import MediaManagement from './MediaManagement'
+import VisualEditor from './VisualEditor'
 
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState<'content' | 'media'>('content')
+  const [activeTab, setActiveTab] = useState<'visual'>('visual')
 
   const tabs = [
-    { id: 'content', label: 'Contenu Services', icon: '📝' },
-    { id: 'media', label: 'Médias', icon: '🖼️' }
+    { id: 'visual', label: 'Éditeur Visuel', icon: '🎨' }
   ] as const
 
   return (
@@ -45,8 +43,7 @@ const AdminDashboard = () => {
 
       {/* Contenu des onglets */}
       <div>
-        {activeTab === 'content' && <ContentManagement />}
-        {activeTab === 'media' && <MediaManagement />}
+        {activeTab === 'visual' && <VisualEditor />}
       </div>
     </div>
   )

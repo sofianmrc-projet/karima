@@ -50,4 +50,23 @@ public class PublicController : ControllerBase
 
         return mediaFiles;
     }
+
+    [HttpPut("service-content/{key}")]
+    public async Task<IActionResult> UpdateServiceContent(string key, [FromBody] string content)
+    {
+        var serviceContent = await _context.ServiceContents
+            .FirstOrDefaultAsync(sc => sc.Key == key);
+
+        if (serviceContent == null)
+        {
+            return NotFound();
+        }
+
+        serviceContent.Content = content;
+        serviceContent.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
 }

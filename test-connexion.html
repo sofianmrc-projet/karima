@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test de connexion API</title>
+</head>
+<body>
+    <h1>Test de connexion API Karima</h1>
+    <button onclick="testAPI()">Tester l'API</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Test en cours...';
+            
+            try {
+                // Test 1: API directe
+                console.log('Test 1: API directe sur localhost:5000');
+                const response1 = await fetch('http://localhost:5000/api/Public/service-content');
+                if (response1.ok) {
+                    const data1 = await response1.json();
+                    resultDiv.innerHTML += '<br>✅ API directe (localhost:5000): OK - ' + Object.keys(data1).length + ' éléments';
+                } else {
+                    resultDiv.innerHTML += '<br>❌ API directe (localhost:5000): Erreur ' + response1.status;
+                }
+            } catch (error) {
+                resultDiv.innerHTML += '<br>❌ API directe (localhost:5000): ' + error.message;
+            }
+
+            try {
+                // Test 2: Via proxy Vite
+                console.log('Test 2: Via proxy Vite');
+                const response2 = await fetch('/api/Public/service-content');
+                if (response2.ok) {
+                    const data2 = await response2.json();
+                    resultDiv.innerHTML += '<br>✅ Via proxy Vite: OK - ' + Object.keys(data2).length + ' éléments';
+                } else {
+                    resultDiv.innerHTML += '<br>❌ Via proxy Vite: Erreur ' + response2.status;
+                }
+            } catch (error) {
+                resultDiv.innerHTML += '<br>❌ Via proxy Vite: ' + error.message;
+            }
+
+            try {
+                // Test 3: Test de sauvegarde
+                console.log('Test 3: Test de sauvegarde');
+                const response3 = await fetch('/api/Public/service-content/hero_title', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify('Test de sauvegarde')
+                });
+                if (response3.ok) {
+                    resultDiv.innerHTML += '<br>✅ Test de sauvegarde: OK';
+                } else {
+                    resultDiv.innerHTML += '<br>❌ Test de sauvegarde: Erreur ' + response3.status;
+                }
+            } catch (error) {
+                resultDiv.innerHTML += '<br>❌ Test de sauvegarde: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

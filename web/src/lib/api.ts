@@ -16,6 +16,10 @@ export interface ContactResponse {
   message: string;
 }
 
+export interface ServiceContent {
+  [key: string]: string;
+}
+
 // API Base URL
 const API_BASE_URL = '/api';
 
@@ -73,6 +77,15 @@ export const api = {
     });
     if (!response.ok) {
       throw new Error('Failed to submit contact');
+    }
+    return response.json();
+  },
+
+  // Public Service Content
+  async getServiceContent(): Promise<ServiceContent> {
+    const response = await fetch(`${API_BASE_URL}/Public/service-content`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch service content');
     }
     return response.json();
   },

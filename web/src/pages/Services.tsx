@@ -1,7 +1,30 @@
 import { Users, Award, Clock, Target, BarChart3, Shield } from 'lucide-react'
+import { useState, useEffect } from 'react'
 import ServiceCard from '../components/ServiceCard'
+import MediaGallery from '../components/MediaGallery'
+import { api, ServiceContent } from '../lib/api'
 
 const Services = () => {
+  const [serviceContent, setServiceContent] = useState<ServiceContent>({})
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const content = await api.getServiceContent()
+        setServiceContent(content)
+      } catch (err) {
+        setError('Erreur lors du chargement du contenu')
+        console.error('Error fetching service content:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchContent()
+  }, [])
+
   const services = [
     {
       icon: Users,
@@ -106,6 +129,22 @@ const Services = () => {
     }
   ]
 
+  if (loading) {
+    return (
+      <div className="container section text-center">
+        <p>Chargement du contenu...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="container section text-center">
+        <p className="text-error">{error}</p>
+      </div>
+    )
+  }
+
   return (
     <div>
       {/* Hero Section */}
@@ -121,7 +160,7 @@ const Services = () => {
             marginBottom: 'var(--space-lg)',
             fontWeight: '700'
           }}>
-            Nos Services
+            {serviceContent.hero_title || 'Nos Services'}
           </h1>
           <p style={{ 
             fontSize: '1.25rem', 
@@ -130,8 +169,7 @@ const Services = () => {
             maxWidth: '600px',
             margin: '0 auto var(--space-2xl)'
           }}>
-            Des solutions complètes et personnalisées pour répondre à tous vos besoins professionnels 
-            et vous accompagner vers l'excellence.
+            {serviceContent.hero_description || 'Des solutions complètes et personnalisées pour répondre à tous vos besoins professionnels et vous accompagner vers l\'excellence.'}
           </p>
         </div>
       </section>
@@ -140,21 +178,32 @@ const Services = () => {
       <section className="section">
         <div className="container">
           <div className="text-center" style={{ marginBottom: 'var(--space-3xl)' }}>
-            <h2>Nos domaines d'expertise</h2>
+            <h2>{serviceContent.services_section_title || 'Nos domaines d\'expertise'}</h2>
             <p style={{ 
               fontSize: '1.125rem', 
               color: 'var(--text-secondary)',
               maxWidth: '600px',
               margin: '0 auto'
             }}>
-              Chaque service est conçu pour vous apporter une valeur ajoutée réelle 
-              et mesurable dans votre domaine d'activité.
+              {serviceContent.services_section_description || 'Chaque service est conçu pour vous apporter une valeur ajoutée réelle et mesurable dans votre domaine d\'activité.'}
             </p>
           </div>
           <div className="grid grid-3">
             {services.map((service, index) => (
               <ServiceCard key={index} {...service} />
             ))}
+          </div>
+          
+          {/* Galerie d'images des services */}
+          <div style={{ marginTop: 'var(--space-3xl)' }}>
+            <h3 style={{ textAlign: 'center', marginBottom: 'var(--space-xl)' }}>
+              Nos réalisations en images
+            </h3>
+            <MediaGallery 
+              category="services" 
+              columns={4} 
+              showDescription={true} 
+            />
           </div>
         </div>
       </section>
@@ -163,14 +212,14 @@ const Services = () => {
       <section className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
         <div className="container">
           <div className="text-center" style={{ marginBottom: 'var(--space-3xl)' }}>
-            <h2>Notre méthode de travail</h2>
+            <h2>{serviceContent.process_section_title || 'Notre méthode de travail'}</h2>
             <p style={{ 
               fontSize: '1.125rem', 
               color: 'var(--text-secondary)',
               maxWidth: '600px',
               margin: '0 auto'
             }}>
-              Une approche structurée et éprouvée pour garantir le succès de vos projets.
+              {serviceContent.process_section_description || 'Une approche structurée et éprouvée pour garantir le succès de vos projets.'}
             </p>
           </div>
           <div className="grid grid-2">
@@ -226,7 +275,7 @@ const Services = () => {
             textAlign: 'center'
           }}>
             <h2 style={{ color: 'white', marginBottom: 'var(--space-lg)' }}>
-              Prêt à transformer votre organisation ?
+              {serviceContent.cta_title || 'Prêt à transformer votre organisation ?'}
             </h2>
             <p style={{ 
               opacity: 0.9, 
@@ -235,8 +284,7 @@ const Services = () => {
               maxWidth: '600px',
               margin: '0 auto var(--space-xl)'
             }}>
-              Contactez-nous dès aujourd'hui pour discuter de vos besoins 
-              et découvrir comment nos services peuvent vous aider à atteindre vos objectifs.
+              {serviceContent.cta_description || 'Contactez-nous dès aujourd\'hui pour discuter de vos besoins et découvrir comment nos services peuvent vous aider à atteindre vos objectifs.'}
             </p>
             <div style={{ display: 'flex', gap: 'var(--space-lg)', justifyContent: 'center', flexWrap: 'wrap' }}>
               <a href="/contact" className="btn btn-accent" style={{ textDecoration: 'none' }}>
