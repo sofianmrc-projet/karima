@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { api } from '../lib/api';
 import SyncManager from './SyncManager';
+import SitePreview from './SitePreview';
 
 interface SectionElement {
   id: string;
@@ -23,6 +24,7 @@ const VisualEditor = ({ onSave, onImageSelect }: VisualEditorProps) => {
   const [loading, setLoading] = useState(true);
   const [editingElement, setEditingElement] = useState<SectionElement | null>(null);
   const [showImageSelector, setShowImageSelector] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'editor' | 'preview'>('editor');
 
   // Configuration des sections du site
   const siteSections = [
@@ -470,6 +472,20 @@ const VisualEditor = ({ onSave, onImageSelect }: VisualEditorProps) => {
     );
   }
 
+  // Convertir les éléments en contenu pour la prévisualisation
+  const getContentForPreview = () => {
+    const content: { [key: string]: string } = {};
+    elements.forEach(element => {
+      if (element.type === 'image') {
+        content[element.id] = element.imageUrl || '';
+        content[`${element.id}_url`] = element.imageUrl || '';
+      } else {
+        content[element.id] = element.value;
+      }
+    });
+    return content;
+  };
+
   return (
     <div className="visual-editor">
       <SyncManager 
@@ -478,7 +494,54 @@ const VisualEditor = ({ onSave, onImageSelect }: VisualEditorProps) => {
         onImport={importContent}
       />
       
-      <div style={{ marginBottom: 'var(--space-xl)' }}>
+      {/* Navigation par onglets */}
+      <div style={{
+        display: 'flex',
+        borderBottom: '2px solid var(--border-color)',
+        marginBottom: 'var(--space-2xl)'
+      }}>
+        <button
+          onClick={() => setActiveTab('editor')}
+          style={{
+            padding: 'var(--space-lg) var(--space-xl)',
+            border: 'none',
+            backgroundColor: activeTab === 'editor' ? 'var(--primary)' : 'transparent',
+            color: activeTab === 'editor' ? 'white' : 'var(--text-secondary)',
+            fontWeight: activeTab === 'editor' ? '600' : '400',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-sm)',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          ✏️ Éditeur Visuel
+        </button>
+        <button
+          onClick={() => setActiveTab('preview')}
+          style={{
+            padding: 'var(--space-lg) var(--space-xl)',
+            border: 'none',
+            backgroundColor: activeTab === 'preview' ? 'var(--primary)' : 'transparent',
+            color: activeTab === 'preview' ? 'white' : 'var(--text-secondary)',
+            fontWeight: activeTab === 'preview' ? '600' : '400',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-sm)',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          👁️ Prévisualisation du Site
+        </button>
+      </div>
+
+      {/* Contenu des onglets */}
+      {activeTab === 'editor' && (
+        <div>
+          <div style={{ marginBottom: 'var(--space-xl)' }}>
         <div style={{ 
           display: 'flex', 
           justifyContent: 'space-between', 
@@ -644,6 +707,22 @@ const VisualEditor = ({ onSave, onImageSelect }: VisualEditorProps) => {
           </div>
         </div>
       ))}
+        </div>
+      )}
+
+      {/* Onglet Prévisualisation */}
+      {activeTab === 'preview' && (
+        <SitePreview 
+          content={getContentForPreview()}
+          onEdit={(elementId) => {
+            setActiveTab('editor');
+            const element = elements.find(el => el.id === elementId);
+            if (element) {
+              handleEdit(element);
+            }
+          }}
+        />
+      )}
 
       {/* Modal d'édition */}
       {editingElement && (
