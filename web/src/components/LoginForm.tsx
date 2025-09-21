@@ -123,7 +123,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
       }}>
         <strong>Compte de démonstration :</strong><br />
         Email: admin@karima.com<br />
-        Mot de passe: admin123
+        Mot de passe:  adminkarima81
       </div>
     </div>
   )
