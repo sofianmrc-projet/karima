@@ -180,7 +180,52 @@ public class AppDbContext : DbContext
             new ServiceContent { Id = 44, Key = "footer_company_name", Content = "Karima", Description = "Nom de l'entreprise dans le footer", CreatedAt = seedDate, UpdatedAt = seedDate },
             new ServiceContent { Id = 45, Key = "footer_description", Content = "Votre partenaire de confiance pour tous vos projets", Description = "Description dans le footer", CreatedAt = seedDate, UpdatedAt = seedDate },
             new ServiceContent { Id = 46, Key = "footer_copyright", Content = "© 2025 Karima. Tous droits réservés.", Description = "Copyright dans le footer", CreatedAt = seedDate, UpdatedAt = seedDate },
-            new ServiceContent { Id = 47, Key = "footer_links_title", Content = "Mentions légales | Politique de confidentialité", Description = "Liens dans le footer", CreatedAt = seedDate, UpdatedAt = seedDate }
+            new ServiceContent { Id = 47, Key = "footer_links_title", Content = "Mentions légales | Politique de confidentialité", Description = "Liens dans le footer", CreatedAt = seedDate, UpdatedAt = seedDate },
+
+            // SERVICES DÉTAILLÉS
+            new ServiceContent { Id = 48, Key = "service_1_title", Content = "Consulting Stratégique", Description = "Titre du premier service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 49, Key = "service_1_description", Content = "Accompagnement personnalisé pour optimiser vos processus et améliorer vos performances organisationnelles.", Description = "Description du premier service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 50, Key = "service_1_features", Content = "Audit complet de vos processus actuels|Analyse des points d'amélioration|Recommandations personnalisées et détaillées|Plan d'action avec échéancier précis|Suivi et accompagnement dans la mise en œuvre|Formation des équipes aux nouvelles pratiques", Description = "Fonctionnalités du premier service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            
+            new ServiceContent { Id = 51, Key = "service_2_title", Content = "Formation Professionnelle", Description = "Titre du deuxième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 52, Key = "service_2_description", Content = "Formations sur mesure pour développer les compétences de vos équipes et améliorer leur performance.", Description = "Description du deuxième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 53, Key = "service_2_features", Content = "Programmes adaptés à vos besoins spécifiques|Formateurs experts certifiés dans leur domaine|Méthodes pédagogiques innovantes et interactives|Certification professionnelle à la clé|Support post-formation et ressources en ligne|Évaluation continue des acquis", Description = "Fonctionnalités du deuxième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            
+            new ServiceContent { Id = 54, Key = "service_3_title", Content = "Accompagnement Continu", Description = "Titre du troisième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 55, Key = "service_3_description", Content = "Support permanent pour assurer la réussite de vos projets et transformations organisationnelles.", Description = "Description du troisième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 56, Key = "service_3_features", Content = "Suivi régulier et personnalisé des projets|Support technique et méthodologique permanent|Ajustements en temps réel selon les besoins|Rapports de progression détaillés|Intervention rapide en cas de difficultés|Optimisation continue des processus", Description = "Fonctionnalités du troisième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            
+            new ServiceContent { Id = 57, Key = "service_4_title", Content = "Audit et Diagnostic", Description = "Titre du quatrième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 58, Key = "service_4_description", Content = "Analyse approfondie de votre organisation pour identifier les opportunités d'amélioration.", Description = "Description du quatrième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 59, Key = "service_4_features", Content = "Audit complet de l'organisation|Diagnostic des forces et faiblesses|Benchmarking avec les meilleures pratiques|Recommandations prioritaires et chiffrées|Plan de transformation détaillé|Indicateurs de performance personnalisés", Description = "Fonctionnalités du quatrième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            
+            new ServiceContent { Id = 60, Key = "service_5_title", Content = "Optimisation des Processus", Description = "Titre du cinquième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 61, Key = "service_5_description", Content = "Amélioration continue de vos processus métier pour maximiser l'efficacité et la qualité.", Description = "Description du cinquième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 62, Key = "service_5_features", Content = "Cartographie des processus existants|Identification des goulots d'étranglement|Redesign des processus optimisés|Mise en place d'outils de mesure|Formation des équipes aux nouveaux processus|Suivi et amélioration continue", Description = "Fonctionnalités du cinquième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            
+            new ServiceContent { Id = 63, Key = "service_6_title", Content = "Conformité et Qualité", Description = "Titre du sixième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 64, Key = "service_6_description", Content = "Accompagnement pour la mise en conformité et l'amélioration de la qualité de vos services.", Description = "Description du sixième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 65, Key = "service_6_features", Content = "Audit de conformité réglementaire|Mise en place de systèmes qualité|Formation aux normes et standards|Préparation aux certifications|Suivi et maintenance de la conformité|Amélioration continue de la qualité", Description = "Fonctionnalités du sixième service", CreatedAt = seedDate, UpdatedAt = seedDate },
+
+            // PROCESSUS DE TRAVAIL
+            new ServiceContent { Id = 66, Key = "process_step_1_number", Content = "01", Description = "Numéro de la première étape", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 67, Key = "process_step_1_title", Content = "Analyse", Description = "Titre de la première étape", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 68, Key = "process_step_1_description", Content = "Nous analysons vos besoins et votre situation actuelle pour comprendre vos enjeux.", Description = "Description de la première étape", CreatedAt = seedDate, UpdatedAt = seedDate },
+            
+            new ServiceContent { Id = 69, Key = "process_step_2_number", Content = "02", Description = "Numéro de la deuxième étape", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 70, Key = "process_step_2_title", Content = "Proposition", Description = "Titre de la deuxième étape", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 71, Key = "process_step_2_description", Content = "Nous vous proposons une solution personnalisée adaptée à vos objectifs.", Description = "Description de la deuxième étape", CreatedAt = seedDate, UpdatedAt = seedDate },
+            
+            new ServiceContent { Id = 72, Key = "process_step_3_number", Content = "03", Description = "Numéro de la troisième étape", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 73, Key = "process_step_3_title", Content = "Mise en œuvre", Description = "Titre de la troisième étape", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 74, Key = "process_step_3_description", Content = "Nous accompagnons la mise en œuvre avec un suivi rigoureux et des ajustements.", Description = "Description de la troisième étape", CreatedAt = seedDate, UpdatedAt = seedDate },
+            
+            new ServiceContent { Id = 75, Key = "process_step_4_number", Content = "04", Description = "Numéro de la quatrième étape", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 76, Key = "process_step_4_title", Content = "Suivi", Description = "Titre de la quatrième étape", CreatedAt = seedDate, UpdatedAt = seedDate },
+            new ServiceContent { Id = 77, Key = "process_step_4_description", Content = "Nous assurons un suivi continu pour garantir les résultats et l'amélioration.", Description = "Description de la quatrième étape", CreatedAt = seedDate, UpdatedAt = seedDate },
+
+            // GALERIE D'IMAGES
+            new ServiceContent { Id = 78, Key = "gallery_title", Content = "Nos réalisations en images", Description = "Titre de la galerie d'images", CreatedAt = seedDate, UpdatedAt = seedDate }
         );
     }
 

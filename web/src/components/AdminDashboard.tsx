@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import VisualEditor from './VisualEditor'
+import { Link } from 'react-router-dom'
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState<'visual'>('visual')
 
   const tabs = [
-    { id: 'visual', label: 'Éditeur Visuel', icon: '🎨' }
+    { id: 'visual', label: 'Éditeur Visuel', icon: '🎨' },
+    { id: 'content', label: 'Gestion du Contenu', icon: '📝' }
   ] as const
 
   return (
@@ -41,10 +43,31 @@ const AdminDashboard = () => {
         ))}
       </div>
 
-      {/* Contenu des onglets */}
-      <div>
-        {activeTab === 'visual' && <VisualEditor />}
-      </div>
+          {/* Contenu des onglets */}
+          <div>
+            {activeTab === 'visual' && <VisualEditor />}
+            {activeTab === 'content' && (
+              <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+                <h3 style={{ marginBottom: 'var(--space-lg)' }}>
+                  📝 Gestion du Contenu
+                </h3>
+                <p style={{ 
+                  color: 'var(--text-secondary)', 
+                  marginBottom: 'var(--space-xl)',
+                  fontSize: '1.125rem'
+                }}>
+                  Modifiez le contenu de chaque section de votre site de manière organisée.
+                </p>
+                <Link 
+                  to="/admin/content" 
+                  className="btn btn-primary"
+                  style={{ textDecoration: 'none', fontSize: '1.125rem' }}
+                >
+                  🚀 Ouvrir la Gestion du Contenu
+                </Link>
+              </div>
+            )}
+          </div>
     </div>
   )
 }

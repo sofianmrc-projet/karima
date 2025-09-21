@@ -7,6 +7,7 @@ import About from './pages/About'
 import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
 import Account from './pages/Account'
+import AdminContent from './pages/AdminContent'
 
 function App() {
   return (
@@ -17,10 +18,11 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:id" element={<BlogPost />} />
-            <Route path="/account" element={<Account />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:id" element={<BlogPost />} />
+                <Route path="/account" element={<Account />} />
+                <Route path="/admin/content" element={<AdminContent />} />
           </Routes>
         </main>
         <Footer />
