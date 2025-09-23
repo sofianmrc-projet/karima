@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { authService, User } from '../lib/auth'
 import LoginForm from '../components/LoginForm'
-import AdminDashboard from '../components/AdminDashboard'
+import DashboardAdmin from '../components/DashboardAdmin'
 
 const Account = () => {
   const [user, setUser] = useState<User | null>(null)
@@ -97,7 +97,14 @@ const Account = () => {
           </div>
         </div>
         
-        <AdminDashboard />
+        {user.isAdmin ? (
+          <DashboardAdmin />
+        ) : (
+          <div className="card" style={{ padding: 'var(--space-2xl)', textAlign: 'center' }}>
+            <h2>Accès restreint</h2>
+            <p>Vous n'avez pas les permissions nécessaires pour accéder à cette section.</p>
+          </div>
+        )}
       </div>
     </div>
   )

@@ -4,6 +4,7 @@ using Karima.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Karima.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250923013425_AddSections")]
+    partial class AddSections
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +55,7 @@ namespace Karima.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContactRequests", (string)null);
+                    b.ToTable("ContactRequests");
                 });
 
             modelBuilder.Entity("Karima.Api.Models.MediaFile", b =>
@@ -104,7 +107,7 @@ namespace Karima.Api.Migrations
 
                     b.HasIndex("CreatedByUserId");
 
-                    b.ToTable("MediaFiles", (string)null);
+                    b.ToTable("MediaFiles");
                 });
 
             modelBuilder.Entity("Karima.Api.Models.Section", b =>
@@ -171,7 +174,7 @@ namespace Karima.Api.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("Sections", (string)null);
+                    b.ToTable("Sections");
 
                     b.HasData(
                         new
@@ -464,7 +467,7 @@ namespace Karima.Api.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("ServiceContents", (string)null);
+                    b.ToTable("ServiceContents");
                 });
 
             modelBuilder.Entity("Karima.Api.Models.Todo", b =>
@@ -490,7 +493,7 @@ namespace Karima.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Todos", (string)null);
+                    b.ToTable("Todos");
                 });
 
             modelBuilder.Entity("Karima.Api.Models.User", b =>
@@ -537,7 +540,7 @@ namespace Karima.Api.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Karima.Api.Models.MediaFile", b =>

@@ -14,6 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<ServiceContent> ServiceContents { get; set; }
     public DbSet<MediaFile> MediaFiles { get; set; }
+    public DbSet<Section> Sections { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -96,8 +97,35 @@ public class AppDbContext : DbContext
                   .OnDelete(DeleteBehavior.Restrict);
         });
 
+        // Section
+        modelBuilder.Entity<Section>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Key).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Content).IsRequired();
+            entity.Property(e => e.Description).HasMaxLength(500);
+            entity.Property(e => e.ImageUrl).HasMaxLength(200);
+            entity.Property(e => e.AltText).HasMaxLength(200);
+            entity.Property(e => e.Category).HasMaxLength(100);
+            entity.Property(e => e.CreatedAt)
+                  .HasDefaultValueSql("GETUTCDATE()")
+                  .ValueGeneratedOnAdd();
+            entity.Property(e => e.UpdatedAt)
+                  .HasDefaultValueSql("GETUTCDATE()")
+                  .ValueGeneratedOnAddOrUpdate();
+            entity.HasIndex(e => e.Key).IsUnique();
+            
+            entity.HasOne(e => e.UpdatedByUser)
+                  .WithMany()
+                  .HasForeignKey(e => e.UpdatedByUserId)
+                  .OnDelete(DeleteBehavior.NoAction);
+        });
+
         // Données de démonstration : valeurs 100% statiques (pas de DateTime.Now/UtcNow)
         var seedDate = new DateTime(2025, 9, 11, 0, 0, 0, DateTimeKind.Utc);
+
+        // Utilisateur admin - créé manuellement via SQL pour éviter les conflits de migration
 
         modelBuilder.Entity<Todo>().HasData(
             new Todo { Id = 1, Title = "Créer la maquette du site Karima", Done = true, CreatedAt = seedDate },
@@ -106,21 +134,6 @@ public class AppDbContext : DbContext
             new Todo { Id = 4, Title = "Configurer la base de données", Done = false, CreatedAt = seedDate }
         );
 
-        // Utilisateur admin par défaut (mot de passe: admin)
-        modelBuilder.Entity<User>().HasData(
-            new User 
-            { 
-                Id = 1, 
-                Email = "admin@karima.com", 
-                PasswordHash = "admin", // Mot de passe simple pour les tests
-                FirstName = "Admin",
-                LastName = "Karima",
-                IsAdmin = true,
-                CreatedAt = seedDate
-            }
-        );
-
-        // Contenu par défaut pour tout le site
         modelBuilder.Entity<ServiceContent>().HasData(
             // PAGE D'ACCUEIL
             new ServiceContent { Id = 1, Key = "home_hero_title", Content = "Bienvenue chez Karima", Description = "Titre principal de la page d'accueil", CreatedAt = seedDate, UpdatedAt = seedDate },
@@ -225,6 +238,38 @@ public class AppDbContext : DbContext
 
             // GALERIE D'IMAGES
             new ServiceContent { Id = 78, Key = "gallery_title", Content = "Nos réalisations en images", Description = "Titre de la galerie d'images", CreatedAt = seedDate, UpdatedAt = seedDate }
+        );
+
+        // Sections du site
+        modelBuilder.Entity<Section>().HasData(
+            // PAGE D'ACCUEIL
+            new Section { Id = 1, Key = "home_hero", Title = "Section Hero - Accueil", Content = "Bienvenue chez Karima", Description = "Titre principal de la page d'accueil", Category = "Accueil", SortOrder = 1, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 2, Key = "home_hero_subtitle", Title = "Sous-titre Hero", Content = "Votre partenaire de confiance", Description = "Sous-titre de la page d'accueil", Category = "Accueil", SortOrder = 2, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 3, Key = "home_hero_description", Title = "Description Hero", Content = "Des solutions innovantes pour votre entreprise", Description = "Description principale de la page d'accueil", Category = "Accueil", SortOrder = 3, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 4, Key = "home_about", Title = "Section À propos", Content = "Une entreprise dédiée à votre succès", Description = "Section à propos sur l'accueil", Category = "Accueil", SortOrder = 4, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 5, Key = "home_stats", Title = "Statistiques", Content = "100+ Projets réalisés|50+ Clients satisfaits|5+ Années d'expérience", Description = "Statistiques de l'entreprise", Category = "Accueil", SortOrder = 5, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+
+            // PAGE SERVICES
+            new Section { Id = 6, Key = "services_hero", Title = "Hero Services", Content = "Nos Services", Description = "Titre principal de la page services", Category = "Services", SortOrder = 1, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 7, Key = "services_description", Title = "Description Services", Content = "Des solutions complètes et personnalisées pour répondre à tous vos besoins professionnels", Description = "Description de la page services", Category = "Services", SortOrder = 2, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 8, Key = "service_consulting", Title = "Consulting Stratégique", Content = "Accompagnement personnalisé pour optimiser vos processus et améliorer vos performances organisationnelles.", Description = "Premier service", Category = "Services", SortOrder = 3, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 9, Key = "service_formation", Title = "Formation Professionnelle", Content = "Formations sur mesure pour développer les compétences de vos équipes et améliorer leur performance.", Description = "Deuxième service", Category = "Services", SortOrder = 4, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 10, Key = "service_accompagnement", Title = "Accompagnement Continu", Content = "Support permanent pour assurer la réussite de vos projets et transformations organisationnelles.", Description = "Troisième service", Category = "Services", SortOrder = 5, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+
+            // PAGE À PROPOS
+            new Section { Id = 11, Key = "about_hero", Title = "Hero À propos", Content = "À propos de nous", Description = "Titre principal de la page à propos", Category = "À propos", SortOrder = 1, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 12, Key = "about_company", Title = "Notre entreprise", Content = "Une entreprise dédiée à l'excellence et à l'innovation", Description = "Section entreprise", Category = "À propos", SortOrder = 2, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 13, Key = "about_team", Title = "Notre équipe", Content = "Des professionnels passionnés et expérimentés", Description = "Section équipe", Category = "À propos", SortOrder = 3, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 14, Key = "about_values", Title = "Nos valeurs", Content = "Des valeurs qui nous guident au quotidien", Description = "Section valeurs", Category = "À propos", SortOrder = 4, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+
+            // PAGE CONTACT
+            new Section { Id = 15, Key = "contact_hero", Title = "Hero Contact", Content = "Contactez-nous", Description = "Titre principal de la page contact", Category = "Contact", SortOrder = 1, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 16, Key = "contact_info", Title = "Informations de contact", Content = "123 Rue de la Paix, 75001 Paris|+33 1 23 45 67 89|contact@karima.com|Lun-Ven: 9h-18h", Description = "Coordonnées de contact", Category = "Contact", SortOrder = 2, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+
+            // FOOTER
+            new Section { Id = 17, Key = "footer_company", Title = "Footer - Entreprise", Content = "Karima", Description = "Nom de l'entreprise dans le footer", Category = "Footer", SortOrder = 1, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 18, Key = "footer_description", Title = "Footer - Description", Content = "Votre partenaire de confiance pour tous vos projets", Description = "Description dans le footer", Category = "Footer", SortOrder = 2, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Section { Id = 19, Key = "footer_copyright", Title = "Footer - Copyright", Content = "© 2025 Karima. Tous droits réservés.", Description = "Copyright dans le footer", Category = "Footer", SortOrder = 3, IsActive = true, CreatedAt = seedDate, UpdatedAt = seedDate }
         );
     }
 

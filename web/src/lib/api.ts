@@ -20,6 +20,34 @@ export interface ServiceContent {
   [key: string]: string;
 }
 
+export interface Section {
+  id: number;
+  key: string;
+  title: string;
+  content: string;
+  description?: string;
+  imageUrl?: string;
+  altText?: string;
+  category?: string;
+  sortOrder: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  updatedByUserId?: number;
+}
+
+export interface SectionRequest {
+  key: string;
+  title: string;
+  content: string;
+  description?: string;
+  imageUrl?: string;
+  altText?: string;
+  category?: string;
+  sortOrder: number;
+  isActive: boolean;
+}
+
 // API Base URL
 const API_BASE_URL = 'http://localhost:5000/api';
 
@@ -89,5 +117,93 @@ export const api = {
     }
     return response.json();
   },
+
+  // ServiceContent Admin
+  async getServiceContents(): Promise<ServiceContent[]> {
+    const response = await fetch(`${API_BASE_URL}/servicecontent`, {
+      headers: {
+        'Authorization': `Bearer ${authService.getToken()}`
+      }
+    });
+    if (!response.ok) throw new Error('Failed to fetch service contents');
+    return response.json();
+  },
+
+  async updateServiceContent(id: number, content: string): Promise<ServiceContent> {
+    const response = await fetch(`${API_BASE_URL}/servicecontent/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authService.getToken()}`
+      },
+      body: JSON.stringify({ content })
+    });
+    if (!response.ok) throw new Error('Failed to update service content');
+    return response.json();
+  },
+
+  // Sections
+  async getSections(): Promise<Section[]> {
+    const response = await fetch(`${API_BASE_URL}/sections`);
+    if (!response.ok) throw new Error('Failed to fetch sections');
+    return response.json();
+  },
+
+  async getSectionsByCategory(category: string): Promise<Section[]> {
+    const response = await fetch(`${API_BASE_URL}/sections/by-category/${category}`);
+    if (!response.ok) throw new Error('Failed to fetch sections by category');
+    return response.json();
+  },
+
+  async getSection(key: string): Promise<Section> {
+    const response = await fetch(`${API_BASE_URL}/sections/${key}`);
+    if (!response.ok) throw new Error('Failed to fetch section');
+    return response.json();
+  },
+
+  async getSectionsForAdmin(): Promise<Section[]> {
+    const response = await fetch(`${API_BASE_URL}/sections/admin`, {
+      headers: {
+        'Authorization': `Bearer ${authService.getToken()}`
+      }
+    });
+    if (!response.ok) throw new Error('Failed to fetch sections for admin');
+    return response.json();
+  },
+
+  async createSection(section: SectionRequest): Promise<Section> {
+    const response = await fetch(`${API_BASE_URL}/sections/admin`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authService.getToken()}`
+      },
+      body: JSON.stringify(section)
+    });
+    if (!response.ok) throw new Error('Failed to create section');
+    return response.json();
+  },
+
+  async updateSection(id: number, section: SectionRequest): Promise<void> {
+    const response = await fetch(`${API_BASE_URL}/sections/admin/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authService.getToken()}`
+      },
+      body: JSON.stringify(section)
+    });
+    if (!response.ok) throw new Error('Failed to update section');
+  },
+
+  async deleteSection(id: number): Promise<void> {
+    const response = await fetch(`${API_BASE_URL}/sections/admin/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${authService.getToken()}`
+      }
+    });
+    if (!response.ok) throw new Error('Failed to delete section');
+  }
 };
 
