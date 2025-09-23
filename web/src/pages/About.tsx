@@ -21,61 +21,34 @@ const About = () => {
   if (error) {
     return (
       <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
-        <p style={{ color: 'var(--danger)' }}>Erreur lors du chargement: {error}</p>
+        <h1>À propos de Karima</h1>
+        <p style={{ color: 'var(--danger)', marginBottom: 'var(--space-lg)' }}>
+          Erreur lors du chargement: {error}
+        </p>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '1.125rem' }}>
+          Le contenu de cette page sera bientôt disponible. 
+          <br />
+          Veuillez revenir plus tard ou contacter l'administrateur.
+        </p>
       </div>
     )
   }
 
-  const values = [
-    {
-      icon: Target,
-      title: 'Excellence',
-      description: 'Nous nous engageons à fournir des services de la plus haute qualité, en dépassant constamment les attentes de nos clients.'
-    },
-    {
-      icon: Users,
-      title: 'Collaboration',
-      description: 'Nous croyons en la force du travail d\'équipe et en l\'importance de créer des partenariats durables avec nos clients.'
-    },
-    {
-      icon: Heart,
-      title: 'Passion',
-      description: 'Notre passion pour l\'excellence et l\'innovation nous pousse à toujours chercher les meilleures solutions pour nos clients.'
-    },
-    {
-      icon: Award,
-      title: 'Intégrité',
-      description: 'Nous agissons avec transparence, honnêteté et respect dans toutes nos interactions et décisions.'
-    }
-  ]
+  // Si aucune section n'est trouvée, afficher un message
+  if (sections.length === 0) {
+    return (
+      <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+        <h1>À propos de Karima</h1>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '1.125rem' }}>
+          Le contenu de cette page sera bientôt disponible. 
+          <br />
+          Veuillez revenir plus tard ou contacter l'administrateur.
+        </p>
+      </div>
+    )
+  }
 
-  const team = [
-    {
-      name: 'Marie Dubois',
-      role: 'Directrice Générale',
-      description: '15 ans d\'expérience dans le conseil stratégique et la transformation organisationnelle.',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face'
-    },
-    {
-      name: 'Jean Martin',
-      role: 'Directeur Technique',
-      description: 'Expert en optimisation des processus et en mise en œuvre de solutions technologiques.',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face'
-    },
-    {
-      name: 'Sophie Laurent',
-      role: 'Responsable Formation',
-      description: 'Spécialiste en développement des compétences et en pédagogie innovante.',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face'
-    }
-  ]
-
-  const achievements = [
-    { number: '500+', label: 'Clients accompagnés' },
-    { number: '10+', label: 'Années d\'expérience' },
-    { number: '50+', label: 'Projets réalisés' },
-    { number: '98%', label: 'Taux de satisfaction' }
-  ]
+  // Données statiques supprimées - tout provient maintenant de la base de données
 
   return (
     <div>
@@ -131,7 +104,7 @@ const About = () => {
                 {getSectionContent('about_story_2') || 'Nous croyons que chaque organisation a un potentiel unique à révéler. Notre mission est de vous accompagner dans cette révélation en combinant expertise technique, approche humaine et innovation constante.'}
               </p>
               <div style={{ display: 'flex', gap: 'var(--space-lg)', flexWrap: 'wrap' }}>
-                {achievements.map((achievement, index) => (
+                {sections.filter(s => s.key.includes('achievement')).map((section, index) => (
                   <div key={index} style={{ textAlign: 'center' }}>
                     <div style={{
                       fontSize: '2rem',
@@ -139,13 +112,13 @@ const About = () => {
                       color: 'var(--primary)',
                       marginBottom: 'var(--space-xs)'
                     }}>
-                      {achievement.number}
+                      {section.title}
                     </div>
                     <div style={{
                       color: 'var(--text-secondary)',
                       fontSize: '0.875rem'
                     }}>
-                      {achievement.label}
+                      {section.content}
                     </div>
                   </div>
                 ))}
@@ -195,12 +168,11 @@ const About = () => {
               maxWidth: '600px',
               margin: '0 auto'
             }}>
-              Ces valeurs fondamentales guident chacune de nos actions 
-              et définissent notre approche du conseil.
+              {getSectionContent('about_values_description') || 'Ces valeurs fondamentales guident chacune de nos actions et définissent notre approche du conseil.'}
             </p>
           </div>
           <div className="grid grid-2">
-            {values.map((value, index) => (
+            {sections.filter(s => s.key.includes('value')).map((section, index) => (
               <div key={index} className="card" style={{ 
                 display: 'flex', 
                 alignItems: 'flex-start',
@@ -217,20 +189,20 @@ const About = () => {
                   color: 'white',
                   flexShrink: 0
                 }}>
-                  <value.icon size={24} />
+                  <Target size={24} />
                 </div>
                 <div>
                   <h3 style={{ 
                     marginBottom: 'var(--space-md)',
                     color: 'var(--primary)'
                   }}>
-                    {value.title}
+                    {section.title}
                   </h3>
                   <p style={{ 
                     color: 'var(--text-secondary)',
                     lineHeight: 1.6
                   }}>
-                    {value.description}
+                    {section.content}
                   </p>
                 </div>
               </div>
@@ -250,42 +222,47 @@ const About = () => {
               maxWidth: '600px',
               margin: '0 auto'
             }}>
-              Des experts passionnés et expérimentés, unis par la volonté 
-              de vous accompagner vers l'excellence.
+              {getSectionContent('about_team_description') || 'Des experts passionnés et expérimentés, unis par la volonté de vous accompagner vers l\'excellence.'}
             </p>
           </div>
           <div className="grid grid-3">
-            {team.map((member, index) => (
+            {sections.filter(s => s.key.includes('team')).map((section, index) => (
               <div key={index} className="card" style={{ textAlign: 'center' }}>
                 <div style={{
                   width: '120px',
                   height: '120px',
                   borderRadius: '50%',
-                  backgroundImage: `url(${member.image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
+                  backgroundColor: 'var(--primary)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '2rem',
+                  fontWeight: '700',
                   margin: '0 auto var(--space-lg)',
                   border: '4px solid var(--primary)'
-                }} />
+                }}>
+                  {section.title.charAt(0)}
+                </div>
                 <h3 style={{ 
                   marginBottom: 'var(--space-sm)',
                   color: 'var(--primary)'
                 }}>
-                  {member.name}
+                  {section.title}
                 </h3>
                 <div style={{
                   color: 'var(--accent)',
                   fontWeight: '600',
                   marginBottom: 'var(--space-md)'
                 }}>
-                  {member.role}
+                  {getSectionContent('team_role_' + (index + 1)) || 'Membre de l\'équipe'}
                 </div>
                 <p style={{ 
                   color: 'var(--text-secondary)',
                   fontSize: '0.95rem',
                   lineHeight: 1.5
                 }}>
-                  {member.description}
+                  {section.content}
                 </p>
               </div>
             ))}

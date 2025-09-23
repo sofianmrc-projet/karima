@@ -87,54 +87,24 @@ const Home = () => {
             gap: 'var(--space-xl)',
             textAlign: 'center'
           }}>
-            <div>
-              <div style={{
-                fontSize: '2.5rem',
-                fontWeight: '700',
-                color: 'var(--primary)',
-                marginBottom: 'var(--space-sm)'
-              }}>
-                100+
+            {sections.filter(s => s.key.includes('stat')).map((section, index) => (
+              <div key={index}>
+                <div style={{
+                  fontSize: '2.5rem',
+                  fontWeight: '700',
+                  color: 'var(--primary)',
+                  marginBottom: 'var(--space-sm)'
+                }}>
+                  {section.title}
+                </div>
+                <div style={{
+                  color: 'var(--text-secondary)',
+                  fontWeight: '500'
+                }}>
+                  {section.content}
+                </div>
               </div>
-              <div style={{
-                color: 'var(--text-secondary)',
-                fontWeight: '500'
-              }}>
-                Projets réalisés
-              </div>
-            </div>
-            <div>
-              <div style={{
-                fontSize: '2.5rem',
-                fontWeight: '700',
-                color: 'var(--primary)',
-                marginBottom: 'var(--space-sm)'
-              }}>
-                50+
-              </div>
-              <div style={{
-                color: 'var(--text-secondary)',
-                fontWeight: '500'
-              }}>
-                Clients satisfaits
-              </div>
-            </div>
-            <div>
-              <div style={{
-                fontSize: '2.5rem',
-                fontWeight: '700',
-                color: 'var(--primary)',
-                marginBottom: 'var(--space-sm)'
-              }}>
-                5+
-              </div>
-              <div style={{
-                color: 'var(--text-secondary)',
-                fontWeight: '500'
-              }}>
-                Années d'expérience
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -154,28 +124,15 @@ const Home = () => {
             </p>
           </div>
           <div className="grid grid-3">
-            {/* Services statiques pour l'instant - seront remplacés par des sections dynamiques */}
-            <div className="card">
-              <div style={{ textAlign: 'center', padding: 'var(--space-xl)' }}>
-                <Users size={48} style={{ color: 'var(--primary)', marginBottom: 'var(--space-lg)' }} />
-                <h3>Consulting</h3>
-                <p>Accompagnement personnalisé pour optimiser vos processus et améliorer vos performances.</p>
+            {sections.filter(s => s.key.includes('service')).slice(0, 3).map((section, index) => (
+              <div key={index} className="card">
+                <div style={{ textAlign: 'center', padding: 'var(--space-xl)' }}>
+                  <Users size={48} style={{ color: 'var(--primary)', marginBottom: 'var(--space-lg)' }} />
+                  <h3>{section.title}</h3>
+                  <p>{section.content}</p>
+                </div>
               </div>
-            </div>
-            <div className="card">
-              <div style={{ textAlign: 'center', padding: 'var(--space-xl)' }}>
-                <Award size={48} style={{ color: 'var(--primary)', marginBottom: 'var(--space-lg)' }} />
-                <h3>Formation</h3>
-                <p>Formations sur mesure pour développer les compétences de vos équipes.</p>
-              </div>
-            </div>
-            <div className="card">
-              <div style={{ textAlign: 'center', padding: 'var(--space-xl)' }}>
-                <Clock size={48} style={{ color: 'var(--primary)', marginBottom: 'var(--space-lg)' }} />
-                <h3>Accompagnement</h3>
-                <p>Support continu pour assurer la réussite de vos projets et transformations.</p>
-              </div>
-            </div>
+            ))}
           </div>
           <div className="text-center" style={{ marginTop: 'var(--space-2xl)' }}>
             <Link to="/services" className="btn btn-primary" style={{ textDecoration: 'none' }}>

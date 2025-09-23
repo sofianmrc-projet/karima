@@ -4,6 +4,7 @@ import Footer from './components/Footer'
 import Home from './pages/Home'
 import Services from './pages/Services'
 import About from './pages/About'
+import ApiTest from './pages/ApiTest'
 import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
 import Account from './pages/Account'
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/api-test" element={<ApiTest />} />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:id" element={<BlogPost />} />
                 <Route path="/account" element={<Account />} />

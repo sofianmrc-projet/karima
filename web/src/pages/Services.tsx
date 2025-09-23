@@ -12,83 +12,7 @@ const Services = () => {
     return section?.content || ''
   }
 
-  // Services statiques pour l'instant (seront remplacés par des sections dynamiques)
-  const services = [
-    {
-      icon: Users,
-      title: 'Consulting',
-      description: 'Accompagnement personnalisé pour optimiser vos processus et améliorer vos performances.',
-      features: [
-        'Audit de vos processus actuels',
-        'Recommandations personnalisées',
-        'Plan d\'action détaillé',
-        'Suivi et accompagnement'
-      ]
-    },
-    {
-      icon: Award,
-      title: 'Formation',
-      description: 'Formations sur mesure pour développer les compétences de vos équipes.',
-      features: [
-        'Programmes adaptés à vos besoins',
-        'Formateurs experts certifiés',
-        'Méthodes pédagogiques innovantes',
-        'Certification à la clé'
-      ]
-    },
-    {
-      icon: Clock,
-      title: 'Accompagnement',
-      description: 'Support continu pour assurer la réussite de vos projets et transformations.',
-      features: [
-        'Suivi régulier des projets',
-        'Support technique permanent',
-        'Ajustements en temps réel',
-        'Rapports de progression'
-      ]
-    },
-    {
-      icon: Target,
-      title: 'Stratégie',
-      description: 'Définition et mise en œuvre de stratégies gagnantes pour votre entreprise.',
-      features: [
-        'Analyse de marché approfondie',
-        'Définition d\'objectifs clairs',
-        'Plan d\'action stratégique',
-        'Suivi des performances'
-      ]
-    },
-    {
-      icon: BarChart3,
-      title: 'Analytics',
-      description: 'Analyse de données pour optimiser vos performances et prendre de meilleures décisions.',
-      features: [
-        'Collecte et traitement des données',
-        'Tableaux de bord personnalisés',
-        'Rapports détaillés',
-        'Recommandations basées sur les données'
-      ]
-    },
-    {
-      icon: Shield,
-      title: 'Sécurité',
-      description: 'Protection de vos données et systèmes avec les meilleures pratiques de sécurité.',
-      features: [
-        'Audit de sécurité complet',
-        'Mise en place de protocoles',
-        'Formation des équipes',
-        'Monitoring continu'
-      ]
-    }
-  ];
-
-  // Processus statique pour l'instant
-  const processSteps = [
-    { step: '01', title: 'Analyse', description: 'Nous analysons vos besoins et votre situation actuelle' },
-    { step: '02', title: 'Stratégie', description: 'Nous définissons une stratégie personnalisée' },
-    { step: '03', title: 'Mise en œuvre', description: 'Nous mettons en place les solutions adaptées' },
-    { step: '04', title: 'Suivi', description: 'Nous assurons un suivi continu et des ajustements' }
-  ];
+  // Données statiques supprimées - tout provient maintenant de la base de données
 
   if (loading) {
     return (
@@ -150,8 +74,18 @@ const Services = () => {
             </p>
           </div>
           <div className="grid grid-3">
-            {services.map((service, index) => (
-              <ServiceCard key={index} {...service} />
+            {sections.filter(s => s.key.includes('service')).map((section, index) => (
+              <div key={index} className="card" style={{ 
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%'
+              }}>
+                <div style={{ textAlign: 'center', padding: 'var(--space-xl)' }}>
+                  <Users size={48} style={{ color: 'var(--primary)', marginBottom: 'var(--space-lg)' }} />
+                  <h3>{section.title}</h3>
+                  <p>{section.content}</p>
+                </div>
+              </div>
             ))}
           </div>
           
@@ -184,7 +118,7 @@ const Services = () => {
             </p>
           </div>
           <div className="grid grid-2">
-            {processSteps.map((step, index) => (
+            {sections.filter(s => s.key.includes('process')).map((section, index) => (
               <div key={index} className="card" style={{ 
                 display: 'flex', 
                 alignItems: 'flex-start',
@@ -203,20 +137,20 @@ const Services = () => {
                   fontWeight: '700',
                   flexShrink: 0
                 }}>
-                  {step.step}
+                  {(index + 1).toString().padStart(2, '0')}
                 </div>
                 <div>
                   <h3 style={{ 
                     marginBottom: 'var(--space-md)',
                     color: 'var(--primary)'
                   }}>
-                    {step.title}
+                    {section.title}
                   </h3>
                   <p style={{ 
                     color: 'var(--text-secondary)',
                     lineHeight: 1.6
                   }}>
-                    {step.description}
+                    {section.content}
                   </p>
                 </div>
               </div>

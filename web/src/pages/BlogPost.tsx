@@ -1,67 +1,35 @@
 import { useParams, Link } from 'react-router-dom'
 import { Calendar, User, ArrowRight, Clock, Share2, Heart } from 'lucide-react'
+import { useSections } from '../hooks/useSections'
 
 const BlogPost = () => {
   const { id } = useParams<{ id: string }>()
-  
-  // Mock data - in a real app, this would come from an API
-  const blogPosts = [
-    {
-      id: 1,
-      title: 'Les 5 clés du succès pour une transformation organisationnelle réussie',
-      content: `
-        <p>La transformation organisationnelle est un défi majeur pour de nombreuses entreprises. Pour garantir le succès de cette démarche, il est essentiel de respecter certaines clés fondamentales.</p>
-        
-        <h3>1. Vision claire et partagée</h3>
-        <p>La première étape consiste à définir une vision claire de l'état souhaité après la transformation. Cette vision doit être partagée par tous les acteurs de l'organisation et servir de boussole tout au long du processus.</p>
-        
-        <h3>2. Leadership engagé</h3>
-        <p>Le leadership doit être totalement engagé dans la transformation. Les dirigeants doivent montrer l'exemple et communiquer régulièrement sur les progrès et les défis rencontrés.</p>
-        
-        <h3>3. Communication transparente</h3>
-        <p>Une communication transparente et régulière est cruciale pour maintenir l'engagement des équipes. Il faut expliquer les raisons de la transformation, les bénéfices attendus et les étapes du processus.</p>
-        
-        <h3>4. Formation et accompagnement</h3>
-        <p>Les équipes doivent être formées et accompagnées tout au long de la transformation. Cela inclut la formation aux nouveaux outils, processus et méthodes de travail.</p>
-        
-        <h3>5. Mesure et ajustement</h3>
-        <p>Il est important de mettre en place des indicateurs de performance pour mesurer les progrès et ajuster la stratégie si nécessaire. La transformation est un processus itératif qui nécessite de la flexibilité.</p>
-        
-        <p>En respectant ces cinq clés, vous maximisez vos chances de réussir votre transformation organisationnelle et d'obtenir les résultats escomptés.</p>
-      `,
-      author: 'Marie Dubois',
-      date: '2024-01-15',
-      readTime: '5 min',
-      category: 'Transformation',
-      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop',
-      tags: ['Transformation', 'Leadership', 'Organisation', 'Management']
-    }
-  ]
+  const { sections, loading, error } = useSections('Blog')
 
-  const relatedPosts = [
-    {
-      id: 2,
-      title: 'Comment développer l\'intelligence collective dans vos équipes',
-      excerpt: 'L\'intelligence collective est un levier puissant pour améliorer la performance.',
-      author: 'Jean Martin',
-      date: '2024-01-10',
-      readTime: '7 min',
-      category: 'Management',
-      image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=300&h=200&fit=crop'
-    },
-    {
-      id: 3,
-      title: 'L\'importance de la formation continue en entreprise',
-      excerpt: 'Dans un monde en constante évolution, la formation continue devient cruciale.',
-      author: 'Sophie Laurent',
-      date: '2024-01-05',
-      readTime: '6 min',
-      category: 'Formation',
-      image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=300&h=200&fit=crop'
-    }
-  ]
+  // Fonction pour récupérer une section par sa clé
+  const getSectionContent = (key: string) => {
+    const section = sections.find(s => s.key === key)
+    return section?.content || ''
+  }
 
-  const post = blogPosts.find(p => p.id === parseInt(id || '0'))
+  // Trouver l'article par ID (utilise l'index + 1 comme ID)
+  const post = sections[parseInt(id || '0') - 1]
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+        <p>Chargement du contenu...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+        <p style={{ color: 'var(--danger)' }}>Erreur lors du chargement: {error}</p>
+      </div>
+    )
+  }
 
   if (!post) {
     return (
@@ -79,15 +47,6 @@ const BlogPost = () => {
     )
   }
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('fr-FR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
-
   return (
     <div>
       {/* Hero Section */}
@@ -98,18 +57,6 @@ const BlogPost = () => {
         textAlign: 'center'
       }}>
         <div className="container">
-          <div style={{
-            display: 'inline-block',
-            backgroundColor: 'var(--accent)',
-            color: 'var(--text-primary)',
-            padding: 'var(--space-xs) var(--space-md)',
-            borderRadius: 'var(--radius-lg)',
-            fontSize: '0.875rem',
-            fontWeight: '600',
-            marginBottom: 'var(--space-lg)'
-          }}>
-            {post.category}
-          </div>
           <h1 style={{ 
             fontSize: '2.5rem', 
             marginBottom: 'var(--space-lg)',
@@ -129,15 +76,19 @@ const BlogPost = () => {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
               <User size={20} />
-              {post.author}
+              {getSectionContent('blog_author') || 'Équipe Karima'}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
               <Calendar size={20} />
-              {formatDate(post.date)}
+              {new Date().toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
               <Clock size={20} />
-              {post.readTime}
+              {getSectionContent('blog_read_time') || '5 min'}
             </div>
           </div>
         </div>
@@ -150,16 +101,6 @@ const BlogPost = () => {
             maxWidth: '800px',
             margin: '0 auto'
           }}>
-            {/* Featured Image */}
-            <div style={{
-              backgroundImage: `url(${post.image})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              height: '400px',
-              borderRadius: 'var(--radius-lg)',
-              marginBottom: 'var(--space-2xl)'
-            }} />
-
             {/* Article Meta */}
             <div style={{
               display: 'flex',
@@ -172,21 +113,18 @@ const BlogPost = () => {
               gap: 'var(--space-md)'
             }}>
               <div style={{ display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
-                {post.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    style={{
-                      backgroundColor: 'var(--bg-tertiary)',
-                      color: 'var(--text-primary)',
-                      padding: 'var(--space-xs) var(--space-sm)',
-                      borderRadius: 'var(--radius-md)',
-                      fontSize: '0.875rem',
-                      fontWeight: '500'
-                    }}
-                  >
-                    #{tag}
-                  </span>
-                ))}
+                <span
+                  style={{
+                    backgroundColor: 'var(--bg-tertiary)',
+                    color: 'var(--text-primary)',
+                    padding: 'var(--space-xs) var(--space-sm)',
+                    borderRadius: 'var(--radius-md)',
+                    fontSize: '0.875rem',
+                    fontWeight: '500'
+                  }}
+                >
+                  #{post.key}
+                </span>
               </div>
               <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
                 <button
@@ -233,21 +171,20 @@ const BlogPost = () => {
                 fontWeight: '700',
                 flexShrink: 0
               }}>
-                {post.author.split(' ').map(n => n[0]).join('')}
+                {getSectionContent('blog_author_initials') || 'K'}
               </div>
               <div>
                 <h4 style={{ 
                   marginBottom: 'var(--space-sm)',
                   color: 'var(--primary)'
                 }}>
-                  {post.author}
+                  {getSectionContent('blog_author') || 'Équipe Karima'}
                 </h4>
                 <p style={{ 
                   color: 'var(--text-secondary)',
                   marginBottom: 'var(--space-md)'
                 }}>
-                  Expert en transformation organisationnelle avec plus de 15 ans d'expérience. 
-                  Spécialisée dans l'accompagnement des entreprises vers l'excellence opérationnelle.
+                  {getSectionContent('blog_author_bio') || 'Expert en transformation organisationnelle avec plus de 15 ans d\'expérience. Spécialisée dans l\'accompagnement des entreprises vers l\'excellence opérationnelle.'}
                 </p>
                 <Link 
                   to="/about" 
@@ -266,32 +203,38 @@ const BlogPost = () => {
       <section className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
         <div className="container">
           <div className="text-center" style={{ marginBottom: 'var(--space-3xl)' }}>
-            <h2>Articles similaires</h2>
+            <h2>{getSectionContent('related_posts_title') || 'Articles similaires'}</h2>
             <p style={{ 
               fontSize: '1.125rem', 
               color: 'var(--text-secondary)',
               maxWidth: '600px',
               margin: '0 auto'
             }}>
-              Découvrez d'autres articles qui pourraient vous intéresser.
+              {getSectionContent('related_posts_description') || 'Découvrez d\'autres articles qui pourraient vous intéresser.'}
             </p>
           </div>
           <div className="grid grid-2">
-            {relatedPosts.map((relatedPost) => (
-              <article key={relatedPost.id} className="card" style={{ 
+            {sections.slice(0, 2).map((relatedPost, index) => (
+              <article key={index} className="card" style={{ 
                 display: 'flex',
                 gap: 'var(--space-lg)',
                 alignItems: 'center'
               }}>
                 <div style={{
-                  backgroundImage: `url(${relatedPost.image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
                   width: '120px',
                   height: '80px',
                   borderRadius: 'var(--radius-md)',
+                  backgroundColor: 'var(--primary)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '1.5rem',
+                  fontWeight: '700',
                   flexShrink: 0
-                }} />
+                }}>
+                  {relatedPost.title.charAt(0)}
+                </div>
                 <div style={{ flex: 1 }}>
                   <div style={{
                     display: 'inline-block',
@@ -303,7 +246,7 @@ const BlogPost = () => {
                     fontWeight: '600',
                     marginBottom: 'var(--space-sm)'
                   }}>
-                    {relatedPost.category}
+                    {relatedPost.key}
                   </div>
                   <h3 style={{ 
                     fontSize: '1.125rem',
@@ -319,24 +262,11 @@ const BlogPost = () => {
                     marginBottom: 'var(--space-sm)',
                     lineHeight: 1.4
                   }}>
-                    {relatedPost.excerpt}
+                    {relatedPost.content.substring(0, 100)}...
                   </p>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 'var(--space-md)',
-                    fontSize: '0.875rem',
-                    color: 'var(--text-muted)'
-                  }}>
-                    <span>{relatedPost.author}</span>
-                    <span>•</span>
-                    <span>{formatDate(relatedPost.date)}</span>
-                    <span>•</span>
-                    <span>{relatedPost.readTime}</span>
-                  </div>
                 </div>
                 <Link 
-                  to={`/blog/${relatedPost.id}`}
+                  to={`/blog/${index + 1}`}
                   className="btn btn-outline"
                   style={{ 
                     textDecoration: 'none',
