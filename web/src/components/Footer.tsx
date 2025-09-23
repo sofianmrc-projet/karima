@@ -1,7 +1,30 @@
 import { Link } from 'react-router-dom'
 import { Mail, Phone, MapPin } from 'lucide-react'
+import { useSections } from '../hooks/useSections'
 
 const Footer = () => {
+  const { sections, loading, error } = useSections('Footer')
+
+  // Fonction pour récupérer une section par sa clé
+  const getSectionContent = (key: string) => {
+    const section = sections.find(s => s.key === key)
+    return section?.content || ''
+  }
+
+  if (loading) {
+    return (
+      <footer style={{
+        backgroundColor: 'var(--primary)',
+        color: 'var(--text-white)',
+        padding: 'var(--space-3xl) 0 var(--space-xl)',
+        textAlign: 'center'
+      }}>
+        <div className="container">
+          <p>Chargement du footer...</p>
+        </div>
+      </footer>
+    )
+  }
   return (
     <footer style={{
       backgroundColor: 'var(--primary)',
@@ -28,8 +51,7 @@ const Footer = () => {
               color: 'var(--secondary-light)',
               marginBottom: 'var(--space-lg)'
             }}>
-              Votre partenaire de confiance pour des services professionnels de qualité. 
-              Nous nous engageons à vous offrir des solutions adaptées à vos besoins.
+              {getSectionContent('footer_description') || 'Votre partenaire de confiance pour des services professionnels de qualité. Nous nous engageons à vous offrir des solutions adaptées à vos besoins.'}
             </p>
             <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
               <div style={{ 
@@ -39,7 +61,7 @@ const Footer = () => {
                 color: 'var(--secondary-light)'
               }}>
                 <Mail size={16} />
-                <span>contact@karima.fr</span>
+                <span>{getSectionContent('footer_email') || 'contact@karima.fr'}</span>
               </div>
             </div>
             <div style={{ 
@@ -50,7 +72,7 @@ const Footer = () => {
               marginTop: 'var(--space-sm)'
             }}>
               <Phone size={16} />
-              <span>01 23 45 67 89</span>
+                <span>{getSectionContent('footer_phone') || '01 23 45 67 89'}</span>
             </div>
             <div style={{ 
               display: 'flex', 
@@ -60,7 +82,7 @@ const Footer = () => {
               marginTop: 'var(--space-sm)'
             }}>
               <MapPin size={16} />
-              <span>123 Avenue des Champs, 75008 Paris</span>
+                <span>{getSectionContent('footer_address') || '123 Avenue des Champs, 75008 Paris'}</span>
             </div>
           </div>
 
@@ -70,7 +92,7 @@ const Footer = () => {
               color: 'var(--text-white)', 
               marginBottom: 'var(--space-lg)'
             }}>
-              Liens rapides
+              {getSectionContent('footer_links_title') || 'Liens rapides'}
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
               <Link 
@@ -130,13 +152,21 @@ const Footer = () => {
               color: 'var(--text-white)', 
               marginBottom: 'var(--space-lg)'
             }}>
-              Nos services
+              {getSectionContent('footer_services_title') || 'Nos services'}
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
-              <span style={{ color: 'var(--secondary-light)' }}>Consulting</span>
-              <span style={{ color: 'var(--secondary-light)' }}>Formation</span>
-              <span style={{ color: 'var(--secondary-light)' }}>Accompagnement</span>
-              <span style={{ color: 'var(--secondary-light)' }}>Audit</span>
+              <span style={{ color: 'var(--secondary-light)' }}>
+                {getSectionContent('footer_service_1') || 'Consulting'}
+              </span>
+              <span style={{ color: 'var(--secondary-light)' }}>
+                {getSectionContent('footer_service_2') || 'Formation'}
+              </span>
+              <span style={{ color: 'var(--secondary-light)' }}>
+                {getSectionContent('footer_service_3') || 'Accompagnement'}
+              </span>
+              <span style={{ color: 'var(--secondary-light)' }}>
+                {getSectionContent('footer_service_4') || 'Audit'}
+              </span>
             </div>
           </div>
         </div>
@@ -148,7 +178,7 @@ const Footer = () => {
           textAlign: 'center',
           color: 'var(--secondary-light)'
         }}>
-          <p>&copy; 2024 Karima. Tous droits réservés.</p>
+          <p>{getSectionContent('footer_copyright') || '© 2024 Karima. Tous droits réservés.'}</p>
         </div>
       </div>
     </footer>

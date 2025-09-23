@@ -1,62 +1,94 @@
 import { Users, Award, Clock, Target, BarChart3, Shield } from 'lucide-react'
-import { useState, useEffect } from 'react'
 import ServiceCard from '../components/ServiceCard'
 import MediaGallery from '../components/MediaGallery'
-import { api, ServiceContent } from '../lib/api'
+import { useSections } from '../hooks/useSections'
 
 const Services = () => {
-  const [serviceContent, setServiceContent] = useState<ServiceContent>({})
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const { sections, loading, error } = useSections('Services')
 
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const content = await api.getServiceContent()
-        setServiceContent(content)
-      } catch (err) {
-        setError('Erreur lors du chargement du contenu')
-        console.error('Error fetching service content:', err)
-      } finally {
-        setLoading(false)
-      }
+  // Fonction pour récupérer une section par sa clé
+  const getSectionContent = (key: string) => {
+    const section = sections.find(s => s.key === key)
+    return section?.content || ''
+  }
+
+  // Services statiques pour l'instant (seront remplacés par des sections dynamiques)
+  const services = [
+    {
+      icon: Users,
+      title: 'Consulting',
+      description: 'Accompagnement personnalisé pour optimiser vos processus et améliorer vos performances.',
+      features: [
+        'Audit de vos processus actuels',
+        'Recommandations personnalisées',
+        'Plan d\'action détaillé',
+        'Suivi et accompagnement'
+      ]
+    },
+    {
+      icon: Award,
+      title: 'Formation',
+      description: 'Formations sur mesure pour développer les compétences de vos équipes.',
+      features: [
+        'Programmes adaptés à vos besoins',
+        'Formateurs experts certifiés',
+        'Méthodes pédagogiques innovantes',
+        'Certification à la clé'
+      ]
+    },
+    {
+      icon: Clock,
+      title: 'Accompagnement',
+      description: 'Support continu pour assurer la réussite de vos projets et transformations.',
+      features: [
+        'Suivi régulier des projets',
+        'Support technique permanent',
+        'Ajustements en temps réel',
+        'Rapports de progression'
+      ]
+    },
+    {
+      icon: Target,
+      title: 'Stratégie',
+      description: 'Définition et mise en œuvre de stratégies gagnantes pour votre entreprise.',
+      features: [
+        'Analyse de marché approfondie',
+        'Définition d\'objectifs clairs',
+        'Plan d\'action stratégique',
+        'Suivi des performances'
+      ]
+    },
+    {
+      icon: BarChart3,
+      title: 'Analytics',
+      description: 'Analyse de données pour optimiser vos performances et prendre de meilleures décisions.',
+      features: [
+        'Collecte et traitement des données',
+        'Tableaux de bord personnalisés',
+        'Rapports détaillés',
+        'Recommandations basées sur les données'
+      ]
+    },
+    {
+      icon: Shield,
+      title: 'Sécurité',
+      description: 'Protection de vos données et systèmes avec les meilleures pratiques de sécurité.',
+      features: [
+        'Audit de sécurité complet',
+        'Mise en place de protocoles',
+        'Formation des équipes',
+        'Monitoring continu'
+      ]
     }
+  ];
 
-    fetchContent()
-  }, [])
-
-  // Services dynamiques depuis la base de données
-  const getServices = () => {
-    const serviceIcons = [Users, Award, Clock, Target, BarChart3, Shield];
-    
-    return Array.from({ length: 6 }, (_, index) => {
-      const serviceNum = index + 1;
-      const features = serviceContent[`service_${serviceNum}_features`]?.split('|') || [];
-      
-      return {
-        icon: serviceIcons[index],
-        title: serviceContent[`service_${serviceNum}_title`] || `Service ${serviceNum}`,
-        description: serviceContent[`service_${serviceNum}_description`] || 'Description du service',
-        features: features
-      };
-    });
-  };
-
-  const services = getServices();
-
-  // Processus dynamique depuis la base de données
-  const getProcessSteps = () => {
-    return Array.from({ length: 4 }, (_, index) => {
-      const stepNum = index + 1;
-      return {
-        step: serviceContent[`process_step_${stepNum}_number`] || `${stepNum.toString().padStart(2, '0')}`,
-        title: serviceContent[`process_step_${stepNum}_title`] || `Étape ${stepNum}`,
-        description: serviceContent[`process_step_${stepNum}_description`] || 'Description de l\'étape'
-      };
-    });
-  };
-
-  const processSteps = getProcessSteps();
+  // Processus statique pour l'instant
+  const processSteps = [
+    { step: '01', title: 'Analyse', description: 'Nous analysons vos besoins et votre situation actuelle' },
+    { step: '02', title: 'Stratégie', description: 'Nous définissons une stratégie personnalisée' },
+    { step: '03', title: 'Mise en œuvre', description: 'Nous mettons en place les solutions adaptées' },
+    { step: '04', title: 'Suivi', description: 'Nous assurons un suivi continu et des ajustements' }
+  ];
 
   if (loading) {
     return (
@@ -89,7 +121,7 @@ const Services = () => {
             marginBottom: 'var(--space-lg)',
             fontWeight: '700'
           }}>
-            {serviceContent.hero_title || 'Nos Services'}
+            {getSectionContent('services_hero') || 'Nos Services'}
           </h1>
           <p style={{ 
             fontSize: '1.25rem', 
@@ -98,7 +130,7 @@ const Services = () => {
             maxWidth: '600px',
             margin: '0 auto var(--space-2xl)'
           }}>
-            {serviceContent.hero_description || 'Des solutions complètes et personnalisées pour répondre à tous vos besoins professionnels et vous accompagner vers l\'excellence.'}
+            {getSectionContent('services_hero_description') || 'Des solutions complètes et personnalisées pour répondre à tous vos besoins professionnels et vous accompagner vers l\'excellence.'}
           </p>
         </div>
       </section>
@@ -107,14 +139,14 @@ const Services = () => {
       <section className="section">
         <div className="container">
           <div className="text-center" style={{ marginBottom: 'var(--space-3xl)' }}>
-            <h2>{serviceContent.services_section_title || 'Nos domaines d\'expertise'}</h2>
+            <h2>{getSectionContent('services_section_title') || 'Nos domaines d\'expertise'}</h2>
             <p style={{ 
               fontSize: '1.125rem', 
               color: 'var(--text-secondary)',
               maxWidth: '600px',
               margin: '0 auto'
             }}>
-              {serviceContent.services_section_description || 'Chaque service est conçu pour vous apporter une valeur ajoutée réelle et mesurable dans votre domaine d\'activité.'}
+              {getSectionContent('services_section_description') || 'Chaque service est conçu pour vous apporter une valeur ajoutée réelle et mesurable dans votre domaine d\'activité.'}
             </p>
           </div>
           <div className="grid grid-3">
@@ -126,7 +158,7 @@ const Services = () => {
           {/* Galerie d'images des services */}
           <div style={{ marginTop: 'var(--space-3xl)' }}>
             <h3 style={{ textAlign: 'center', marginBottom: 'var(--space-xl)' }}>
-              {serviceContent.gallery_title || 'Nos réalisations en images'}
+              {getSectionContent('gallery_title') || 'Nos réalisations en images'}
             </h3>
             <MediaGallery 
               category="services" 
@@ -141,14 +173,14 @@ const Services = () => {
       <section className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
         <div className="container">
           <div className="text-center" style={{ marginBottom: 'var(--space-3xl)' }}>
-            <h2>{serviceContent.process_section_title || 'Notre méthode de travail'}</h2>
+            <h2>{getSectionContent('process_section_title') || 'Notre méthode de travail'}</h2>
             <p style={{ 
               fontSize: '1.125rem', 
               color: 'var(--text-secondary)',
               maxWidth: '600px',
               margin: '0 auto'
             }}>
-              {serviceContent.process_section_description || 'Une approche structurée et éprouvée pour garantir le succès de vos projets.'}
+              {getSectionContent('process_section_description') || 'Une approche structurée et éprouvée pour garantir le succès de vos projets.'}
             </p>
           </div>
           <div className="grid grid-2">
@@ -204,7 +236,7 @@ const Services = () => {
             textAlign: 'center'
           }}>
             <h2 style={{ color: 'white', marginBottom: 'var(--space-lg)' }}>
-              {serviceContent.cta_title || 'Prêt à transformer votre organisation ?'}
+              {getSectionContent('cta_title') || 'Prêt à transformer votre organisation ?'}
             </h2>
             <p style={{ 
               opacity: 0.9, 
@@ -213,7 +245,7 @@ const Services = () => {
               maxWidth: '600px',
               margin: '0 auto var(--space-xl)'
             }}>
-              {serviceContent.cta_description || 'Contactez-nous dès aujourd\'hui pour discuter de vos besoins et découvrir comment nos services peuvent vous aider à atteindre vos objectifs.'}
+              {getSectionContent('cta_description') || 'Contactez-nous dès aujourd\'hui pour discuter de vos besoins et découvrir comment nos services peuvent vous aider à atteindre vos objectifs.'}
             </p>
             <div style={{ display: 'flex', gap: 'var(--space-lg)', justifyContent: 'center', flexWrap: 'wrap' }}>
               <a href="/contact" className="btn btn-accent" style={{ textDecoration: 'none' }}>

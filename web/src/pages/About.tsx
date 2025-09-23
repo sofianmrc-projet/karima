@@ -1,6 +1,31 @@
 import { Users, Target, Award, Heart, CheckCircle, Quote } from 'lucide-react'
+import { useSections } from '../hooks/useSections'
 
 const About = () => {
+  const { sections, loading, error } = useSections('À propos')
+
+  // Fonction pour récupérer une section par sa clé
+  const getSectionContent = (key: string) => {
+    const section = sections.find(s => s.key === key)
+    return section?.content || ''
+  }
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+        <p>Chargement du contenu...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+        <p style={{ color: 'var(--danger)' }}>Erreur lors du chargement: {error}</p>
+      </div>
+    )
+  }
+
   const values = [
     {
       icon: Target,
@@ -67,7 +92,7 @@ const About = () => {
             marginBottom: 'var(--space-lg)',
             fontWeight: '700'
           }}>
-            À propos de Karima
+            {getSectionContent('about_hero') || 'À propos de Karima'}
           </h1>
           <p style={{ 
             fontSize: '1.25rem', 
@@ -76,7 +101,7 @@ const About = () => {
             maxWidth: '600px',
             margin: '0 auto var(--space-2xl)'
           }}>
-            Depuis plus de 10 ans, nous accompagnons les organisations dans leur transformation 
+            {getSectionContent('about_hero_description') || 'Depuis plus de 10 ans, nous accompagnons les organisations dans leur transformation'} 
             et leur développement avec passion et expertise.
           </p>
         </div>
@@ -88,7 +113,7 @@ const About = () => {
           <div className="grid grid-2" style={{ alignItems: 'center' }}>
             <div>
               <h2 style={{ marginBottom: 'var(--space-lg)' }}>
-                Notre histoire
+                {getSectionContent('about_story_title') || 'Notre histoire'}
               </h2>
               <p style={{ 
                 fontSize: '1.125rem', 
@@ -96,19 +121,14 @@ const About = () => {
                 marginBottom: 'var(--space-lg)',
                 lineHeight: 1.6
               }}>
-                Fondée en 2013, Karima est née de la volonté de créer un cabinet de conseil 
-                différent, centré sur l'humain et l'innovation. Notre équipe d'experts 
-                passionnés s'engage à fournir des solutions sur mesure qui transforment 
-                réellement les organisations.
+                {getSectionContent('about_story_1') || 'Fondée en 2013, Karima est née de la volonté de créer un cabinet de conseil différent, centré sur l\'humain et l\'innovation. Notre équipe d\'experts passionnés s\'engage à fournir des solutions sur mesure qui transforment réellement les organisations.'}
               </p>
               <p style={{ 
                 color: 'var(--text-secondary)',
                 marginBottom: 'var(--space-lg)',
                 lineHeight: 1.6
               }}>
-                Nous croyons que chaque organisation a un potentiel unique à révéler. 
-                Notre mission est de vous accompagner dans cette révélation en combinant 
-                expertise technique, approche humaine et innovation constante.
+                {getSectionContent('about_story_2') || 'Nous croyons que chaque organisation a un potentiel unique à révéler. Notre mission est de vous accompagner dans cette révélation en combinant expertise technique, approche humaine et innovation constante.'}
               </p>
               <div style={{ display: 'flex', gap: 'var(--space-lg)', flexWrap: 'wrap' }}>
                 {achievements.map((achievement, index) => (
@@ -168,7 +188,7 @@ const About = () => {
       <section className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
         <div className="container">
           <div className="text-center" style={{ marginBottom: 'var(--space-3xl)' }}>
-            <h2>Nos valeurs</h2>
+            <h2>{getSectionContent('about_values_title') || 'Nos valeurs'}</h2>
             <p style={{ 
               fontSize: '1.125rem', 
               color: 'var(--text-secondary)',
@@ -223,7 +243,7 @@ const About = () => {
       <section className="section">
         <div className="container">
           <div className="text-center" style={{ marginBottom: 'var(--space-3xl)' }}>
-            <h2>Notre équipe</h2>
+            <h2>{getSectionContent('about_team_title') || 'Notre équipe'}</h2>
             <p style={{ 
               fontSize: '1.125rem', 
               color: 'var(--text-secondary)',
@@ -277,8 +297,8 @@ const About = () => {
       <section className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
         <div className="container">
           <div className="text-center">
-            <h2 style={{ marginBottom: 'var(--space-lg)' }}>
-              Notre mission
+              <h2 style={{ marginBottom: 'var(--space-lg)' }}>
+                {getSectionContent('about_mission_title') || 'Notre mission'}
             </h2>
             <p style={{ 
               fontSize: '1.25rem', 

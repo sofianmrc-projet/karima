@@ -1,24 +1,13 @@
-import { useState, useEffect } from 'react';
-import { api } from '../lib/api';
+import { useSections } from '../hooks/useSections';
 
 const ContentDisplay = () => {
-  const [content, setContent] = useState<{ [key: string]: string }>({});
-  const [loading, setLoading] = useState(true);
+  const { sections, loading, error } = useSections();
 
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const data = await api.getServiceContent();
-        setContent(data);
-      } catch (error) {
-        console.error('Erreur lors du chargement du contenu:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchContent();
-  }, []);
+  // Fonction pour récupérer une section par sa clé
+  const getSectionContent = (key: string) => {
+    const section = sections.find(s => s.key === key);
+    return section?.content || '';
+  };
 
   if (loading) {
     return (
@@ -28,8 +17,16 @@ const ContentDisplay = () => {
     );
   }
 
+  if (error) {
+    return (
+      <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+        <p style={{ color: 'var(--danger)' }}>Erreur lors du chargement: {error}</p>
+      </div>
+    );
+  }
+
   // Organiser le contenu par sections
-  const sections = {
+  const contentSections = {
     '🏠 Accueil': {
       'Hero Section': [
         { key: 'home_hero_title', label: 'Titre principal' },
@@ -133,7 +130,7 @@ const ContentDisplay = () => {
         Voici tout le contenu stocké dans votre base de données, organisé par sections.
       </p>
 
-      {Object.entries(sections).map(([sectionName, subsections]) => (
+      {Object.entries(contentSections).map(([sectionName, subsections]) => (
         <div key={sectionName} className="card" style={{ marginBottom: 'var(--space-2xl)' }}>
           <h3 style={{ 
             color: 'var(--primary)', 
@@ -190,7 +187,7 @@ const ContentDisplay = () => {
                       display: 'flex',
                       alignItems: 'center'
                     }}>
-                      {content[item.key] || <em style={{ color: 'var(--text-muted)' }}>Vide</em>}
+                      {getSectionContent(item.key) || <em style={{ color: 'var(--text-muted)' }}>Vide</em>}
                     </div>
                   </div>
                 ))}

@@ -1,69 +1,28 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, CheckCircle, Users, Award, Clock } from 'lucide-react'
-import { useState, useEffect } from 'react'
-import ServiceCard from '../components/ServiceCard'
-import ContentDisplay from '../components/ContentDisplay'
-import { api } from '../lib/api'
+import { useSections } from '../hooks/useSections'
 
 const Home = () => {
-  const [content, setContent] = useState<{ [key: string]: string }>({})
-  const [loading, setLoading] = useState(true)
+  const { sections, loading, error } = useSections('Accueil')
 
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const data = await api.getServiceContent()
-        setContent(data)
-      } catch (error) {
-        console.error('Erreur lors du chargement du contenu:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchContent()
-  }, [])
-
-  const services = [
-    {
-      icon: Users,
-      title: 'Consulting',
-      description: 'Accompagnement personnalisé pour optimiser vos processus et améliorer vos performances.',
-      features: [
-        'Audit de vos processus actuels',
-        'Recommandations personnalisées',
-        'Plan d\'action détaillé',
-        'Suivi et accompagnement'
-      ]
-    },
-    {
-      icon: Award,
-      title: 'Formation',
-      description: 'Formations sur mesure pour développer les compétences de vos équipes.',
-      features: [
-        'Programmes adaptés à vos besoins',
-        'Formateurs experts certifiés',
-        'Méthodes pédagogiques innovantes',
-        'Certification à la clé'
-      ]
-    },
-    {
-      icon: Clock,
-      title: 'Accompagnement',
-      description: 'Support continu pour assurer la réussite de vos projets et transformations.',
-      features: [
-        'Suivi régulier des projets',
-        'Support technique permanent',
-        'Ajustements en temps réel',
-        'Rapports de progression'
-      ]
-    }
-  ]
+  // Fonction pour récupérer une section par sa clé
+  const getSectionContent = (key: string) => {
+    const section = sections.find(s => s.key === key)
+    return section?.content || ''
+  }
 
   if (loading) {
     return (
       <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
         <p>Chargement du contenu...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+        <p style={{ color: 'var(--danger)' }}>Erreur lors du chargement: {error}</p>
       </div>
     )
   }
@@ -83,7 +42,7 @@ const Home = () => {
             marginBottom: 'var(--space-lg)',
             fontWeight: '700'
           }}>
-            {content.home_hero_title || 'Bienvenue chez Karima'}
+            {getSectionContent('home_hero') || 'Bienvenue chez Karima'}
           </h1>
           <p style={{ 
             fontSize: '1.25rem', 
@@ -92,7 +51,7 @@ const Home = () => {
             maxWidth: '600px',
             margin: '0 auto var(--space-2xl)'
           }}>
-            {content.home_hero_subtitle || 'Votre partenaire de confiance'}
+            {getSectionContent('home_hero_subtitle') || 'Votre partenaire de confiance'}
           </p>
           <p style={{ 
             fontSize: '1.125rem', 
@@ -101,11 +60,11 @@ const Home = () => {
             maxWidth: '600px',
             margin: '0 auto var(--space-2xl)'
           }}>
-            {content.home_hero_description || 'Des solutions innovantes pour votre entreprise'}
+            {getSectionContent('home_hero_description') || 'Des solutions innovantes pour votre entreprise'}
           </p>
           <div style={{ display: 'flex', gap: 'var(--space-lg)', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/services" className="btn btn-accent" style={{ textDecoration: 'none' }}>
-              {content.home_hero_cta_text || 'Découvrir nos services'}
+              Découvrir nos services
               <ArrowRight size={16} style={{ marginLeft: 'var(--space-sm)' }} />
             </Link>
             <Link to="/contact" className="btn btn-outline" style={{ 
@@ -135,13 +94,13 @@ const Home = () => {
                 color: 'var(--primary)',
                 marginBottom: 'var(--space-sm)'
               }}>
-                {content.home_stat_1_number || '100+'}
+                100+
               </div>
               <div style={{
                 color: 'var(--text-secondary)',
                 fontWeight: '500'
               }}>
-                {content.home_stat_1_label || 'Projets réalisés'}
+                Projets réalisés
               </div>
             </div>
             <div>
@@ -151,13 +110,13 @@ const Home = () => {
                 color: 'var(--primary)',
                 marginBottom: 'var(--space-sm)'
               }}>
-                {content.home_stat_2_number || '50+'}
+                50+
               </div>
               <div style={{
                 color: 'var(--text-secondary)',
                 fontWeight: '500'
               }}>
-                {content.home_stat_2_label || 'Clients satisfaits'}
+                Clients satisfaits
               </div>
             </div>
             <div>
@@ -167,13 +126,13 @@ const Home = () => {
                 color: 'var(--primary)',
                 marginBottom: 'var(--space-sm)'
               }}>
-                {content.home_stat_3_number || '5+'}
+                5+
               </div>
               <div style={{
                 color: 'var(--text-secondary)',
                 fontWeight: '500'
               }}>
-                {content.home_stat_3_label || 'Années d\'expérience'}
+                Années d'expérience
               </div>
             </div>
           </div>
@@ -184,7 +143,7 @@ const Home = () => {
       <section className="section">
         <div className="container">
           <div className="text-center" style={{ marginBottom: 'var(--space-3xl)' }}>
-            <h2>Nos services</h2>
+            <h2>{getSectionContent('home_services_title') || 'Nos services'}</h2>
             <p style={{ 
               fontSize: '1.125rem', 
               color: 'var(--text-secondary)',
@@ -195,9 +154,28 @@ const Home = () => {
             </p>
           </div>
           <div className="grid grid-3">
-            {services.map((service, index) => (
-              <ServiceCard key={index} {...service} />
-            ))}
+            {/* Services statiques pour l'instant - seront remplacés par des sections dynamiques */}
+            <div className="card">
+              <div style={{ textAlign: 'center', padding: 'var(--space-xl)' }}>
+                <Users size={48} style={{ color: 'var(--primary)', marginBottom: 'var(--space-lg)' }} />
+                <h3>Consulting</h3>
+                <p>Accompagnement personnalisé pour optimiser vos processus et améliorer vos performances.</p>
+              </div>
+            </div>
+            <div className="card">
+              <div style={{ textAlign: 'center', padding: 'var(--space-xl)' }}>
+                <Award size={48} style={{ color: 'var(--primary)', marginBottom: 'var(--space-lg)' }} />
+                <h3>Formation</h3>
+                <p>Formations sur mesure pour développer les compétences de vos équipes.</p>
+              </div>
+            </div>
+            <div className="card">
+              <div style={{ textAlign: 'center', padding: 'var(--space-xl)' }}>
+                <Clock size={48} style={{ color: 'var(--primary)', marginBottom: 'var(--space-lg)' }} />
+                <h3>Accompagnement</h3>
+                <p>Support continu pour assurer la réussite de vos projets et transformations.</p>
+              </div>
+            </div>
           </div>
           <div className="text-center" style={{ marginTop: 'var(--space-2xl)' }}>
             <Link to="/services" className="btn btn-primary" style={{ textDecoration: 'none' }}>
@@ -213,7 +191,7 @@ const Home = () => {
           <div className="grid grid-2" style={{ alignItems: 'center' }}>
             <div>
               <h2 style={{ marginBottom: 'var(--space-lg)' }}>
-                Pourquoi choisir Karima ?
+                {getSectionContent('home_why_title') || 'Pourquoi choisir Karima ?'}
               </h2>
               <p style={{ 
                 fontSize: '1.125rem', 
@@ -267,12 +245,24 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Affichage du contenu de la base de données */}
-      <section className="section">
-        <div className="container">
-          <ContentDisplay />
-        </div>
-      </section>
+      {/* Section À propos dynamique */}
+      {getSectionContent('home_about') && (
+        <section className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+          <div className="container">
+            <div className="text-center">
+              <h2>{getSectionContent('home_about_title') || 'À propos de nous'}</h2>
+              <p style={{ 
+                fontSize: '1.125rem', 
+                color: 'var(--text-secondary)',
+                maxWidth: '600px',
+                margin: '0 auto'
+              }}>
+                {getSectionContent('home_about')}
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
     </div>
   )

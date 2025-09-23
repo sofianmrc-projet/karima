@@ -1,31 +1,56 @@
 import ContactForm from '../components/ContactForm'
 import { Mail, Phone, MapPin, Clock } from 'lucide-react'
+import { useSections } from '../hooks/useSections'
 
 const Contact = () => {
+  const { sections, loading, error } = useSections('Contact')
+
+  // Fonction pour récupérer une section par sa clé
+  const getSectionContent = (key: string) => {
+    const section = sections.find(s => s.key === key)
+    return section?.content || ''
+  }
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+        <p>Chargement du contenu...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+        <p style={{ color: 'var(--danger)' }}>Erreur lors du chargement: {error}</p>
+      </div>
+    )
+  }
+  // Récupérer les informations de contact depuis la base de données
   const contactInfo = [
     {
       icon: Mail,
       title: 'Email',
-      value: 'contact@karima.fr',
-      description: 'Réponse sous 24h'
+      value: getSectionContent('contact_email') || 'contact@karima.fr',
+      description: getSectionContent('contact_email_desc') || 'Réponse sous 24h'
     },
     {
       icon: Phone,
       title: 'Téléphone',
-      value: '01 23 45 67 89',
-      description: 'Lun-Ven 9h-18h'
+      value: getSectionContent('contact_phone') || '01 23 45 67 89',
+      description: getSectionContent('contact_phone_desc') || 'Lun-Ven 9h-18h'
     },
     {
       icon: MapPin,
       title: 'Adresse',
-      value: '123 Avenue des Champs',
-      description: '75008 Paris, France'
+      value: getSectionContent('contact_address') || '123 Avenue des Champs',
+      description: getSectionContent('contact_address_desc') || '75008 Paris, France'
     },
     {
       icon: Clock,
       title: 'Horaires',
-      value: '9h00 - 18h00',
-      description: 'Lundi au Vendredi'
+      value: getSectionContent('contact_hours') || '9h00 - 18h00',
+      description: getSectionContent('contact_hours_desc') || 'Lundi au Vendredi'
     }
   ]
 
@@ -44,7 +69,7 @@ const Contact = () => {
             marginBottom: 'var(--space-lg)',
             fontWeight: '700'
           }}>
-            Contactez-nous
+            {getSectionContent('contact_hero') || 'Contactez-nous'}
           </h1>
           <p style={{ 
             fontSize: '1.25rem', 
@@ -53,7 +78,7 @@ const Contact = () => {
             maxWidth: '600px',
             margin: '0 auto var(--space-2xl)'
           }}>
-            Nous sommes là pour répondre à vos questions et vous accompagner 
+            {getSectionContent('contact_hero_description') || 'Nous sommes là pour répondre à vos questions et vous accompagner'} 
             dans vos projets. N'hésitez pas à nous contacter.
           </p>
         </div>
@@ -184,7 +209,7 @@ const Contact = () => {
       <section className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
         <div className="container">
           <div className="text-center" style={{ marginBottom: 'var(--space-3xl)' }}>
-            <h2>Questions fréquentes</h2>
+            <h2>{getSectionContent('contact_faq_title') || 'Questions fréquentes'}</h2>
             <p style={{ 
               fontSize: '1.125rem', 
               color: 'var(--text-secondary)',
