@@ -1,3 +1,5 @@
+import { authService } from './auth';
+
 // Types
 export interface Todo {
   id: number;

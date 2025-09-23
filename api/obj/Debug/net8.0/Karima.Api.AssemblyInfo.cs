@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Karima.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dac1938a0601f9c85adc4c34dc7babafb533cf16")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f139f2b9a060139fa2f8bece86cd9066656e3c98")]
 [assembly: System.Reflection.AssemblyProductAttribute("Karima.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Karima.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
