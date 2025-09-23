@@ -7,7 +7,6 @@ const DashboardAdmin = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
-  const [filter, setFilter] = useState<string>('all');
 
   useEffect(() => {
     loadSections();
@@ -61,11 +60,22 @@ const DashboardAdmin = () => {
     }
   };
 
-  const filteredSections = filter === 'all' 
-    ? sections 
-    : sections.filter(s => s.category === filter);
+  // Grouper les sections par catégorie
+  const sectionsByCategory = sections.reduce((acc, section) => {
+    const category = section.category || 'Sans catégorie';
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(section);
+    return acc;
+  }, {} as Record<string, Section[]>);
 
-  const categories = [...new Set(sections.map(s => s.category).filter(Boolean))];
+  // Trier les sections dans chaque catégorie par sortOrder
+  Object.keys(sectionsByCategory).forEach(category => {
+    sectionsByCategory[category].sort((a, b) => a.sortOrder - b.sortOrder);
+  });
+
+  const categories = Object.keys(sectionsByCategory).sort();
 
   if (loading) {
     return (
@@ -88,7 +98,9 @@ const DashboardAdmin = () => {
   return (
     <div>
       <div className="card" style={{ padding: 'var(--space-2xl)' }}>
-        <h1 style={{ marginBottom: 'var(--space-xl)' }}>Tableau de bord - Gestion du contenu</h1>
+        <h1 style={{ marginBottom: 'var(--space-xl)', textAlign: 'center' }}>
+          🎛️ Tableau de bord - Gestion du contenu
+        </h1>
         
         {error && (
           <div style={{
@@ -102,131 +114,175 @@ const DashboardAdmin = () => {
           </div>
         )}
 
-        <div style={{ marginBottom: 'var(--space-lg)' }}>
-          <label htmlFor="filter" style={{ 
-            display: 'block', 
-            marginBottom: 'var(--space-sm)',
-            fontWeight: '500'
+        {/* Navigation rapide par catégorie */}
+        <div style={{ 
+          marginBottom: 'var(--space-2xl)',
+          padding: 'var(--space-lg)',
+          backgroundColor: 'var(--bg-secondary)',
+          borderRadius: 'var(--radius)',
+          border: '1px solid var(--border-color)'
+        }}>
+          <h3 style={{ marginBottom: 'var(--space-md)', textAlign: 'center' }}>
+            📋 Navigation rapide
+          </h3>
+          <div style={{ 
+            display: 'flex', 
+            gap: 'var(--space-sm)', 
+            flexWrap: 'wrap',
+            justifyContent: 'center'
           }}>
-            Filtrer par catégorie :
-          </label>
-          <select
-            id="filter"
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            style={{
-              padding: 'var(--space-sm)',
-              border: '1px solid var(--border-color)',
-              borderRadius: 'var(--radius)',
-              fontSize: '1rem'
-            }}
-          >
-            <option value="all">Toutes les catégories</option>
             {categories.map(category => (
-              <option key={category} value={category}>{category}</option>
+              <button
+                key={category}
+                onClick={() => {
+                  const element = document.getElementById(`category-${category}`);
+                  element?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="btn btn-outline"
+                style={{ fontSize: '0.9rem' }}
+              >
+                {category} ({sectionsByCategory[category].length})
+              </button>
             ))}
-          </select>
+          </div>
         </div>
 
-        <div style={{ display: 'grid', gap: 'var(--space-lg)' }}>
-          {filteredSections.map(section => (
-            <div key={section.id} style={{
-              border: '1px solid var(--border-color)',
+        {/* Affichage par catégorie */}
+        {categories.map(category => (
+          <div key={category} id={`category-${category}`} style={{ marginBottom: 'var(--space-3xl)' }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginBottom: 'var(--space-lg)',
+              padding: 'var(--space-md)',
+              backgroundColor: 'var(--primary)',
+              color: 'white',
               borderRadius: 'var(--radius)',
-              padding: 'var(--space-lg)',
-              backgroundColor: section.isActive ? 'var(--bg-primary)' : 'var(--bg-secondary)'
+              position: 'sticky',
+              top: '0',
+              zIndex: 10
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-md)' }}>
-                <div>
-                  <h3 style={{ margin: 0, color: 'var(--text-primary)' }}>
-                    {section.title}
-                  </h3>
-                  <p style={{ margin: 'var(--space-xs) 0 0 0', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                    {section.category} • {section.key}
-                  </p>
-                </div>
-                <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
-                  <button
-                    onClick={() => setSelectedSection(section)}
-                    className="btn btn-secondary"
-                    style={{ fontSize: '0.9rem' }}
-                  >
-                    Modifier
-                  </button>
-                  <button
-                    onClick={() => handleDeleteSection(section.id)}
-                    className="btn btn-danger"
-                    style={{ fontSize: '0.9rem' }}
-                  >
-                    Supprimer
-                  </button>
-                </div>
-              </div>
-              
-              <div style={{ marginBottom: 'var(--space-md)' }}>
-                <p style={{ margin: 0, color: 'var(--text-primary)' }}>
-                  {section.content.length > 100 
-                    ? `${section.content.substring(0, 100)}...` 
-                    : section.content
-                  }
-                </p>
-              </div>
-
-              {section.description && (
-                <p style={{ 
-                  margin: 0, 
-                  color: 'var(--text-secondary)', 
-                  fontSize: '0.9rem',
-                  fontStyle: 'italic'
-                }}>
-                  {section.description}
-                </p>
-              )}
-
-              {section.imageUrl && (
-                <div style={{ marginTop: 'var(--space-md)' }}>
-                  <img 
-                    src={section.imageUrl} 
-                    alt={section.altText || section.title}
-                    style={{ 
-                      maxWidth: '200px', 
-                      height: 'auto', 
-                      borderRadius: 'var(--radius)',
-                      border: '1px solid var(--border-color)'
-                    }}
-                  />
-                </div>
-              )}
-
-              <div style={{ 
-                marginTop: 'var(--space-md)', 
-                paddingTop: 'var(--space-md)', 
-                borderTop: '1px solid var(--border-color)',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                fontSize: '0.8rem',
-                color: 'var(--text-secondary)'
-              }}>
-                <span>
-                  Ordre: {section.sortOrder} • 
-                  {section.isActive ? ' Actif' : ' Inactif'}
-                </span>
-                <span>
-                  Modifié: {new Date(section.updatedAt).toLocaleDateString('fr-FR')}
-                </span>
-              </div>
+              <h2 style={{ margin: 0, fontSize: '1.5rem' }}>
+                {category} ({sectionsByCategory[category].length} sections)
+              </h2>
             </div>
-          ))}
-        </div>
 
-        {filteredSections.length === 0 && (
+            <div style={{ display: 'grid', gap: 'var(--space-lg)' }}>
+              {sectionsByCategory[category].map(section => (
+                <div key={section.id} style={{
+                  border: '1px solid var(--border-color)',
+                  borderRadius: 'var(--radius)',
+                  padding: 'var(--space-lg)',
+                  backgroundColor: section.isActive ? 'var(--bg-primary)' : 'var(--bg-secondary)',
+                  transition: 'all 0.2s ease'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-md)' }}>
+                    <div style={{ flex: 1 }}>
+                      <h3 style={{ margin: 0, color: 'var(--text-primary)', fontSize: '1.2rem' }}>
+                        {section.title}
+                      </h3>
+                      <p style={{ 
+                        margin: 'var(--space-xs) 0 0 0', 
+                        color: 'var(--text-secondary)', 
+                        fontSize: '0.9rem',
+                        fontFamily: 'monospace'
+                      }}>
+                        {section.key}
+                      </p>
+                    </div>
+                    <div style={{ display: 'flex', gap: 'var(--space-sm)', marginLeft: 'var(--space-md)' }}>
+                      <button
+                        onClick={() => setSelectedSection(section)}
+                        className="btn btn-secondary"
+                        style={{ fontSize: '0.9rem' }}
+                      >
+                        ✏️ Modifier
+                      </button>
+                      <button
+                        onClick={() => handleDeleteSection(section.id)}
+                        className="btn btn-danger"
+                        style={{ fontSize: '0.9rem' }}
+                      >
+                        🗑️ Supprimer
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div style={{ marginBottom: 'var(--space-md)' }}>
+                    <p style={{ margin: 0, color: 'var(--text-primary)', lineHeight: '1.5' }}>
+                      {section.content.length > 150 
+                        ? `${section.content.substring(0, 150)}...` 
+                        : section.content
+                      }
+                    </p>
+                  </div>
+
+                  {section.description && (
+                    <p style={{ 
+                      margin: 0, 
+                      color: 'var(--text-secondary)', 
+                      fontSize: '0.9rem',
+                      fontStyle: 'italic',
+                      marginBottom: 'var(--space-md)'
+                    }}>
+                      {section.description}
+                    </p>
+                  )}
+
+                  {section.imageUrl && (
+                    <div style={{ marginBottom: 'var(--space-md)' }}>
+                      <img 
+                        src={section.imageUrl} 
+                        alt={section.altText || section.title}
+                        style={{ 
+                          maxWidth: '200px', 
+                          height: 'auto', 
+                          borderRadius: 'var(--radius)',
+                          border: '1px solid var(--border-color)'
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  <div style={{ 
+                    paddingTop: 'var(--space-md)', 
+                    borderTop: '1px solid var(--border-color)',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    fontSize: '0.8rem',
+                    color: 'var(--text-secondary)'
+                  }}>
+                    <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
+                      <span style={{ 
+                        padding: 'var(--space-xs) var(--space-sm)',
+                        backgroundColor: section.isActive ? 'var(--success-light)' : 'var(--warning-light)',
+                        color: section.isActive ? 'var(--success)' : 'var(--warning)',
+                        borderRadius: 'var(--radius-sm)',
+                        fontWeight: '500'
+                      }}>
+                        {section.isActive ? '✅ Actif' : '⏸️ Inactif'}
+                      </span>
+                      <span>Ordre: {section.sortOrder}</span>
+                    </div>
+                    <span>
+                      Modifié: {new Date(section.updatedAt).toLocaleDateString('fr-FR')}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        {sections.length === 0 && (
           <div style={{ 
             textAlign: 'center', 
-            padding: 'var(--space-2xl)',
+            padding: 'var(--space-3xl)',
             color: 'var(--text-secondary)'
           }}>
-            <p>Aucune section trouvée pour cette catégorie.</p>
+            <h3>Aucune section trouvée</h3>
+            <p>Commencez par ajouter des sections via l'API ou créez-en de nouvelles.</p>
           </div>
         )}
       </div>
