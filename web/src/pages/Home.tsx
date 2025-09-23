@@ -35,134 +35,88 @@ const Home = () => {
 
   return (
     <div>
-      {/* Hero Section */}
-      <section style={{
-        background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)',
-        color: 'white',
-        padding: 'var(--space-3xl) 0',
-        textAlign: 'center'
-      }}>
-        <div className="container">
-          <h1 style={{ 
-            fontSize: '3rem', 
-            marginBottom: 'var(--space-lg)',
-            fontWeight: '700'
+      {/* Affichage normal de la page d'accueil */}
+      {sections.length > 0 ? (
+        <div>
+          {/* Hero Section */}
+          <section style={{
+            background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)',
+            color: 'white',
+            padding: 'var(--space-3xl) 0',
+            textAlign: 'center'
           }}>
-            {getSectionTitle('hero') || 'Bienvenue chez Karima'}
-          </h1>
-          <p style={{ 
-            fontSize: '1.25rem', 
-            marginBottom: 'var(--space-2xl)',
-            opacity: 0.9,
-            maxWidth: '600px',
-            margin: '0 auto var(--space-2xl)'
-          }}>
-            {getSectionContent('hero') || 'Votre partenaire de confiance pour des solutions innovantes'}
-          </p>
-          <div style={{ display: 'flex', gap: 'var(--space-lg)', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/services" className="btn btn-accent" style={{ textDecoration: 'none' }}>
-              Découvrir nos services
-              <ArrowRight size={16} style={{ marginLeft: 'var(--space-sm)' }} />
-            </Link>
-            <Link to="/contact" className="btn btn-outline" style={{ 
-              textDecoration: 'none',
-              borderColor: 'white',
-              color: 'white'
-            }}>
-              Nous contacter
-            </Link>
-          </div>
-        </div>
-      </section>
+            <div className="container">
+              <h1 style={{ 
+                fontSize: '3rem', 
+                marginBottom: 'var(--space-lg)',
+                fontWeight: '700'
+              }}>
+                {sections[0]?.title || 'Bienvenue chez Karima'}
+              </h1>
+              <p style={{ 
+                fontSize: '1.25rem', 
+                marginBottom: 'var(--space-2xl)',
+                opacity: 0.9,
+                maxWidth: '600px',
+                margin: '0 auto var(--space-2xl)'
+              }}>
+                {sections[0]?.content || 'Votre partenaire de confiance pour des solutions innovantes'}
+              </p>
+              <div style={{ display: 'flex', gap: 'var(--space-lg)', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <Link to="/services" className="btn btn-accent" style={{ textDecoration: 'none' }}>
+                  Découvrir nos services
+                  <ArrowRight size={16} style={{ marginLeft: 'var(--space-sm)' }} />
+                </Link>
+                <Link to="/contact" className="btn btn-outline" style={{ 
+                  textDecoration: 'none',
+                  borderColor: 'white',
+                  color: 'white'
+                }}>
+                  Nous contacter
+                </Link>
+              </div>
+            </div>
+          </section>
 
-      {/* Stats Section - Dynamique depuis la base de données */}
-      {sections.filter(s => s.key.includes('stat')).length > 0 && (
-        <section className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
-          <div className="container">
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: 'var(--space-xl)',
-              textAlign: 'center'
+          {/* Toutes les autres sections */}
+          {sections.slice(1).map((section, index) => (
+            <section key={section.id} className="section" style={{ 
+              backgroundColor: index % 2 === 0 ? 'var(--bg-secondary)' : 'var(--bg-primary)' 
             }}>
-              {sections.filter(s => s.key.includes('stat')).map((section, index) => (
-                <div key={index}>
-                  <div style={{
-                    fontSize: '2.5rem',
-                    fontWeight: '700',
-                    color: 'var(--primary)',
-                    marginBottom: 'var(--space-sm)'
-                  }}>
+              <div className="container">
+                <div className="text-center">
+                  <h2 style={{ marginBottom: 'var(--space-lg)' }}>
                     {section.title}
-                  </div>
-                  <div style={{
+                  </h2>
+                  <p style={{ 
+                    fontSize: '1.125rem', 
                     color: 'var(--text-secondary)',
-                    fontWeight: '500'
+                    maxWidth: '800px',
+                    margin: '0 auto'
                   }}>
                     {section.content}
-                  </div>
+                  </p>
+                  {section.description && (
+                    <p style={{ 
+                      fontSize: '1rem', 
+                      color: 'var(--text-primary)',
+                      marginTop: 'var(--space-md)',
+                      fontStyle: 'italic'
+                    }}>
+                      {section.description}
+                    </p>
+                  )}
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
+              </div>
+            </section>
+          ))}
+        </div>
+      ) : (
+        <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+          <h2>Page d'accueil</h2>
+          <p>Contenu par défaut - Aucune section trouvée dans la base de données</p>
+        </div>
       )}
-
-      {/* Services Section - Dynamique depuis la base de données */}
-      {sections.filter(s => s.key.includes('service')).length > 0 && (
-        <section className="section">
-          <div className="container">
-            <div className="text-center" style={{ marginBottom: 'var(--space-3xl)' }}>
-              <h2>Nos services</h2>
-              <p style={{ 
-                fontSize: '1.125rem', 
-                color: 'var(--text-secondary)',
-                maxWidth: '600px',
-                margin: '0 auto'
-              }}>
-                Des solutions complètes pour répondre à tous vos besoins professionnels
-              </p>
-            </div>
-            <div className="grid grid-3">
-              {sections.filter(s => s.key.includes('service')).slice(0, 3).map((section, index) => (
-                <div key={index} className="card">
-                  <div style={{ textAlign: 'center', padding: 'var(--space-xl)' }}>
-                    <Users size={48} style={{ color: 'var(--primary)', marginBottom: 'var(--space-lg)' }} />
-                    <h3>{section.title}</h3>
-                    <p>{section.content}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="text-center" style={{ marginTop: 'var(--space-2xl)' }}>
-              <Link to="/services" className="btn btn-primary" style={{ textDecoration: 'none' }}>
-                Voir tous nos services
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
-
-
-      {/* Section À propos dynamique */}
-      {sections.filter(s => s.key.includes('about')).length > 0 && (
-        <section className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
-          <div className="container">
-            <div className="text-center">
-              <h2>À propos de nous</h2>
-              <p style={{ 
-                fontSize: '1.125rem', 
-                color: 'var(--text-secondary)',
-                maxWidth: '600px',
-                margin: '0 auto'
-              }}>
-                Découvrez notre histoire et notre mission.
-              </p>
-            </div>
-          </div>
-        </section>
-      )}
-
     </div>
   )
 }
