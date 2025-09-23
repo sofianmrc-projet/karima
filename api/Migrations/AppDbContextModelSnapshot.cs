@@ -52,7 +52,7 @@ namespace Karima.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContactRequests");
+                    b.ToTable("ContactRequests", (string)null);
                 });
 
             modelBuilder.Entity("Karima.Api.Models.MediaFile", b =>
@@ -104,7 +104,7 @@ namespace Karima.Api.Migrations
 
                     b.HasIndex("CreatedByUserId");
 
-                    b.ToTable("MediaFiles");
+                    b.ToTable("MediaFiles", (string)null);
                 });
 
             modelBuilder.Entity("Karima.Api.Models.ServiceContent", b =>
@@ -148,7 +148,7 @@ namespace Karima.Api.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("ServiceContents");
+                    b.ToTable("ServiceContents", (string)null);
 
                     b.HasData(
                         new
@@ -599,7 +599,7 @@ namespace Karima.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Todos");
+                    b.ToTable("Todos", (string)null);
 
                     b.HasData(
                         new
@@ -676,7 +676,7 @@ namespace Karima.Api.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new

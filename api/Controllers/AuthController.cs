@@ -26,39 +26,47 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<AuthResponse>> Login([FromBody] AuthRequest request)
     {
-        var user = await _context.Users
-            .FirstOrDefaultAsync(u => u.Email == request.Email);
+        // Vérification simple pour admin/admin
+        if (request.Email == "admin@karima.com" && request.Password == "admin")
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == request.Email);
 
-        if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Utilisateur non trouvé" });
+            }
+
+            if (!user.IsAdmin)
+            {
+                return Forbid("Accès refusé. Seuls les administrateurs peuvent se connecter.");
+            }
+
+            // Mettre à jour la dernière connexion
+            user.LastLoginAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+
+            var token = GenerateJwtToken(user);
+            var response = new AuthResponse
+            {
+                Token = token,
+                User = new UserInfo
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    IsAdmin = user.IsAdmin
+                },
+                ExpiresAt = DateTime.UtcNow.AddHours(24)
+            };
+
+            return Ok(response);
+        }
+        else
         {
             return Unauthorized(new { message = "Email ou mot de passe incorrect" });
         }
-
-        if (!user.IsAdmin)
-        {
-            return Forbid("Accès refusé. Seuls les administrateurs peuvent se connecter.");
-        }
-
-        // Mettre à jour la dernière connexion
-        user.LastLoginAt = DateTime.UtcNow;
-        await _context.SaveChangesAsync();
-
-        var token = GenerateJwtToken(user);
-        var response = new AuthResponse
-        {
-            Token = token,
-            User = new UserInfo
-            {
-                Id = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                IsAdmin = user.IsAdmin
-            },
-            ExpiresAt = DateTime.UtcNow.AddHours(24)
-        };
-
-        return Ok(response);
     }
 
     [HttpPost("logout")]

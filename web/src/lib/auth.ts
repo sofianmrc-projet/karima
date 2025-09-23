@@ -18,7 +18,7 @@ export interface LoginRequest {
 }
 
 class AuthService {
-  private readonly API_BASE = '/api';
+  private readonly API_BASE = 'http://localhost:5000/api';
   private readonly TOKEN_KEY = 'karima_token';
   private readonly USER_KEY = 'karima_user';
 

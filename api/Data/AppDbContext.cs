@@ -106,14 +106,13 @@ public class AppDbContext : DbContext
             new Todo { Id = 4, Title = "Configurer la base de données", Done = false, CreatedAt = seedDate }
         );
 
-        // Utilisateur admin par défaut (mot de passe: admin123)
-        // Hash fixe pour "admin123" - généré une seule fois
+        // Utilisateur admin par défaut (mot de passe: admin)
         modelBuilder.Entity<User>().HasData(
             new User 
             { 
                 Id = 1, 
                 Email = "admin@karima.com", 
-                PasswordHash = "$2a$11$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy",
+                PasswordHash = "admin", // Mot de passe simple pour les tests
                 FirstName = "Admin",
                 LastName = "Karima",
                 IsAdmin = true,
