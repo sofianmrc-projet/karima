@@ -9,13 +9,10 @@ interface SectionEditorProps {
 
 const SectionEditor = ({ section, onSave, onCancel }: SectionEditorProps) => {
   const [formData, setFormData] = useState({
-    key: section.key,
     title: section.title,
     content: section.content,
-    description: section.description || '',
     imageUrl: section.imageUrl || '',
     altText: section.altText || '',
-    category: section.category || '',
     sortOrder: section.sortOrder,
     isActive: section.isActive
   });
@@ -30,6 +27,9 @@ const SectionEditor = ({ section, onSave, onCancel }: SectionEditorProps) => {
       const updatedSection: Section = {
         ...section,
         ...formData,
+        key: section.key,
+        description: section.description,
+        category: section.category,
         updatedAt: new Date().toISOString()
       };
       
@@ -64,58 +64,6 @@ const SectionEditor = ({ section, onSave, onCancel }: SectionEditorProps) => {
 
       <form onSubmit={handleSubmit}>
         <div style={{ display: 'grid', gap: 'var(--space-lg)' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-lg)' }}>
-            <div>
-              <label htmlFor="key" style={{ 
-                display: 'block', 
-                marginBottom: 'var(--space-sm)',
-                fontWeight: '500'
-              }}>
-                Clé (identifiant unique) *
-              </label>
-              <input
-                type="text"
-                id="key"
-                name="key"
-                value={formData.key}
-                onChange={handleChange}
-                required
-                style={{
-                  width: '100%',
-                  padding: 'var(--space-md)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: 'var(--radius)',
-                  fontSize: '1rem'
-                }}
-                placeholder="ex: home_hero"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="category" style={{ 
-                display: 'block', 
-                marginBottom: 'var(--space-sm)',
-                fontWeight: '500'
-              }}>
-                Catégorie
-              </label>
-              <input
-                type="text"
-                id="category"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                style={{
-                  width: '100%',
-                  padding: 'var(--space-md)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: 'var(--radius)',
-                  fontSize: '1rem'
-                }}
-                placeholder="ex: Accueil, Services, Contact"
-              />
-            </div>
-          </div>
 
           <div>
             <label htmlFor="title" style={{ 
@@ -170,31 +118,6 @@ const SectionEditor = ({ section, onSave, onCancel }: SectionEditorProps) => {
             />
           </div>
 
-          <div>
-            <label htmlFor="description" style={{ 
-              display: 'block', 
-              marginBottom: 'var(--space-sm)',
-              fontWeight: '500'
-            }}>
-              Description
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              rows={3}
-              style={{
-                width: '100%',
-                padding: 'var(--space-md)',
-                border: '1px solid var(--border-color)',
-                borderRadius: 'var(--radius)',
-                fontSize: '1rem',
-                resize: 'vertical'
-              }}
-              placeholder="Description optionnelle de la section"
-            />
-          </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-lg)' }}>
             <div>
