@@ -3,7 +3,7 @@ import { ArrowRight, Users, Award, Clock } from 'lucide-react'
 import { useSections } from '../hooks/useSections'
 
 const Home = () => {
-  const { sections, loading, error } = useSections('Accueil')
+  const { sections, loading, error } = useSections('Cabinet')
 
   // Fonction pour récupérer une section par sa clé
   const getSectionContent = (key: string) => {

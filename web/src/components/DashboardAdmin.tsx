@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { api, Section } from '../lib/api';
 import SectionEditor from './SectionEditor';
+import FooterEditor from './FooterEditor';
 
 const DashboardAdmin = () => {
   const [sections, setSections] = useState<Section[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
+  const [showFooterEditor, setShowFooterEditor] = useState(false);
 
   useEffect(() => {
     loadSections();
@@ -44,6 +46,35 @@ const DashboardAdmin = () => {
       setSelectedSection(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erreur lors de la mise à jour');
+    }
+  };
+
+  const handleUpdateFooterSections = async (updatedSections: Section[]) => {
+    try {
+      // Mettre à jour chaque section du footer
+      for (const section of updatedSections) {
+        await api.updateSection(section.id, {
+          key: section.key,
+          title: section.title,
+          content: section.content,
+          description: section.description,
+          imageUrl: section.imageUrl,
+          altText: section.altText,
+          category: section.category,
+          sortOrder: section.sortOrder,
+          isActive: section.isActive
+        });
+      }
+      
+      setSections(prev => 
+        prev.map(s => {
+          const updated = updatedSections.find(us => us.id === s.id);
+          return updated || s;
+        })
+      );
+      setShowFooterEditor(false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erreur lors de la mise à jour du footer');
     }
   };
 
@@ -91,6 +122,17 @@ const DashboardAdmin = () => {
         section={selectedSection}
         onSave={handleUpdateSection}
         onCancel={() => setSelectedSection(null)}
+      />
+    );
+  }
+
+  if (showFooterEditor) {
+    const footerSections = sections.filter(s => s.category === 'Footer');
+    return (
+      <FooterEditor
+        sections={footerSections}
+        onSave={handleUpdateFooterSections}
+        onCancel={() => setShowFooterEditor(false)}
       />
     );
   }
@@ -153,6 +195,7 @@ const DashboardAdmin = () => {
             <div style={{
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'space-between',
               marginBottom: 'var(--space-lg)',
               padding: 'var(--space-md)',
               backgroundColor: 'var(--primary)',
@@ -165,6 +208,20 @@ const DashboardAdmin = () => {
               <h2 style={{ margin: 0, fontSize: '1.5rem' }}>
                 {category} ({sectionsByCategory[category].length} sections)
               </h2>
+              {category === 'Footer' && (
+                <button
+                  onClick={() => setShowFooterEditor(true)}
+                  className="btn btn-secondary"
+                  style={{ 
+                    backgroundColor: 'var(--secondary)',
+                    color: 'white',
+                    border: '1px solid var(--secondary-light)',
+                    fontSize: '0.9rem'
+                  }}
+                >
+                  🦶 Éditer Footer
+                </button>
+              )}
             </div>
 
             <div style={{ display: 'grid', gap: 'var(--space-lg)' }}>
