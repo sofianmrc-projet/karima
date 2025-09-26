@@ -248,7 +248,22 @@ const SectionEditor = ({ section, onSave, onCancel }: SectionEditorProps) => {
             type="submit"
             disabled={saving}
             className="btn btn-primary"
-            style={{ minWidth: '120px' }}
+            style={{ 
+              minWidth: '120px',
+              backgroundColor: '#2D3748',
+              color: 'white',
+              border: 'none'
+            }}
+            onMouseEnter={(e) => {
+              if (!saving) {
+                e.currentTarget.style.backgroundColor = '#1A202C'
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!saving) {
+                e.currentTarget.style.backgroundColor = '#2D3748'
+              }
+            }}
           >
             {saving ? 'Sauvegarde...' : 'Sauvegarder'}
           </button>
@@ -256,7 +271,18 @@ const SectionEditor = ({ section, onSave, onCancel }: SectionEditorProps) => {
             type="button"
             onClick={onCancel}
             className="btn btn-secondary"
-            style={{ minWidth: '120px' }}
+            style={{ 
+              minWidth: '120px',
+              backgroundColor: '#6B7280',
+              color: 'white',
+              border: 'none'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#4B5563'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#6B7280'
+            }}
           >
             Annuler
           </button>
