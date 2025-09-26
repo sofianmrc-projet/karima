@@ -2,6 +2,7 @@ import ContactForm from '../components/ContactForm'
 import { Mail, Phone, MapPin, Clock } from 'lucide-react'
 import { useSections } from '../hooks/useSections'
 
+
 const Contact = () => {
   const { sections, loading, error } = useSections('Contact')
 
@@ -32,25 +33,25 @@ const Contact = () => {
       icon: Mail,
       title: 'Email',
       value: getSectionContent('contact_email') || 'contact@karima.fr',
-      description: getSectionContent('contact_email_desc') || 'Réponse sous 24h'
+      description: 'Réponse sous 24h'
     },
     {
       icon: Phone,
       title: 'Téléphone',
       value: getSectionContent('contact_phone') || '01 23 45 67 89',
-      description: getSectionContent('contact_phone_desc') || 'Lun-Ven 9h-18h'
+      description: 'Lun-Ven 9h-18h'
     },
     {
       icon: MapPin,
       title: 'Adresse',
-      value: getSectionContent('contact_address') || '123 Avenue des Champs',
-      description: getSectionContent('contact_address_desc') || '75008 Paris, France'
+      value: getSectionContent('contact_address') || '123 Avenue des Champs, 75008 Paris',
+      description: 'France'
     },
     {
       icon: Clock,
       title: 'Horaires',
-      value: getSectionContent('contact_hours') || '9h00 - 18h00',
-      description: getSectionContent('contact_hours_desc') || 'Lundi au Vendredi'
+      value: getSectionContent('contact_hours_content') || 'Lundi - Vendredi : 9h00 - 18h00',
+      description: 'Samedi : 9h00 - 13h00'
     }
   ]
 
@@ -58,18 +59,36 @@ const Contact = () => {
     <div>
       {/* Hero Section */}
       <section style={{
-        background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)',
-        color: 'white',
+        background: 'linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%)',
+        color: 'black',
         padding: 'var(--space-3xl) 0',
-        textAlign: 'center'
+        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+        backgroundImage: `url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
       }}>
-        <div className="container">
+        {/* Overlay pour contrôler l'opacité de l'image de fond */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(247, 247, 245, 0.7)',
+          zIndex: 1,
+          pointerEvents: 'none'
+        }}></div>
+        
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <h1 style={{ 
             fontSize: '3rem', 
             marginBottom: 'var(--space-lg)',
             fontWeight: '700'
           }}>
-            {getSectionContent('contact_hero') || 'Contactez-nous'}
+            {getSectionContent('contact_title') || 'Contactez-nous'}
           </h1>
           <p style={{ 
             fontSize: '1.25rem', 
@@ -78,11 +97,12 @@ const Contact = () => {
             maxWidth: '600px',
             margin: '0 auto var(--space-2xl)'
           }}>
-            {getSectionContent('contact_hero_description') || 'Nous sommes là pour répondre à vos questions et vous accompagner'} 
+            {getSectionContent('contact_subtitle') || 'Nous sommes là pour répondre à vos questions et vous accompagner'} 
             dans vos projets. N'hésitez pas à nous contacter.
           </p>
         </div>
       </section>
+
 
       {/* Contact Section */}
       <section className="section">
@@ -122,7 +142,7 @@ const Contact = () => {
                       width: '48px',
                       height: '48px',
                       borderRadius: 'var(--radius-lg)',
-                      backgroundColor: 'var(--primary)',
+                      backgroundColor: '#2D3748',
                       color: 'white',
                       flexShrink: 0
                     }}>
@@ -131,7 +151,7 @@ const Contact = () => {
                     <div>
                       <h3 style={{ 
                         marginBottom: 'var(--space-xs)',
-                        color: 'var(--primary)',
+                        color: '#2D3748',
                         fontSize: '1.125rem'
                       }}>
                         {info.title}
@@ -162,7 +182,7 @@ const Contact = () => {
               }}>
                 <h3 style={{ 
                   marginBottom: 'var(--space-md)',
-                  color: 'var(--primary)'
+                  color: '#2D3748'
                 }}>
                   Pourquoi nous choisir ?
                 </h3>
@@ -191,7 +211,7 @@ const Contact = () => {
                         width: '6px',
                         height: '6px',
                         borderRadius: '50%',
-                        backgroundColor: 'var(--accent)',
+                        backgroundColor: '#2D3748',
                         marginRight: 'var(--space-sm)',
                         flexShrink: 0
                       }} />
@@ -205,8 +225,9 @@ const Contact = () => {
         </div>
       </section>
 
+
       {/* FAQ Section */}
-      <section className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+      <section className="section" style={{ backgroundColor: 'var(--bg-primary)' }}>
         <div className="container">
           <div className="text-center" style={{ marginBottom: 'var(--space-3xl)' }}>
             <h2>{getSectionContent('contact_faq_title') || 'Questions fréquentes'}</h2>
@@ -223,26 +244,18 @@ const Contact = () => {
           <div className="grid grid-2">
             {[
               {
-                question: 'Combien de temps faut-il pour voir les premiers résultats ?',
-                answer: 'Les premiers résultats sont généralement visibles dès les premières semaines de mise en œuvre. Cependant, l\'impact complet se mesure généralement sur 3 à 6 mois selon la complexité du projet.'
+                question: getSectionContent('contact_faq_q1') || 'Comment prendre rendez-vous ?',
+                answer: getSectionContent('contact_faq_a1') || 'Vous pouvez nous contacter par téléphone ou email pour prendre rendez-vous. Nous vous répondrons dans les plus brefs délais.'
               },
               {
-                question: 'Proposez-vous des formations personnalisées ?',
-                answer: 'Oui, toutes nos formations sont adaptées aux besoins spécifiques de votre organisation. Nous commençons par analyser vos enjeux avant de concevoir un programme sur mesure.'
-              },
-              {
-                question: 'Quel est votre taux de satisfaction client ?',
-                answer: 'Nous maintenons un taux de satisfaction de 98% grâce à notre approche personnalisée et notre engagement envers l\'excellence. La satisfaction de nos clients est notre priorité absolue.'
-              },
-              {
-                question: 'Offrez-vous un suivi après la formation ?',
-                answer: 'Absolument ! Nous proposons un suivi de 3 mois inclus dans tous nos programmes de formation, avec des sessions de coaching et des ressources en ligne pour assurer la mise en pratique.'
+                question: getSectionContent('contact_faq_q2') || 'Quels sont vos tarifs ?',
+                answer: getSectionContent('contact_faq_a2') || 'Nos tarifs varient selon la complexité de votre dossier. Contactez-nous pour un devis personnalisé.'
               }
             ].map((faq, index) => (
               <div key={index} className="card">
                 <h3 style={{ 
                   marginBottom: 'var(--space-md)',
-                  color: 'var(--primary)',
+                  color: '#2D3748',
                   fontSize: '1.125rem'
                 }}>
                   {faq.question}

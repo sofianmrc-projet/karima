@@ -28,12 +28,30 @@ const Services = () => {
         <div>
           {/* Hero Section - Première section */}
           <section style={{
-            background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)',
-            color: 'white',
+            background: 'linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%)',
+            color: 'black',
             padding: 'var(--space-3xl) 0',
-            textAlign: 'center'
+            textAlign: 'center',
+            position: 'relative',
+            overflow: 'hidden',
+            backgroundImage: `url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed'
           }}>
-            <div className="container">
+            {/* Overlay pour contrôler l'opacité de l'image de fond */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              background: 'rgba(247, 247, 245, 0.7)',
+              zIndex: 1,
+              pointerEvents: 'none'
+            }}></div>
+            
+            <div className="container" style={{ position: 'relative', zIndex: 2 }}>
               <h1 style={{ 
                 fontSize: '3rem', 
                 marginBottom: 'var(--space-lg)',

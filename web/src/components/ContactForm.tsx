@@ -6,6 +6,8 @@ const ContactForm = () => {
   const [formData, setFormData] = useState<ContactRequest>({
     name: '',
     email: '',
+    phone: '',
+    subject: '',
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -23,6 +25,10 @@ const ContactForm = () => {
       newErrors.email = 'L\'email est requis'
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'L\'email n\'est pas valide'
+    }
+
+    if (!formData.subject.trim()) {
+      newErrors.subject = 'Le sujet est requis'
     }
 
     if (!formData.message.trim()) {
@@ -46,7 +52,7 @@ const ContactForm = () => {
     try {
       await api.submitContact(formData)
       setIsSubmitted(true)
-      setFormData({ name: '', email: '', message: '' })
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
     } catch (error) {
       console.error('Erreur lors de l\'envoi:', error)
       alert('Une erreur est survenue lors de l\'envoi du message. Veuillez réessayer.')
@@ -78,6 +84,19 @@ const ContactForm = () => {
         <button
           className="btn btn-outline"
           onClick={() => setIsSubmitted(false)}
+          style={{
+            backgroundColor: '#2D3748',
+            color: 'white',
+            border: '2px solid #2D3748'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#1A202C'
+            e.currentTarget.style.borderColor = '#1A202C'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = '#2D3748'
+            e.currentTarget.style.borderColor = '#2D3748'
+          }}
         >
           Envoyer un autre message
         </button>
@@ -127,6 +146,37 @@ const ContactForm = () => {
       </div>
 
       <div className="form-group">
+        <label htmlFor="phone" className="form-label">
+          Téléphone
+        </label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          className="form-input"
+          placeholder="01 23 45 67 89"
+        />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="subject" className="form-label">
+          Sujet *
+        </label>
+        <input
+          type="text"
+          id="subject"
+          name="subject"
+          value={formData.subject}
+          onChange={handleChange}
+          className="form-input"
+          placeholder="Objet de votre message"
+        />
+        {errors.subject && <div className="form-error">{errors.subject}</div>}
+      </div>
+
+      <div className="form-group">
         <label htmlFor="message" className="form-label">
           Message *
         </label>
@@ -146,7 +196,22 @@ const ContactForm = () => {
         type="submit"
         className="btn btn-primary"
         disabled={isSubmitting}
-        style={{ width: '100%' }}
+        style={{ 
+          width: '100%',
+          backgroundColor: '#2D3748',
+          color: 'white',
+          border: 'none'
+        }}
+        onMouseEnter={(e) => {
+          if (!isSubmitting) {
+            e.currentTarget.style.backgroundColor = '#1A202C'
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!isSubmitting) {
+            e.currentTarget.style.backgroundColor = '#2D3748'
+          }
+        }}
       >
         {isSubmitting ? (
           'Envoi en cours...'

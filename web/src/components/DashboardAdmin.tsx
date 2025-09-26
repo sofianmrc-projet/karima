@@ -181,7 +181,20 @@ const DashboardAdmin = () => {
                   element?.scrollIntoView({ behavior: 'smooth' });
                 }}
                 className="btn btn-outline"
-                style={{ fontSize: '0.9rem' }}
+                style={{ 
+                  fontSize: '0.9rem',
+                  backgroundColor: '#2D3748',
+                  color: 'white',
+                  border: '2px solid #2D3748'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#1A202C'
+                  e.currentTarget.style.borderColor = '#1A202C'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#2D3748'
+                  e.currentTarget.style.borderColor = '#2D3748'
+                }}
               >
                 {category} ({sectionsByCategory[category].length})
               </button>
@@ -213,10 +226,16 @@ const DashboardAdmin = () => {
                   onClick={() => setShowFooterEditor(true)}
                   className="btn btn-secondary"
                   style={{ 
-                    backgroundColor: 'var(--secondary)',
+                    backgroundColor: '#2D3748',
                     color: 'white',
-                    border: '1px solid var(--secondary-light)',
+                    border: 'none',
                     fontSize: '0.9rem'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#1A202C'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#2D3748'
                   }}
                 >
                   🦶 Éditer Footer
@@ -251,14 +270,36 @@ const DashboardAdmin = () => {
                       <button
                         onClick={() => setSelectedSection(section)}
                         className="btn btn-secondary"
-                        style={{ fontSize: '0.9rem' }}
+                        style={{ 
+                          fontSize: '0.9rem',
+                          backgroundColor: '#2D3748',
+                          color: 'white',
+                          border: 'none'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = '#1A202C'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = '#2D3748'
+                        }}
                       >
                         ✏️ Modifier
                       </button>
                       <button
                         onClick={() => handleDeleteSection(section.id)}
                         className="btn btn-danger"
-                        style={{ fontSize: '0.9rem' }}
+                        style={{ 
+                          fontSize: '0.9rem',
+                          backgroundColor: '#DC2626',
+                          color: 'white',
+                          border: 'none'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = '#B91C1C'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = '#DC2626'
+                        }}
                       >
                         🗑️ Supprimer
                       </button>

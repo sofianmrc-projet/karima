@@ -60,16 +60,57 @@ const Account = () => {
 
   if (!user) {
     return (
-      <div className="section">
-        <div className="container">
-          <div style={{ maxWidth: '400px', margin: '0 auto' }}>
-            <div style={{ textAlign: 'center', marginBottom: 'var(--space-2xl)' }}>
-              <h1>Mon Compte</h1>
-              <p style={{ color: 'var(--text-secondary)' }}>
-                Connectez-vous pour accéder à l'espace d'administration
-              </p>
+      <div>
+        {/* Hero Section */}
+        <section style={{
+          background: 'linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%)',
+          color: 'black',
+          padding: 'var(--space-3xl) 0',
+          textAlign: 'center',
+          position: 'relative',
+          overflow: 'hidden',
+          backgroundImage: `url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}>
+          {/* Overlay pour contrôler l'opacité de l'image de fond */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(247, 247, 245, 0.7)',
+            zIndex: 1,
+            pointerEvents: 'none'
+          }}></div>
+          
+          <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+            <h1 style={{ 
+              fontSize: '3rem', 
+              marginBottom: 'var(--space-lg)',
+              fontWeight: '700'
+            }}>
+              Mon Compte
+            </h1>
+            <p style={{ 
+              fontSize: '1.25rem', 
+              marginBottom: 'var(--space-2xl)',
+              opacity: 0.9,
+              maxWidth: '600px',
+              margin: '0 auto var(--space-2xl)'
+            }}>
+              Connectez-vous pour accéder à l'espace d'administration
+            </p>
+          </div>
+        </section>
+
+        <div className="section">
+          <div className="container">
+            <div style={{ maxWidth: '400px', margin: '0 auto' }}>
+              <LoginForm onLogin={handleLogin} />
             </div>
-            <LoginForm onLogin={handleLogin} />
           </div>
         </div>
       </div>
@@ -77,34 +118,75 @@ const Account = () => {
   }
 
   return (
-    <div className="section">
-      <div className="container">
-        <div style={{ marginBottom: 'var(--space-2xl)' }}>
+    <div>
+      {/* Hero Section */}
+      <section style={{
+        background: 'linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%)',
+        color: 'black',
+        padding: 'var(--space-3xl) 0',
+        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+        backgroundImage: `url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}>
+        {/* Overlay pour contrôler l'opacité de l'image de fond */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(247, 247, 245, 0.7)',
+          zIndex: 1,
+          pointerEvents: 'none'
+        }}></div>
+        
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
-              <h1>Mon Compte</h1>
-              <p style={{ color: 'var(--text-secondary)' }}>
+              <h1 style={{ 
+                fontSize: '3rem', 
+                marginBottom: 'var(--space-sm)',
+                fontWeight: '700'
+              }}>
+                Mon Compte
+              </h1>
+              <p style={{ 
+                fontSize: '1.25rem', 
+                opacity: 0.9
+              }}>
                 Bienvenue, {user.firstName} {user.lastName}
               </p>
             </div>
             <button
               onClick={handleLogout}
               className="btn btn-outline"
-              style={{ marginLeft: 'var(--space-lg)' }}
+              style={{ 
+                marginLeft: 'var(--space-lg)',
+                borderColor: 'black',
+                color: 'black'
+              }}
             >
               Se déconnecter
             </button>
           </div>
         </div>
-        
-        {user.isAdmin ? (
-          <DashboardAdmin />
-        ) : (
-          <div className="card" style={{ padding: 'var(--space-2xl)', textAlign: 'center' }}>
-            <h2>Accès restreint</h2>
-            <p>Vous n'avez pas les permissions nécessaires pour accéder à cette section.</p>
-          </div>
-        )}
+      </section>
+
+      <div className="section">
+        <div className="container">
+          {user.isAdmin ? (
+            <DashboardAdmin />
+          ) : (
+            <div className="card" style={{ padding: 'var(--space-2xl)', textAlign: 'center' }}>
+              <h2>Accès restreint</h2>
+              <p>Vous n'avez pas les permissions nécessaires pour accéder à cette section.</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

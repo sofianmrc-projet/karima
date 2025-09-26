@@ -39,40 +39,68 @@ const Home = () => {
       {sections.length > 0 ? (
         <div>
           {/* Hero Section */}
-          <section style={{
-            background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)',
-            color: 'white',
+          <section className="hero-section" style={{
+            background: 'linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%)',
+            color: 'black',
             padding: 'var(--space-3xl) 0',
-            textAlign: 'center'
+            textAlign: 'center',
+            position: 'relative',
+            overflow: 'hidden',
+            backgroundImage: `url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed'
           }}>
-            <div className="container">
+            {/* Overlay pour contrôler l'opacité de l'image de fond */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              background: 'rgba(247, 247, 245, 0.7)',
+              zIndex: 1,
+              pointerEvents: 'none'
+            }}></div>
+            
+            <div className="container" style={{ position: 'relative', zIndex: 2 }}>
               <h1 style={{ 
-                fontSize: '3rem', 
-                marginBottom: 'var(--space-lg)',
-                fontWeight: '700'
+                fontSize: '3.5rem', 
+                marginBottom: 'var(--space-xl)',
+                fontWeight: '700',
+                letterSpacing: '-0.05em',
+                lineHeight: '1.1'
               }}>
-                {sections[0]?.title || 'Bienvenue chez Karima'}
+                {sections[0]?.title || 'Cabinet Karima'}
               </h1>
               <p style={{ 
-                fontSize: '1.25rem', 
+                fontSize: '1.375rem', 
                 marginBottom: 'var(--space-2xl)',
-                opacity: 0.9,
-                maxWidth: '600px',
-                margin: '0 auto var(--space-2xl)'
+                opacity: 0.95,
+                maxWidth: '700px',
+                margin: '0 auto var(--space-2xl)',
+                lineHeight: '1.6',
+                fontWeight: '400'
               }}>
-                {sections[0]?.content || 'Votre partenaire de confiance pour des solutions innovantes'}
+                {sections[0]?.content || 'Consultante en droit social et accompagnement RH'}
               </p>
-              <div style={{ display: 'flex', gap: 'var(--space-lg)', justifyContent: 'center', flexWrap: 'wrap' }}>
-                <Link to="/services" className="btn btn-accent" style={{ textDecoration: 'none' }}>
-                  Découvrir nos services
-                  <ArrowRight size={16} style={{ marginLeft: 'var(--space-sm)' }} />
-                </Link>
-                <Link to="/contact" className="btn btn-outline" style={{ 
+              <div style={{ display: 'flex', gap: 'var(--space-xl)', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <Link to="/services" className="btn btn-accent" style={{ 
                   textDecoration: 'none',
-                  borderColor: 'white',
-                  color: 'white'
+                  fontSize: '1.125rem',
+                  padding: 'var(--space-lg) var(--space-2xl)'
                 }}>
-                  Nous contacter
+                  Découvrir nos domaines d'intervention
+                  <ArrowRight size={18} style={{ marginLeft: 'var(--space-sm)' }} />
+                </Link>
+            <Link to="/contact" className="btn btn-outline" style={{
+              textDecoration: 'none',
+              borderColor: 'black',
+              color: 'black',
+                  fontSize: '1.125rem',
+                  padding: 'var(--space-lg) var(--space-2xl)'
+                }}>
+                  Prendre rendez-vous
                 </Link>
               </div>
             </div>

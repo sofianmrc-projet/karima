@@ -11,13 +11,19 @@ const Footer = () => {
   }
 
   if (loading) {
-    return (
-      <footer style={{
-        backgroundColor: 'var(--primary)',
-        color: 'var(--text-white)',
-        padding: 'var(--space-3xl) 0 var(--space-xl)',
-        textAlign: 'center'
-      }}>
+  return (
+    <footer className="main-footer" style={{
+      background: 'linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%)',
+      color: 'var(--text-primary)',
+      padding: 'var(--space-3xl) 0 var(--space-xl)',
+      textAlign: 'center',
+      position: 'relative',
+      overflow: 'hidden',
+      backgroundImage: `url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed'
+    }}>
         <div className="container">
           <p>Chargement du footer...</p>
         </div>
@@ -25,12 +31,31 @@ const Footer = () => {
     )
   }
   return (
-    <footer style={{
-      backgroundColor: 'var(--primary)',
-      color: 'var(--text-white)',
-      padding: 'var(--space-3xl) 0 var(--space-xl)'
+    <footer className="main-footer" style={{
+      background: 'linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%)',
+      color: 'var(--text-primary)',
+      padding: 'var(--space-3xl) 0 var(--space-xl)',
+      textAlign: 'center',
+      position: 'relative',
+      overflow: 'hidden',
+      backgroundImage: `url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed'
     }}>
-      <div className="container">
+      {/* Overlay pour contrôler l'opacité de l'image de fond */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'rgba(247, 247, 245, 0.8)',
+        zIndex: 1,
+        pointerEvents: 'none'
+      }}></div>
+      
+      <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <div style={{
           display: 'flex',
           flexDirection: 'column',
@@ -41,14 +66,14 @@ const Footer = () => {
           {/* Company Info */}
           <div>
             <h3 style={{ 
-              color: 'var(--text-white)', 
+              color: 'black', 
               marginBottom: 'var(--space-lg)',
               fontSize: '1.5rem'
             }}>
               {getSectionContent('footer_company')}
             </h3>
             <p style={{ 
-              color: 'var(--secondary-light)',
+              color: 'black',
               marginBottom: 'var(--space-lg)',
               maxWidth: '600px'
             }}>
@@ -64,7 +89,7 @@ const Footer = () => {
                 display: 'flex', 
                 alignItems: 'center', 
                 gap: 'var(--space-sm)',
-                color: 'var(--secondary-light)'
+                color: 'black'
               }}>
                 <Mail size={16} />
                 <span>{getSectionContent('footer_email')}</span>
@@ -73,7 +98,7 @@ const Footer = () => {
                 display: 'flex', 
                 alignItems: 'center', 
                 gap: 'var(--space-sm)',
-                color: 'var(--secondary-light)'
+                color: 'black'
               }}>
                 <Phone size={16} />
                 <span>{getSectionContent('footer_phone')}</span>
@@ -82,7 +107,7 @@ const Footer = () => {
                 display: 'flex', 
                 alignItems: 'center', 
                 gap: 'var(--space-sm)',
-                color: 'var(--secondary-light)'
+                color: 'black'
               }}>
                 <MapPin size={16} />
                 <span>{getSectionContent('footer_address')}</span>
@@ -96,7 +121,7 @@ const Footer = () => {
           borderTop: '1px solid var(--secondary)',
           paddingTop: 'var(--space-lg)',
           textAlign: 'center',
-          color: 'var(--secondary-light)'
+          color: 'black'
         }}>
           <p>{getSectionContent('footer_copyright')}</p>
         </div>

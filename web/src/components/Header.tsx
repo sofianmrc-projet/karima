@@ -19,11 +19,13 @@ const Header = () => {
 
   return (
     <header style={{ 
-      backgroundColor: 'var(--bg-secondary)', 
-      boxShadow: 'var(--shadow-sm)',
+      background: 'linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%)',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
       position: 'sticky',
       top: 0,
-      zIndex: 1000
+      zIndex: 1000,
+      borderBottom: '1px solid rgba(var(--primary-rgb), 0.1)',
+      backdropFilter: 'blur(10px)'
     }}>
       <div className="container" style={{ 
         display: 'flex', 
@@ -32,13 +34,15 @@ const Header = () => {
         padding: 'var(--space-md) var(--space-lg)'
       }}>
         {/* Logo */}
-        <Link to="/" style={{ 
-          textDecoration: 'none', 
-          color: 'var(--primary)',
-          fontSize: '1.5rem',
-          fontWeight: '700'
+        <Link to="/" style={{
+          textDecoration: 'none',
+          color: '#1A202C',
+          fontSize: '1.75rem',
+          fontWeight: '700',
+          letterSpacing: '-0.025em',
+          transition: 'color 0.3s ease'
         }}>
-          Karima
+          Cabinet Karima
         </Link>
 
         {/* Desktop Navigation */}
@@ -49,19 +53,21 @@ const Header = () => {
               to={item.path}
               style={{
                 textDecoration: 'none',
-                color: 'var(--text-primary)',
-                fontWeight: '500',
-                padding: 'var(--space-sm) var(--space-md)',
-                borderRadius: 'var(--radius-md)',
-                transition: 'all 0.2s ease'
+                color: '#2D3748',
+                fontWeight: '600',
+                padding: 'var(--space-sm) var(--space-lg)',
+                borderRadius: 'var(--radius-lg)',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                fontSize: '0.95rem',
+                letterSpacing: '0.025em'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = 'var(--bg-tertiary)'
-                e.currentTarget.style.color = 'var(--primary)'
+                e.currentTarget.style.color = '#1A202C'
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'transparent'
-                e.currentTarget.style.color = 'var(--text-primary)'
+                e.currentTarget.style.color = '#2D3748'
               }}
             >
               {item.label}
@@ -70,7 +76,18 @@ const Header = () => {
           <Link
             to="/contact"
             className="btn btn-primary"
-            style={{ textDecoration: 'none' }}
+            style={{ 
+              textDecoration: 'none',
+              backgroundColor: '#2D3748',
+              color: 'white',
+              border: 'none'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#1A202C'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#2D3748'
+            }}
           >
             Contact
           </Link>
@@ -108,7 +125,7 @@ const Header = () => {
               onClick={() => setIsMenuOpen(false)}
               style={{
                 textDecoration: 'none',
-                color: 'var(--text-primary)',
+                color: '#2D3748',
                 fontWeight: '500',
                 padding: 'var(--space-md)',
                 borderRadius: 'var(--radius-md)',
@@ -125,7 +142,10 @@ const Header = () => {
             style={{ 
               textDecoration: 'none',
               marginTop: 'var(--space-sm)',
-              textAlign: 'center'
+              textAlign: 'center',
+              backgroundColor: '#2D3748',
+              color: 'white',
+              border: 'none'
             }}
           >
             Contact
@@ -133,7 +153,7 @@ const Header = () => {
         </nav>
       )}
 
-      <style jsx>{`
+      <style>{`
         @media (max-width: 768px) {
           .mobile-menu-btn {
             display: block !important;
