@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Users, Award, Clock } from 'lucide-react'
+import { ArrowRight, Users, Award, Clock, Scale, Shield, CheckCircle, Target, Briefcase, Heart, Star, TrendingUp, FileText, Lightbulb, Users2, Building, Globe, Gavel } from 'lucide-react'
 import { useSections } from '../hooks/useSections'
 
 const Home = () => {
@@ -106,8 +106,155 @@ const Home = () => {
             </div>
           </section>
 
-          {/* Toutes les autres sections */}
-          {sections.slice(1).map((section, index) => (
+          {/* Section Domaines d'intervention */}
+          <section className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+            <div className="container">
+              <div className="text-center">
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  gap: 'var(--space-md)',
+                  marginBottom: 'var(--space-lg)'
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '56px',
+                    height: '56px',
+                    borderRadius: 'var(--radius-lg)',
+                    backgroundColor: '#2D3748',
+                    color: 'white',
+                    flexShrink: 0
+                  }}>
+                    <Scale size={28} />
+                  </div>
+                  <h2 style={{ 
+                    margin: 0,
+                    color: '#2D3748',
+                    fontSize: '2rem'
+                  }}>
+                    Domaines d'intervention
+                  </h2>
+                </div>
+                
+                <div className="grid grid-3" style={{ maxWidth: '1000px', margin: '0 auto' }}>
+                  {[
+                    { icon: Shield, title: 'Droit du travail', desc: 'Conformité réglementaire et gestion des contrats' },
+                    { icon: Users, title: 'Relations sociales', desc: 'Négociation collective et médiation' },
+                    { icon: FileText, title: 'Audit social', desc: 'Analyse et amélioration des pratiques RH' },
+                    { icon: Award, title: 'Formation RH', desc: 'Développement des compétences managériales' },
+                    { icon: Briefcase, title: 'Accompagnement', desc: 'Suivi personnalisé des dirigeants' },
+                    { icon: CheckCircle, title: 'Conformité', desc: 'Mise en conformité réglementaire' }
+                  ].map((domain, index) => {
+                    const IconComponent = domain.icon
+                    return (
+                      <div key={index} className="card" style={{ textAlign: 'center', padding: 'var(--space-lg)' }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '48px',
+                          height: '48px',
+                          borderRadius: 'var(--radius-lg)',
+                          backgroundColor: '#2D3748',
+                          color: 'white',
+                          margin: '0 auto var(--space-md)'
+                        }}>
+                          <IconComponent size={24} />
+                        </div>
+                        <h3 style={{ color: '#2D3748', marginBottom: 'var(--space-md)', fontSize: '1.1rem' }}>{domain.title}</h3>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', margin: 0 }}>{domain.desc}</p>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Section Pourquoi nous choisir */}
+          <section className="section" style={{ backgroundColor: 'var(--bg-primary)' }}>
+            <div className="container">
+              <div className="text-center">
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  gap: 'var(--space-md)',
+                  marginBottom: 'var(--space-lg)'
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '56px',
+                    height: '56px',
+                    borderRadius: 'var(--radius-lg)',
+                    backgroundColor: '#2D3748',
+                    color: 'white',
+                    flexShrink: 0
+                  }}>
+                    <Star size={28} />
+                  </div>
+                  <h2 style={{ 
+                    margin: 0,
+                    color: '#2D3748',
+                    fontSize: '2rem'
+                  }}>
+                    Pourquoi nous choisir ?
+                  </h2>
+                </div>
+                
+                <div className="grid grid-2" style={{ maxWidth: '900px', margin: '0 auto' }}>
+                  {[
+                    { icon: Award, title: 'Expertise reconnue', desc: 'Plus de 15 ans d\'expérience en droit social et accompagnement RH' },
+                    { icon: Heart, title: 'Approche bienveillante', desc: 'Une méthode humaine qui respecte les personnes et les enjeux' },
+                    { icon: Target, title: 'Solutions sur mesure', desc: 'Des interventions adaptées aux spécificités de votre entreprise' },
+                    { icon: Clock, title: 'Réactivité', desc: 'Réponse rapide et accompagnement dans les délais convenus' }
+                  ].map((advantage, index) => {
+                    const IconComponent = advantage.icon
+                    return (
+                      <div key={index} style={{
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: 'var(--space-lg)',
+                        padding: 'var(--space-lg)',
+                        backgroundColor: 'var(--bg-secondary)',
+                        borderRadius: 'var(--radius-lg)',
+                        marginBottom: 'var(--space-md)',
+                        textAlign: 'left'
+                      }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '48px',
+                          height: '48px',
+                          borderRadius: 'var(--radius-lg)',
+                          backgroundColor: '#2D3748',
+                          color: 'white',
+                          flexShrink: 0
+                        }}>
+                          <IconComponent size={24} />
+                        </div>
+                        <div>
+                          <h3 style={{ color: '#2D3748', marginBottom: 'var(--space-xs)', fontSize: '1.1rem' }}>{advantage.title}</h3>
+                          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', margin: 0 }}>{advantage.desc}</p>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Sections dynamiques de la base de données */}
+          {sections.length > 1 && (
+            <div>
+              {sections.slice(1).map((section, index) => (
             <section key={section.id} className="section" style={{ 
               backgroundColor: index % 2 === 0 ? 'var(--bg-secondary)' : 'var(--bg-primary)' 
             }}>
@@ -138,6 +285,101 @@ const Home = () => {
               </div>
             </section>
           ))}
+            </div>
+          )}
+
+          {/* Section CTA */}
+          <section className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+            <div className="container">
+              <div className="text-center">
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  gap: 'var(--space-md)',
+                  marginBottom: 'var(--space-lg)'
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '56px',
+                    height: '56px',
+                    borderRadius: 'var(--radius-lg)',
+                    backgroundColor: '#2D3748',
+                    color: 'white',
+                    flexShrink: 0
+                  }}>
+                    <Lightbulb size={28} />
+                  </div>
+                  <h2 style={{ 
+                    margin: 0,
+                    color: '#2D3748',
+                    fontSize: '2rem'
+                  }}>
+                    Prêt à transformer votre gestion sociale ?
+                  </h2>
+                </div>
+                
+                <p style={{ 
+                  fontSize: '1.125rem', 
+                  color: 'var(--text-secondary)',
+                  maxWidth: '600px',
+                  margin: '0 auto var(--space-xl)',
+                  lineHeight: 1.6
+                }}>
+                  Contactez-nous dès aujourd'hui pour une consultation personnalisée et découvrez comment nous pouvons vous accompagner.
+                </p>
+                
+                <div style={{ display: 'flex', gap: 'var(--space-lg)', justifyContent: 'center', flexWrap: 'wrap' }}>
+                  <Link 
+                    to="/contact" 
+                    className="btn btn-primary"
+                    style={{
+                      backgroundColor: '#2D3748',
+                      color: 'white',
+                      border: 'none',
+                      fontSize: '1.125rem',
+                      padding: 'var(--space-lg) var(--space-2xl)',
+                      textDecoration: 'none',
+                      display: 'inline-block'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#1A202C'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#2D3748'
+                    }}
+                  >
+                    Prendre Contact
+                  </Link>
+                  <Link 
+                    to="/services" 
+                    className="btn btn-outline"
+                    style={{
+                      backgroundColor: 'transparent',
+                      color: '#2D3748',
+                      border: '2px solid #2D3748',
+                      fontSize: '1.125rem',
+                      padding: 'var(--space-lg) var(--space-2xl)',
+                      textDecoration: 'none',
+                      display: 'inline-block'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#2D3748'
+                      e.currentTarget.style.color = 'white'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent'
+                      e.currentTarget.style.color = '#2D3748'
+                    }}
+                  >
+                    Nos Services
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
       ) : (
         <div style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
